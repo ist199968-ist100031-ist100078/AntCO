@@ -82,7 +82,7 @@ public class Graph {
     }
 
     public void addEdge(Vertex a, Vertex b) {
-        if (this.getCost(a, b) == -1) {
+        if (this.getCost(a, b) == 0) {
             edges.add(new Edge(a, b));
             addAdj(a, b);
         }
@@ -104,7 +104,7 @@ public class Graph {
                 return e.get_weight();
             }
         }
-        return -1;
+        return 0;
     }
 
     //Displays All adjacencies
@@ -118,7 +118,7 @@ public class Graph {
     }
 
     public void displayAdj(int node) {
-        List<Vertex> aux = new ArrayList<>();
+        List<Vertex> aux;
         aux = adjs.get(node - 1);
         int sz = aux.size();
         System.out.println("Node " + node + " is adjacent to:");
@@ -142,17 +142,13 @@ public class Graph {
         v[0] = new Vertex(1);
         v[1] = new Vertex(2);
         int cost;
+        System.out.println();
         for (int i = 0; i < nodes; i++) {
             for (int j = 0; j < nodes; j++) {
                 v[0].setId(i + 1);
                 v[1].setId(j + 1);
                 cost = this.getCost(v[0], v[1]);
-                if (i == j)
-                    System.out.print(" " + String.format("%d", 0) + " ");
-                else if (cost >= 0)
-                    System.out.print(" " + cost + " ");
-                else
-                    System.out.print(String.format("%-2d", cost) + " ");
+                System.out.print(" " + cost + " ");
             }
             System.out.println();
         }
@@ -203,8 +199,8 @@ public class Graph {
             for (int i = 0; i < bound; i++) {
                 n1 = rand.nextInt(1, this.nodes+1);
                 n2 = rand.nextInt(1, this.nodes+1);
-                if (n1 != n2 && this.getCost(v[n1 - 1], v[n2 - 1]) == -1) {
-                    this.addEdge(v[n1 - 1], v[n2 - 1], rand.nextInt(maxCost)+ 1));
+                if (n1 != n2 && this.getCost(v[n1 - 1], v[n2 - 1]) == 0) {
+                    this.addEdge(v[n1 - 1], v[n2 - 1], (rand.nextInt(maxCost)+ 1));
                 } else {
                     i--;
                     //retries are used to discard some new edges that are hard to find
@@ -230,12 +226,10 @@ public class Graph {
         for (int i = 0; i < nodes; i++) {
             for (int j = 0; j < nodes; j++) {
                 cost = reader.nextInt();
-
-                if (i != j && this.getCost(v[i], v[j]) == -1)
+                if (i != j && cost != 0 && this.getCost(v[i], v[j]) == 0 )
                     this.addEdge(v[i], v[j], cost);
             }
         }
-
         reader.close();
     }
 
@@ -291,10 +285,9 @@ public class Graph {
                 System.out.println("Exception: " + e);
                 return;
             }
-
-
             System.out.println("Graph: ");
             G.displayMat();
+            G.displayAdj();
         }
     }
 }
