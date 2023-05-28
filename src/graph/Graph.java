@@ -9,7 +9,7 @@ import java.util.List;
 import java.util.Random;
 import java.util.Scanner;
 
-public class Graph {
+public class Graph implements IGraph{
 
     private int nodes;
     private List<Edge> edges;
@@ -110,6 +110,14 @@ public class Graph {
         }
         return 0;
     }
+    
+    public List<Vertex> nodeAdj(Vertex a) {
+    	return adjs.get(a.getId() - 1);
+    }
+    
+    public List<Vertex> nodeAdj(int a){
+    	return adjs.get(a - 1);
+    }
 
     //Displays All adjacencies
     public void displayGraph() {
@@ -122,16 +130,9 @@ public class Graph {
     }
 
     public void displayAdj(int node) {
-        List<Vertex> aux;
-        aux = adjs.get(node - 1);
-        int sz = aux.size();
         System.out.println("Node " + node + " is adjacent to:");
-        for (int i = 0; i < sz; i++) {
-            System.out.print(aux.get(i).getId());
-            if (i < sz - 2)
-                System.out.print(", ");
-            else if (i < sz - 1)
-                System.out.print(" and ");
+        for (Vertex aux: adjs.get(node - 1)) {
+        	System.out.print(aux.getId() + " - ");
         }
         System.out.println();
     }
@@ -286,6 +287,9 @@ public class Graph {
             System.out.println("Graph: ");
             G.displayMat();
             G.displayAdj();
+            
+            ArrayList<Vertex> al = (ArrayList<Vertex>) G.nodeAdj(4);
+            System.out.println("some nodes adjacent to 4: " + al.get(1).getId() + " / " + al.get(2).getId());
         }
     }
 }
