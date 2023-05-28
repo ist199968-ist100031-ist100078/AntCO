@@ -62,14 +62,14 @@ public class Graph {
         List<Vertex> l;
         l = adjs.get(idx);
         int sz = l.size(), i = 0, j, m = 0;
-        Vertex min = new Vertex(0);
+        Vertex min = Vertex.getInstance(1);
 
         for (Vertex a1 : l) {
-            min.setId(a1.getId());
+            min = Vertex.getInstance(a1.getId());
             j = 0;
             for (Vertex a2 : l.subList(i, sz)) {
                 if (a2.lessthan(min)) {
-                    min.setId(a2.getId());
+                    min = Vertex.getInstance(a2.getId());
                     m = j;
                 } else {
                     m = i;
@@ -93,13 +93,17 @@ public class Graph {
         addAdj(a, b);
     }
 
+    public int getCost(int a, int b) {
+    	Vertex va = Vertex.getInstance(a);
+    	Vertex vb = Vertex.getInstance(b);
+    	
+    	return getCost(va, vb);
+    }
+    
     public int getCost(Vertex a, Vertex b) {
-        int sz = edges.size();
         Vertex[] arr;
-        Edge e;
-        for (int i = 0; i < sz; i++) {
-            e = edges.get(i);
-            arr = e.get_nodes();
+        for (Edge e: edges) {
+        	arr = e.get_nodes();
             if ((arr[0].equals(a) && arr[1].equals(b) || (arr[0].equals(b) && arr[1].equals(a)))) {
                 return e.get_weight();
             }
@@ -139,14 +143,14 @@ public class Graph {
 
     public void displayMat() {
         Vertex[] v = new Vertex[2];
-        v[0] = new Vertex(1);
-        v[1] = new Vertex(2);
+        v[0] = Vertex.getInstance(1);
+        v[1] = Vertex.getInstance(2);
         int cost;
         System.out.println();
         for (int i = 0; i < nodes; i++) {
             for (int j = 0; j < nodes; j++) {
-                v[0].setId(i + 1);
-                v[1].setId(j + 1);
+                v[0] = Vertex.getInstance(i + 1);
+                v[1] = Vertex.getInstance(j + 1);
                 cost = this.getCost(v[0], v[1]);
                 System.out.print(" " + cost + " ");
             }
@@ -180,15 +184,12 @@ public class Graph {
 
     public void generate(int maxCost) {
         Random rand = new Random();  //Fazer singleton neste rand?
-        Vertex[] v = new Vertex[this.nodes];
-        for (int i = 0; i < this.nodes; i++)
-            v[i] = new Vertex(i + 1);
 
         //Creates a Ring Graph which automatically has a Hamilatonian Cycle
         for (int i = 0; i < this.nodes - 1; i++) {
-            this.addEdge(v[i], v[i + 1], rand.nextInt(maxCost) + 1);
+            this.addEdge(Vertex.getInstance(i+1), Vertex.getInstance(i + 2), rand.nextInt(maxCost) + 1);
         }
-        this.addEdge(v[0], v[this.nodes - 1], rand.nextInt(maxCost) + 1);
+        this.addEdge(Vertex.getInstance(1), Vertex.getInstance(this.nodes), rand.nextInt(maxCost) + 1);
 
         //Add up to n(n-1)/2 - n edges, where n is the number of nodes
         int bound = this.nodes * (this.nodes - 1) / 2 - this.nodes;
@@ -199,8 +200,8 @@ public class Graph {
             for (int i = 0; i < bound; i++) {
                 n1 = rand.nextInt(1, this.nodes+1);
                 n2 = rand.nextInt(1, this.nodes+1);
-                if (n1 != n2 && this.getCost(v[n1 - 1], v[n2 - 1]) == 0) {
-                    this.addEdge(v[n1 - 1], v[n2 - 1], (rand.nextInt(maxCost)+ 1));
+                if (n1 != n2 && this.getCost(Vertex.getInstance(n1 - 1), Vertex.getInstance(n2 - 1)) == 0) {
+                    this.addEdge(Vertex.getInstance(n1 - 1), Vertex.getInstance(n2 - 1), (rand.nextInt(maxCost)+ 1));
                 } else {
                     i--;
                     //retries are used to discard some new edges that are hard to find
@@ -219,15 +220,12 @@ public class Graph {
     public void readFromFile(Scanner reader) throws FileNotFoundException {
         //Read adj matrix
         int cost;
-        Vertex[] v = new Vertex[nodes];
-        for (int i = 0; i < nodes; i++)
-            v[i] = new Vertex(i + 1);
 
         for (int i = 0; i < nodes; i++) {
             for (int j = 0; j < nodes; j++) {
                 cost = reader.nextInt();
-                if (i != j && cost != 0 && this.getCost(v[i], v[j]) == 0 )
-                    this.addEdge(v[i], v[j], cost);
+                if (i != j && cost != 0 && this.getCost(Vertex.getInstance(i+1), Vertex.getInstance(j+1)) == 0 )
+                    this.addEdge(Vertex.getInstance(i+1), Vertex.getInstance(j+1), cost);
             }
         }
         reader.close();
