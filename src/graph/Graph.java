@@ -241,25 +241,6 @@ public class Graph {
 
 
     public static void main(String args[]) {
-
-        /*List<List<Vertex>> ola = new ArrayList<>();
-        for (int i = 0; i < 5; i++) {
-            List<Vertex> aux = new ArrayList<>();
-            ola.add(i, aux);
-        }
-        Vertex ai = new Vertex(3);
-        List<Vertex> la = new ArrayList<>();
-        la = ola.get(0);
-        la.add(ai);
-        System.out.println(ola);*/
-        List<Integer> ola = new ArrayList<>();
-        for (int i = 0; i < 5; i++) {
-            ola.add(i);
-        }
-        System.out.println(ola.get(4));
-
-
-
         String[] params = new String[]{"-r", "-f"};
         if (args.length < 2 || (!args[0].equals(params[0]) && !args[0].equals(params[1])) || (args[0].equals(params[0]) && args.length != 12)) {
             System.out.println("ERROR - Incorrect Arguments");
