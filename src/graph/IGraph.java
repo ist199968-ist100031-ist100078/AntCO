@@ -1,17 +1,14 @@
 package graph;
 
-import java.io.FileNotFoundException;
-import java.util.List;
-import java.util.Scanner;
+import java.util.ArrayList;
 
 public interface IGraph {
 
-	int getCost(int a, int b);
-	int getCost(Vertex a, Vertex b);
-	List<Vertex> nodeAdj(Vertex a);
-	List<Vertex> nodeAdj(int a);
-	void generate(int maxCost);
-	public void readFromFile(Scanner reader) throws FileNotFoundException;
-	void displayMat();
+	public void addNode();
+	public int rmvNode();
+	public void clear();
+	public ArrayList<Integer> nodeAdj(int a);
+	public int getNumNodes();
+	public void displayMat();
 	
 }

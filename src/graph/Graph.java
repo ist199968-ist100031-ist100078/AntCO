@@ -6,10 +6,9 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.InputMismatchException;
 import java.util.List;
-import java.util.Random;
 import java.util.Scanner;
 
-public class Graph implements IGraph{
+public class Graph implements IWeightedGraph{
 
     private int nodes;
     private List<Edge> edges;
@@ -31,9 +30,14 @@ public class Graph implements IGraph{
         this.nodes++;
     }
 
-    public void rmvNode() {
+    public int rmvNode() {
         adjs.remove(this.nodes - 1);
         this.nodes--;
+        return this.nodes + 1;
+    }
+    
+    public int getNumNodes() {
+    	return this.nodes;
     }
 
     public void clear() {
@@ -115,8 +119,14 @@ public class Graph implements IGraph{
     	return adjs.get(a.getId() - 1);
     }
     
-    public List<Vertex> nodeAdj(int a){
-    	return adjs.get(a - 1);
+    public ArrayList<Integer> nodeAdj(int a){
+    	
+    	ArrayList<Integer> al = new ArrayList<>();
+    	
+    	for (Vertex v: adjs.get(a-1)) {
+    		al.add(v.getId());
+    	}
+    	return al;
     }
 
     //Displays All adjacencies
@@ -183,56 +193,6 @@ public class Graph implements IGraph{
         }
     }
 
-    public void generate(int maxCost) {
-        Random rand = new Random();  //Fazer singleton neste rand?
-
-        //Creates a Ring Graph which automatically has a Hamilatonian Cycle
-        for (int i = 0; i < this.nodes - 1; i++) {
-            this.addEdge(Vertex.getInstance(i+1), Vertex.getInstance(i + 2), rand.nextInt(maxCost) + 1);
-        }
-        this.addEdge(Vertex.getInstance(1), Vertex.getInstance(this.nodes), rand.nextInt(maxCost) + 1);
-
-        //Add up to n(n-1)/2 - n edges, where n is the number of nodes
-        int bound = this.nodes * (this.nodes - 1) / 2 - this.nodes;
-        if (bound > 0) {
-            bound = rand.nextInt(bound+1); //number of extra edges to add
-            int n1, n2, retries = 0;
-            //Add extra edges in new places
-            for (int i = 0; i < bound; i++) {
-                n1 = rand.nextInt(1, this.nodes+1);
-                n2 = rand.nextInt(1, this.nodes+1);
-                if (n1 != n2 && this.getCost(Vertex.getInstance(n1 - 1), Vertex.getInstance(n2 - 1)) == 0) {
-                    this.addEdge(Vertex.getInstance(n1 - 1), Vertex.getInstance(n2 - 1), (rand.nextInt(maxCost)+ 1));
-                } else {
-                    i--;
-                    //retries are used to discard some new edges that are hard to find
-                    //fastens up the process
-                    retries++;
-                    if (retries == 3) {
-                        retries = 0;
-                        bound--;
-                    }
-                }
-            }
-        }
-    }
-
-
-    public void readFromFile(Scanner reader) throws FileNotFoundException {
-        //Read adj matrix
-        int cost;
-
-        for (int i = 0; i < nodes; i++) {
-            for (int j = 0; j < nodes; j++) {
-                cost = reader.nextInt();
-                if (i != j && cost != 0 && this.getCost(Vertex.getInstance(i+1), Vertex.getInstance(j+1)) == 0 )
-                    this.addEdge(Vertex.getInstance(i+1), Vertex.getInstance(j+1), cost);
-            }
-        }
-        reader.close();
-    }
-
-
     public static void main(String args[]) {
         String[] params = new String[]{"-r", "-f"};
         if (args.length < 2 || (!args[0].equals(params[0]) && !args[0].equals(params[1])) || (args[0].equals(params[0]) && args.length != 12)) {
@@ -243,7 +203,8 @@ public class Graph implements IGraph{
         float[] inParams = new float[8];//alpha, beta, delta, eta, ro, gamma, nu, tau
 
         Graph G;
-
+        Generator gen = new Generator();
+        
         if (args[0].equals(params[0])) {
             numNodes = Integer.parseInt(args[1]);
             maxWeight = Integer.parseInt(args[2]);
@@ -252,11 +213,10 @@ public class Graph implements IGraph{
                 inParams[i] = Float.parseFloat(args[i + 4]);
             }
             G = new Graph(numNodes);
-
-            G.generate(maxWeight);
-            G.displayGraph();
-            G.displayAdj();
-            G.displayMat();
+            
+            gen.setGenerationStrat(new RandomStrategy());
+            gen.generate(G, maxWeight);
+            
         } else {
             try {
                 File f = new File(args[1]);
@@ -279,17 +239,21 @@ public class Graph implements IGraph{
                     return;
                 }
                 G = new Graph(numNodes);
-                G.readFromFile(reader);
+                
+                gen.setGenerationStrat(new FileStrategy());
+                gen.generate(G, reader);
+                
             } catch (FileNotFoundException e) {
                 System.out.println("Exception: " + e);
                 return;
             }
-            System.out.println("Graph: ");
-            G.displayMat();
-            G.displayAdj();
-            
-            ArrayList<Vertex> al = (ArrayList<Vertex>) G.nodeAdj(4);
-            System.out.println("some nodes adjacent to 4: " + al.get(1).getId() + " / " + al.get(2).getId());
+           
         }
+        
+        G.displayGraph();
+        G.displayAdj();
+        System.out.println("Graph: ");
+        G.displayMat();
+    
     }
 }
