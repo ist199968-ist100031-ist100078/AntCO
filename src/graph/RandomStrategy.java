@@ -32,13 +32,6 @@ public class RandomStrategy implements GenerationStrategy{
                     G.addEdge(Vertex.getInstance(n1), Vertex.getInstance(n2), (rand.nextInt(maxCost)+ 1));
                 } else {
                     i--;
-                    //retries are used to discard some new edges that are hard to find
-                    //fastens up the process
-                    retries++;
-                    if (retries == 3) {
-                        retries = 0;
-                        bound--;
-                    }
                 }
             }
         }
