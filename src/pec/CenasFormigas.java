@@ -17,6 +17,7 @@ public class CenasFormigas {
         }
         this.Tempo = tempo;
     }
+    //PARA mudar e receber diretamente o tipo
     CenasFormigas(Double tempo, int a){
         Random rand = new Random();
         if (a == 0){
@@ -26,6 +27,11 @@ public class CenasFormigas {
             this.Tipo = "Evaporação";
         }
         this.Tempo = tempo;
+    }
+
+    CenasFormigas(Double tempo, String type){
+        this.Tempo = tempo;
+        this.Tipo = type;
     }
 
     public Double getTempo() {
