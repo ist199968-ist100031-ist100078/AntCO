@@ -23,7 +23,7 @@ public class RandomStrategy implements GenerationStrategy{
         int bound = G.getNumNodes() * (G.getNumNodes() - 1) / 2 - G.getNumNodes();
         if (bound > 0) {
             bound = rand.nextInt(bound+1); //number of extra edges to add
-            int n1, n2, retries = 0;
+            int n1, n2;
             //Add extra edges in new places
             for (int i = 0; i < bound; i++) {
                 n1 = rand.nextInt(1, G.getNumNodes()+1);

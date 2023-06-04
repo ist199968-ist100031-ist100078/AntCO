@@ -39,6 +39,10 @@ public class Graph implements IWeightedGraph{
     public int getNumNodes() {
     	return this.nodes;
     }
+    
+    public int getNumEdges() {
+    	return this.edges.size();
+    }
 
     public void clear() {
         edges.clear();
