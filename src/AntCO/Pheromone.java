@@ -6,18 +6,16 @@ Date added: 03 Jun 2023
 Last modified: 04 Jun 2023
 */
 public class Pheromone {
-    float fvalue[][]; //pheromone value
     int maxvertex;
-
+    Colony antcolony;
     /*Constructor*/
-    public Pheromone(int max) {
+    public Pheromone(int max, Colony colony) {
         this.maxvertex = max;
-        this.fvalue= new float[maxvertex][maxvertex];
-        Arrays.fill(this.fvalue, 0);
+        this.antcolony = colony;
     }
     /*getter*/
     public float getFvalue(int i, int j) {
-        return this.fvalue[i][j];
+        return this.antcolony.pherovalue[i][j];
     }
 
     /* Name: decayFvalue
@@ -27,13 +25,15 @@ public class Pheromone {
     Date added: 03 Jun 2023
     Last modified: 04 Jun 2023
     */
-    public void decayFvalue(float rho) {
-        for (int i=0; i<maxvertex; i++) {
-            for (int j = 0; j < maxvertex; j++) {
-                this.fvalue[i][j] = fvalue[i][j] - rho;
-                this.fvalue[j][i] = fvalue[j][i] - rho;
-            }
+    public boolean decayFvalue(int i, int j, float rho) {
+        boolean negative = false;
+        this.antcolony.pherovalue[i][j] = this.antcolony.pherovalue[i][j]-rho;
+        this.antcolony.pherovalue[j][i] = this.antcolony.pherovalue[j][i]-rho;
+        if (this.antcolony.pherovalue[i][j] < 0 || this.antcolony.pherovalue[j][i] < 0) {
+            this.antcolony.pherovalue[i][j] = 0;
+            negative = true;
         }
+        return negative;
     }
 
     /* Name: incrementFvalue
@@ -44,8 +44,8 @@ public class Pheromone {
     Last modified: 04 Jun 2023
      */
     public void incrementFvalue(int i, int j, float gamma, int sigma, int weight) {
-        this.fvalue[i][j] += gamma*weight/sigma;
-        this.fvalue[j][i] += gamma*weight/sigma;
+        this.getFvalue(i,j) += gamma*weight/sigma;
+        this.getFvalue(j,i) += gamma*weight/sigma;
     }
 
 }
