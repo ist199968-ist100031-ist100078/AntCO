@@ -17,13 +17,18 @@ public class Colony {
     int bestpath[];
 
     /*Constructors*/
-    public Colony(int max, int start, float gamma, int maxantpop) {
+    public Colony(int max, int start, float gamma, int maxantpop){
         this.maxvertex = max;
         this.start = start;
         this.gamma = gamma;
         this.maxantpop = maxantpop;
         this.pheromone = new Pheromone(this.maxvertex);
         this.population = new Ant[this.maxantpop];
+
+        for (int i=0; i<this.maxantpop; i++) {
+            this.population[i] = new Ant(this.maxvertex, this.start, this.gamma, i, this);
+        }
+
         this.bestpath = new int[this.maxvertex];
     }
 
@@ -38,7 +43,7 @@ public class Colony {
     description: Simple getter for the cost of edge (i,j)
     Date added: 05 Jun 2023
     Last modified: 05 Jun 2023
-     */
+    */
     public int getCost(int i, int j) {
         return this.graph.getCost(i, j);
     }

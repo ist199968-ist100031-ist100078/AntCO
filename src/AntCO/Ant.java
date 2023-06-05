@@ -7,6 +7,7 @@ Last modified: 04 Jun 2023
 */
 public class Ant {
     Colony antcolony;
+    int id;
     int path[];
     int pathlength;
     int maxvertex;
@@ -18,7 +19,8 @@ public class Ant {
 
 
     /*Constructor*/
-    public Ant(int max, int start, int end, float gamma, float rho, AntColony antcolony) {
+    public Ant(int max, int start, int end, float gamma, int id, AntColony antcolony) {
+        this.id = id;
         this.maxvertex = max;
         this.start = start;
         this.antcolony = antcolony;
@@ -59,10 +61,10 @@ public class Ant {
         }
     }
 
-    /* Name: move
+    /* Name: reset
     input: none
     output: none
-    description: move the ant to the next vertex and update stored path
+    description: reset the ant to its initial state
     Date added: 04 Jun 2023
     Last modified: 04 Jun 2023
     */

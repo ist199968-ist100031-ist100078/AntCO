@@ -28,9 +28,12 @@ public class Pheromone {
     Last modified: 04 Jun 2023
     */
     public void decayFvalue(float rho) {
-        for (int i=0; i<maxvertex; i++)
-            for (int j=0; j<maxvertex; j++)
-                    this.fvalue[i][j] = fvalue[i][j]-rho;
+        for (int i=0; i<maxvertex; i++) {
+            for (int j = 0; j < maxvertex; j++) {
+                this.fvalue[i][j] = fvalue[i][j] - rho;
+                this.fvalue[j][i] = fvalue[j][i] - rho;
+            }
+        }
     }
 
     /* Name: incrementFvalue
@@ -42,6 +45,7 @@ public class Pheromone {
      */
     public void incrementFvalue(int i, int j, float gamma, int sigma, int weight) {
         this.fvalue[i][j] += gamma*weight/sigma;
+        this.fvalue[j][i] += gamma*weight/sigma;
     }
 
 }
