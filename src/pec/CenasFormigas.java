@@ -5,7 +5,7 @@ import java.util.Random;
 public class CenasFormigas {
     private final Double Tempo;
     private String Tipo;
-    private Integer ID;
+    private final Integer ID;
     CenasFormigas(Double tempo, Integer id){
         Random rand = new Random();
         int a = rand.nextInt(0,2);
