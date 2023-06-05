@@ -16,7 +16,7 @@ public class PEC {
         insertEvent("Evaporação", new EEventStrategy());
     }
 
-    public void Addevent(Double event) {
+    public void Addevent(Double event, Integer id) {
         int aux = 0;
         for (CenasFormigas i : this.PriorQue) {
             if (event <= i.getTempo()) {
@@ -24,12 +24,12 @@ public class PEC {
             }
             aux++;
         }
-        this.PriorQue.add(aux, new CenasFormigas(event));
+        this.PriorQue.add(aux, new CenasFormigas(event, id));
     }
 
 
     // PODE SE APAGAR DEPOIS
-    public void Addevent(Double time, int a) {
+    public void Addevent(Double time, int a, Integer id) {
         int aux = 0;
         for (CenasFormigas i : this.PriorQue) {
             if (time <= i.getTempo()) {
@@ -37,10 +37,10 @@ public class PEC {
             }
             aux++;
         }
-        this.PriorQue.add(aux, new CenasFormigas(time, a));
+        this.PriorQue.add(aux, new CenasFormigas(time, a, id));
     }
 
-    public void Addevent(Double time, String Tipo) {
+    public void Addevent(Double time, String Tipo, Integer id) {
         int aux = 0;
         for (CenasFormigas i : this.PriorQue) {
             if (time <= i.getTempo()) {
@@ -48,7 +48,7 @@ public class PEC {
             }
             aux++;
         }
-        this.PriorQue.add(aux, new CenasFormigas(time, Tipo));
+        this.PriorQue.add(aux, new CenasFormigas(time, Tipo, id));
     }
 
 
@@ -72,21 +72,21 @@ public class PEC {
 
     public static void main(String[] args) {
         PEC a = new PEC();
-        a.Addevent(5.3, "Evaporação");
-        a.Addevent(14.2, "Movimento");
-        a.Addevent(5.77, "Evaporação");
-        a.Addevent(5.34, "Evaporação");
-        a.Addevent(5.1, "Movimento");
+        a.Addevent(5.3, "Evaporação", 0);
+        a.Addevent(14.2, "Movimento", 1);
+        a.Addevent(5.77, "Evaporação", 1);
+        a.Addevent(5.34, "Evaporação", 2);
+        a.Addevent(5.1, "Movimento", 2);
         for (int i = 0; i < 2; i++) {
             CenasFormigas ola = a.getFirstElement();
-            System.out.println(ola.getTipo() + " at " + ola.getTempo() + "  " + a.chooseEventStrat(ola.getTipo()));
+            System.out.println(ola.getTipo() + " em " + ola.getTempo() + "seg, com ID " + ola.getID() + "  Execute: " + a.chooseEventStrat(ola.getTipo()));
         }
-        a.Addevent(13.9, "Movimento");
-        a.Addevent(2.9, "Movimento");
+        a.Addevent(13.9, "Movimento",3);
+        a.Addevent(2.9, "Movimento",4);
         int tam = a.getPriorQue().size();
         for (int i = 0; i < tam; i++) {
             CenasFormigas ola = a.getFirstElement();
-            System.out.println(ola.getTipo() + " at " + ola.getTempo() + "  " + a.chooseEventStrat(ola.getTipo()));
+            System.out.println(ola.getTipo() + " em " + ola.getTempo() + "seg, com ID " + ola.getID() + "  Execute:" + a.chooseEventStrat(ola.getTipo()));
         }
     }
 }
