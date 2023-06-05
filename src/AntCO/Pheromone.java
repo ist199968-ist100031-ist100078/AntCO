@@ -8,6 +8,7 @@ Last modified: 04 Jun 2023
 public class Pheromone {
     float fvalue[][]; //pheromone value
     int maxvertex;
+
     /*Constructor*/
     public Pheromone(int max) {
         this.maxvertex = max;

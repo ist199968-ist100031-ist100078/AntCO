@@ -1,12 +1,13 @@
 package AntCO;
-package graph;
+
 /* Name: Ant
 description: Ant class for Ant Colony Optimization
 Date added: 04 Jun 2023
 Last modified: 04 Jun 2023
 */
 public class Ant {
-int path[];
+    AntColony antcolony;
+    int path[];
     int pathlength;
     int maxvertex;
     int start;
@@ -19,20 +20,16 @@ int path[];
     int visitedlength;
     int sigma; /*sum of all weights*/
     int weight;
-    float gamma;
     float rho;
-    Pheromone pheromone;
-    IWeightedGraph graph;
+
 
     /*Constructor*/
-    public Ant(int max, int start, int end, float gamma, float rho, Pheromone pheromone, IWeightedGraph graph) {
+    public Ant(int max, int start, int end, float gamma, float rho, AntColony antcolony) {
         this.maxvertex = max;
         this.start = start;
         this.end = end;
-        this.gamma = gamma;
         this.rho = rho;
-        this.pheromone = pheromone;
-        this.graph = graph;
+        this.antcolony = antcolony;
         this.path = new int[maxvertex];
         this.visited = new int[maxvertex];
         this.unvisited = new int[maxvertex];
@@ -67,7 +64,7 @@ int path[];
         this.visitedlength++;
         this.unvisited[this.next] = -1;
         this.unvisitedlength--;
-        this.sigma +=this.graph.getCost(this.current, this.next) ;
+        this.sigma +=this.antcolony.getCost(this.current, this.next) ;
         this.current = this.next;
     }
 
@@ -80,7 +77,7 @@ int path[];
     */
     public void pheromonize(){
         for (int i=0; i<this.pathlength-1; i++) {
-            this.pheromone.incrementFvalue(this.path[i], this.path[i+1], this.gamma,this.sigma , this.graph.getCost(i,j));
+            this.antcolony.pheromone.incrementFvalue(this.path[i], this.path[i+1], this.antcolony.gamma, this.sigma , this.antcolony.getCost(i,j));
         }
     }
 
