@@ -106,7 +106,7 @@ public class Ant {
     */
     public void pheromonize(){
         for (int i=0; i<this.pathlength; i++)
-            this.antcolony.pheromone.incrementFvalue(this.path[i], this.path[i+1], this.antcolony.gamma, this.sigma , this.antcolony.graph.getCost(i+1,j+1));
+            this.antcolony.pheromone.incrementFvalue(this.path[i], this.path[i+1], this.antcolony.gamma, this.sigma , this.antcolony.graph.getCost(i+1,i+2));
     }
 
     /* Name: reset

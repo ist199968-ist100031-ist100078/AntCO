@@ -14,13 +14,13 @@ public class Colony  implements IColony{
     int maxvertex;
     int start;
     float gamma;
+    int bestpathcost[];
     float alpha;
     float beta;
     float rho;
     int maxantpop;
     Ant population[];
-    int bestpath[];
-    int bestpathlength;
+    BestPath bestpath[5];
 
     /*Constructors*/
     public Colony(int max, int start, float gamma, float alpha, float beta, int maxantpop){
@@ -38,9 +38,10 @@ public class Colony  implements IColony{
         for (int i=0; i<this.maxantpop; i++) {
             this.population[i] = new Ant(this.maxvertex, this.start, this.gamma, i, this);
         }
-
-        this.bestpath = new int[this.maxvertex];
-    }
+        this.bestpathcost = new int[5];
+        for (BestPath bp: this.bestpath){
+            bp = new BestPath(0,-1);
+        }
 
     /*setter*/
     public void setGraph(IWeigthedGraph graph) {
@@ -73,8 +74,9 @@ public class Colony  implements IColony{
         boolean hamilton=this.population[triggerid].move();
         ArrayList<Integer> path = new ArrayList<>();
         if (hamilton){
+            this.population[triggerid].pheromonize();
             this.updateBestPath(this.population[triggerid].path, this.population[triggerid].sigma);
-            for (int i=0; i<this.maxvertext; i++){
+            for (int i=0; i<this.population[triggerid].pathlenght; i++){
                 if(this.pherovalue[this.population[triggerid].path[i]][this.population[triggerid].path[i+1]]==0)
                     path.add(Hash(this.population[triggerid].path[i],this.population[triggerid].path[i+1]));
             }
@@ -92,8 +94,12 @@ public class Colony  implements IColony{
      */
 
     public void updateBestPath(int path[], int sigma){
-        if (sigma<this.bestpathlength){
-            this.bestpath = path;
+        for(BestPath bp: this.bestpath){
+            if (sigma<bp.cost){
+                bp.path = path;
+                bp.cost = sigma;
+                break;
+            }
         }
     }
     /* Name: triggerPheromoneDecay
@@ -129,5 +135,13 @@ public class Colony  implements IColony{
         int j = hash%this.maxvertex - 1;
         return new int[]{i,j};
     }
+}
 
+ class BestPath{
+        int path[];
+        int cost;
+        public bestpath(int path[], int cost){
+            this.path = path;
+            this.cost = cost;
+        }
 }
