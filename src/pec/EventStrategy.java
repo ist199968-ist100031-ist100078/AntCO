@@ -1,5 +1,5 @@
 package pec;
 
 public interface EventStrategy {
-    public Double execute();
+    public Double execute(int id);
 }

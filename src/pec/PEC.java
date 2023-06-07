@@ -8,12 +8,15 @@ import java.util.Map;
 public class PEC {
     private final List<CenasFormigas> PriorQue;
     private Map<String, EventStrategy> EventTypeMap = new HashMap<>();
-    //private EventStrategy eventStrat;
+    private Double eta;
+    private Double delta;
 
-    public PEC() {
+    public PEC(double eta, double delta) {
         this.PriorQue = new ArrayList<>();
-        insertEvent("Movimento", new MEventStrategy());
-        insertEvent("Evaporação", new EEventStrategy());
+        this.eta = eta;
+        this.delta = delta;
+        insertEvent("Movimento", new MEventStrategy(this.delta));
+        insertEvent("Evaporação", new EEventStrategy(this.eta));
     }
 
     public void Addevent(Double event, Integer id) {
@@ -40,21 +43,29 @@ public class PEC {
         this.PriorQue.add(aux, new CenasFormigas(time, a, id));
     }
 
+
     public void Addevent(Double time, String Tipo, Integer id) {
         int aux = 0;
         for (CenasFormigas i : this.PriorQue) {
-            if (time <= i.getTempo()) {
+            if (time <= i.getTempo()) { //Ordena por tempo, parando quando encontra um tempo maior
                 break;
             }
-            aux++;
+            aux++;  //Auxiliar para saber em que posição inserir
         }
         this.PriorQue.add(aux, new CenasFormigas(time, Tipo, id));
     }
 
 
     public CenasFormigas getFirstElement() {
+        //Obtém o primeiro elemento da lista e retira o da fila
         CenasFormigas Elemento = this.PriorQue.get(0);
         this.PriorQue.remove(0);
+        Double tempo = ChooseAndExecuteEventStrat(Elemento.getTipo(), Elemento.getID());
+        if (tempo != -1.0) { // Caso em que há decaimento, logo é agenda um novo evento de decaimento
+            tempo += Elemento.getTempo(); // Adiciona o tempo de decaimento ao tempo atual, para saber em que altura agendar
+            Addevent(tempo, Elemento.getTipo(), Elemento.getID());
+        }
+        System.out.print(tempo + "  "); //Para apagar depois
         return Elemento;
     }
 
@@ -66,27 +77,30 @@ public class PEC {
         this.EventTypeMap.put(str, eventStrategy);
     }
 
-    public Double chooseEventStrat(String event) {
-        return this.EventTypeMap.get(event).execute();
+    public Double ChooseAndExecuteEventStrat(String event, Integer id) {
+        return this.EventTypeMap.get(event).execute(id);
+    }
+
+    public int Tamanho_lista() {
+        return this.PriorQue.size();
     }
 
     public static void main(String[] args) {
-        PEC a = new PEC();
-        a.Addevent(5.3, "Evaporação", 0);
-        a.Addevent(14.2, "Movimento", 1);
-        a.Addevent(5.77, "Evaporação", 1);
-        a.Addevent(5.34, "Evaporação", 2);
-        a.Addevent(5.1, "Movimento", 2);
-        for (int i = 0; i < 2; i++) {
+        PEC a = new PEC(0.2, 0.5);
+        a.Addevent(5.3, "Evaporação", 3);
+        a.Addevent(14.2, "Evaporação", 7);
+        a.Addevent(5.77, "Evaporação", 5);
+        a.Addevent(5.34, "Evaporação", 4);
+        a.Addevent(5.1, "Evaporação", 2);
+        /*for (int i = 0; i < 2; i++) {
             CenasFormigas ola = a.getFirstElement();
-            System.out.println(ola.getTipo() + " em " + ola.getTempo() + "seg, com ID " + ola.getID() + "  Execute: " + a.chooseEventStrat(ola.getTipo()));
-        }
-        a.Addevent(13.9, "Movimento",3);
-        a.Addevent(2.9, "Movimento",4);
-        int tam = a.getPriorQue().size();
-        for (int i = 0; i < tam; i++) {
+            System.out.println(ola.getTipo() + " em " + ola.getTempo() + "seg, com ID " + ola.getID());
+        }*/
+        a.Addevent(13.9, "Evaporação", 6);
+        a.Addevent(4.9, "Evaporação", 1);
+        while (a.Tamanho_lista() != 0) {
             CenasFormigas ola = a.getFirstElement();
-            System.out.println(ola.getTipo() + " em " + ola.getTempo() + "seg, com ID " + ola.getID() + "  Execute:" + a.chooseEventStrat(ola.getTipo()));
+            System.out.println(ola.getTipo() + " em " + ola.getTempo() + "seg, com ID " + ola.getID());
         }
     }
 }
