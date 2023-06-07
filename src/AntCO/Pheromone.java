@@ -19,9 +19,9 @@ public class Pheromone {
     }
 
     /* Name: decayFvalue
-    input: rho
-    output: none
-    description: decay the all pheromone values by rho
+    input: i, j, rho
+    output: boolean
+    description: decay target pheromone value by rho
     Date added: 03 Jun 2023
     Last modified: 04 Jun 2023
     */

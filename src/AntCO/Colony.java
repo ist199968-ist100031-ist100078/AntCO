@@ -1,5 +1,6 @@
 package AntCO ;
 import package graph.IWeigthedGraph;
+import java.util.ArrayList;
 /*
 Name: Colony
 description: Colony class for Ant Colony Optimization
@@ -18,6 +19,7 @@ public class Colony {
     int maxantpop;
     Ant population[];
     int bestpath[];
+    int bestpathlength;
 
     /*Constructors*/
     public Colony(int max, int start, float gamma, float alpha, float beta, int maxantpop){
@@ -54,6 +56,9 @@ public class Colony {
     public int getCost(int i, int j) {
         return this.graph.getCost(i+1, j+1);
     }
+    public int getAdj(int i, int j){
+        return this.graph.NodeAdj(i+1, j+1);
+    }
     /* Name: triggerAntMovement
     input: triggerid
     output: none
@@ -61,8 +66,32 @@ public class Colony {
     Date added: 05 Jun 2023
     Last modified: 05 Jun 2023
      */
-    public void triggerAntMovement(int triggerid){
-        this.population[triggerid].move();
+    public ArrayList<Integer> triggerAntMovement(int triggerid){
+        boolean hamilton=this.population[triggerid].move();
+        ArrayList<Integer> path = new ArrayList<>();
+        if (hamilton){
+            this.updateBestPath(this.population[triggerid].path, this.population[triggerid].sigma);
+            for (int i=0; i<this.maxvertext; i++){
+                if(this.pherovalue[this.population[triggerid].path[i]][this.population[triggerid].path[i+1]]==0)
+                    path.add(Hash(this.population[triggerid].path[i],this.population[triggerid].path[i+1]));
+            }
+        }
+        else{
+            path.add(0);
+        }
+        return path;
+    }
+
+    /* Name: updateBestPath
+    input: path, sigma
+    output: none
+    description: update the best path if the path is better than the current best path
+     */
+
+    public void updateBestPath(int path[], int sigma){
+        if (sigma<this.bestpathlength){
+            this.bestpath = path;
+        }
     }
     /* Name: triggerPheromoneDecay
     input: hashededge, rho
@@ -73,7 +102,7 @@ public class Colony {
     */
     public boolean triggerPheromoneDecay(int hashededge,float rho){
         int[2] coords = this.unHash(hashededge);
-        return this.pheromone.decayFvalue(edge[0], edge[1], rho);
+        return this.pheromone.decayFvalue(coords[0], coords[1], rho);
     }
     /* Name: Hash
     input: i, j

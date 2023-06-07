@@ -41,21 +41,28 @@ public class Ant {
     Date added: 04 Jun 2023
     Last modified: 04 Jun 2023
     */
-    public void move() {
+    public boolean move() {
+        boolean hamilton = false;
         this.next = this.selectNext(this.current);
         this.path[this.pathlength] = this.next;
         this.pathlength++;
         this.sigma +=this.antcolony.getCost(this.current, this.next) ;
         this.current = this.next;
+        if(this.current==this.start){
+            hamilton = true;
+        }
+        return hamilton;
     }
 
-    public int selectNext(int current){
+    public int selectNext(int current){ /*TODO: reset path if all adjacent were already visited*/
         int next = -1;
         float max = 0;
         float alpha = this.antcolony.alpha;
         float beta = this.antcolony.beta;
-        int Arraylist<Integer> possible = this.antcolony.graph.nodeAdj(current);
-
+        float abs_prob = 0;
+        int Arraylist<Integer> possible = this.antcolony.GetAdj(current);
+        float Arraylist<Float> prob_arr = new ArrayList<Float>();
+        float sum=0;
         if (possible.size > 0) {
             /*Have to fix this. Had an EMERGENCY and had to left the work a meio */
             //Get probability array for all adjacent nodes
@@ -79,13 +86,11 @@ public class Ant {
             }
 
             aux = rand.nextFloat();
-            for (int i = 0; i < sz; i++) {
+            for (int i = 0; i < possible.size; i++) {
                 if (Float.compare(aux, prob_arr.get(i)) < 0) {
-                    next = adj.get(i);
-                    this.path.add(next);
-                    this.p_cost += G.getCost(path.get(len), next);
-                    len++;
-                    break;
+                    next = possible.get(i);
+                    return next;
+                   break;
                 }
             }
         }
