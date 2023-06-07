@@ -46,7 +46,7 @@ public class Ant {
         this.next = this.selectNext(this.current);
         this.path[this.pathlength] = this.next;
         this.pathlength++;
-        this.sigma +=this.antcolony.getCost(this.current, this.next) ;
+        this.sigma +=this.antcolony.graph.getCost(this.current+1, this.next+1) ;
         this.current = this.next;
         if(this.current==this.start){
             hamilton = true;
@@ -68,7 +68,7 @@ public class Ant {
             //Get probability array for all adjacent nodes
             for (int i = 0; i < possible.size; i++) {
                 next = possible.get(i);
-                abs_prob = (float) alpha / (beta + this.antcolony.getCost(current, next));
+                abs_prob = (float) alpha / (beta + this.antcolony.graph.getCost(current+1, next+1));
                 prob_arr.add(abs_prob);
                 sum+=prob_arr.get(i);
             }
@@ -106,7 +106,7 @@ public class Ant {
     */
     public void pheromonize(){
         for (int i=0; i<this.pathlength; i++)
-            this.antcolony.pheromone.incrementFvalue(this.path[i], this.path[i+1], this.antcolony.gamma, this.sigma , this.antcolony.getCost(i,j));
+            this.antcolony.pheromone.incrementFvalue(this.path[i], this.path[i+1], this.antcolony.gamma, this.sigma , this.antcolony.graph.getCost(i+1,j+1));
     }
 
     /* Name: reset

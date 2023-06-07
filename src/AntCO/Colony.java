@@ -7,7 +7,7 @@ description: Colony class for Ant Colony Optimization
 Date added: 05 Jun 2023
 Last modified: 05 Jun 2023
  */
-public class Colony {
+public class Colony  implements IColony{
     Pheromone pheromone;
     IWeigthedGraph graph;
     float pherovalue[][]; //pheromone value
@@ -16,6 +16,7 @@ public class Colony {
     float gamma;
     float alpha;
     float beta;
+    float rho;
     int maxantpop;
     Ant population[];
     int bestpath[];
@@ -47,15 +48,17 @@ public class Colony {
     }
 
     /* Name: getCost
-    input: i, j
+    input: edge
     output: cost of edge (i,j)
     description: Simple getter for the cost of edge (i,j)
     Date added: 05 Jun 2023
     Last modified: 05 Jun 2023
     */
-    public int getCost(int i, int j) {
-        return this.graph.getCost(i+1, j+1);
+    public int getCost(int hashedge){
+        int hash[2]=unHash(hashedge);
+        return this.graph.getCost(hash[0]+1, hash[1]+1);
     }
+    public int
     public int getAdj(int i, int j){
         return this.graph.NodeAdj(i+1, j+1);
     }
@@ -100,9 +103,9 @@ public class Colony {
     Date added: 05 Jun 2023
     Last modified: 05 Jun 2023
     */
-    public boolean triggerPheromoneDecay(int hashededge,float rho){
+    public boolean triggerPheromoneDecay(int hashededge){
         int[2] coords = this.unHash(hashededge);
-        return this.pheromone.decayFvalue(coords[0], coords[1], rho);
+        return this.pheromone.decayFvalue(coords[0], coords[1], this.rho);
     }
     /* Name: Hash
     input: i, j
