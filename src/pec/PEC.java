@@ -10,13 +10,15 @@ public class PEC {
     private Map<String, EventStrategy> EventTypeMap = new HashMap<>();
     private Double eta;
     private Double delta;
+    private IColony colonia;
 
-    public PEC(double eta, double delta) {
+    public PEC(double eta, double delta, IColony colonia) {
         this.PriorQue = new ArrayList<>();
         this.eta = eta;
         this.delta = delta;
-        insertEvent("Movimento", new MEventStrategy(this.delta));
-        insertEvent("Evaporação", new EEventStrategy(this.eta));
+        insertEvent("Movimento", new MEventStrategy(delta));
+        insertEvent("Evaporação", new EEventStrategy(eta));
+        this.colonia = colonia;
     }
 
     public void Addevent(Double event, Integer id) {
@@ -86,7 +88,7 @@ public class PEC {
     }
 
     public static void main(String[] args) {
-        PEC a = new PEC(0.2, 0.5);
+        PEC a = new PEC(0.2, 0.5, new Colony());
         a.Addevent(5.3, "Evaporação", 3);
         a.Addevent(14.2, "Evaporação", 7);
         a.Addevent(5.77, "Evaporação", 5);

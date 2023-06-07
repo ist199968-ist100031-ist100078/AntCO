@@ -1,15 +1,17 @@
 package pec;
 
 import java.util.Random;
+import java.util.function.DoubleToLongFunction;
 
 public class EEventStrategy implements EventStrategy {
-    private final Double lambda;
-
-    public EEventStrategy(Double mean) {
-        this.lambda = 1/mean;
+    Double mean;
+    public EEventStrategy(double mean) {
+        this.mean = mean;
     }
+
     @Override
     public Double execute(int id) {
+        Double lambda = 1/mean;
         //Querem que faça aqui o decaimento
         //decayFvalue true(fazer algo) or false
         Random rand = new Random();
