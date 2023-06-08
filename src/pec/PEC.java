@@ -6,72 +6,63 @@ import java.util.List;
 import java.util.Map;
 
 public class PEC {
-    private final List<CenasFormigas> PriorQue;
-    private Map<String, EventStrategy> EventTypeMap = new HashMap<>();
-    private Double eta;
-    private Double delta;
+    private final List<Eventos> PriorQue;
+    private final Map<String, EventStrategy> EventTypeMap = new HashMap<>();
+    Integer[] NumberEvents = new Integer[]{0, 0}; //Number of Move Events,Number of Evaporation Events
     private IColony colonia;
 
-    public PEC(double eta, double delta, IColony colonia) {
+    public PEC(double eta, double delta, IColony colonia, int Nu, Double tau) {
         this.PriorQue = new ArrayList<>();
-        this.eta = eta;
-        this.delta = delta;
-        insertEvent("Movimento", new MEventStrategy(delta));
-        insertEvent("Evaporação", new EEventStrategy(eta));
+        insertEvent("Movimento", new MovementEventStrategy(delta, colonia));
+        insertEvent("Evaporação", new EvaporationEventStrategy(eta, colonia));
+        insertEvent("Observacao", new ObservationEventStrategy(tau));
         this.colonia = colonia;
+        this.InicializationOfEvents(Nu, tau);
     }
 
-    public void Addevent(Double event, Integer id) {
-        int aux = 0;
-        for (CenasFormigas i : this.PriorQue) {
-            if (event <= i.getTempo()) {
-                break;
-            }
-            aux++;
+    public void InicializationOfEvents(int Nu, Double tau) {
+        for (int i = 1; i <= Nu; i++) {
+            this.Addevent(0.0, "Movimento", i);
         }
-        this.PriorQue.add(aux, new CenasFormigas(event, id));
-    }
-
-
-    // PODE SE APAGAR DEPOIS
-    public void Addevent(Double time, int a, Integer id) {
-        int aux = 0;
-        for (CenasFormigas i : this.PriorQue) {
-            if (time <= i.getTempo()) {
-                break;
-            }
-            aux++;
+        for (int i = 1; i <= 20; i++) {
+            this.Addevent(i * (tau / 20), "Observacao", 0);
         }
-        this.PriorQue.add(aux, new CenasFormigas(time, a, id));
-    }
 
+    }
 
     public void Addevent(Double time, String Tipo, Integer id) {
         int aux = 0;
-        for (CenasFormigas i : this.PriorQue) {
+        for (Eventos i : this.PriorQue) {
             if (time <= i.getTempo()) { //Ordena por tempo, parando quando encontra um tempo maior
                 break;
             }
             aux++;  //Auxiliar para saber em que posição inserir
         }
-        this.PriorQue.add(aux, new CenasFormigas(time, Tipo, id));
+        this.PriorQue.add(aux, new Eventos(time, Tipo, id));
+
     }
 
 
-    public CenasFormigas getFirstElement() {
+    public Eventos getFirstElement() {
         //Obtém o primeiro elemento da lista e retira o da fila
-        CenasFormigas Elemento = this.PriorQue.get(0);
+        Eventos Elemento = this.PriorQue.get(0);
         this.PriorQue.remove(0);
-        Double tempo = ChooseAndExecuteEventStrat(Elemento.getTipo(), Elemento.getID());
-        if (tempo != -1.0) { // Caso em que há decaimento, logo é agenda um novo evento de decaimento
-            tempo += Elemento.getTempo(); // Adiciona o tempo de decaimento ao tempo atual, para saber em que altura agendar
+        Double tempo;
+        if (Elemento.getID() == null) {
+            tempo = ChooseAndExecuteEventStrat(Elemento.getTipo(), Elemento.getTempo());
+        } else {
+            tempo = ChooseAndExecuteEventStrat(Elemento.getTipo(), Double.valueOf(Elemento.getID()));
+        }
+        if (tempo == -2.0) {
+            this.PriorQue.clear();
+        } else if (tempo != -1.0) { // Caso em que há decaimento ou movimento das formigas, logo é agenda um novo evento
+            tempo += Elemento.getTempo(); // Adiciona o tempo da distribuição exponencial ao tempo atual, para saber em que altura agendar
             Addevent(tempo, Elemento.getTipo(), Elemento.getID());
         }
-        System.out.print(tempo + "  "); //Para apagar depois
         return Elemento;
     }
 
-    public List<CenasFormigas> getPriorQue() {
+    public List<Eventos> getPriorQue() {
         return PriorQue;
     }
 
@@ -79,8 +70,9 @@ public class PEC {
         this.EventTypeMap.put(str, eventStrategy);
     }
 
-    public Double ChooseAndExecuteEventStrat(String event, Integer id) {
-        return this.EventTypeMap.get(event).execute(id);
+    public Double ChooseAndExecuteEventStrat(String event, Double id) {
+
+        return this.EventTypeMap.get(event).execute(id, this.NumberEvents);
     }
 
     public int Tamanho_lista() {
@@ -88,21 +80,15 @@ public class PEC {
     }
 
     public static void main(String[] args) {
-        PEC a = new PEC(0.2, 0.5, new Colony());
-        a.Addevent(5.3, "Evaporação", 3);
-        a.Addevent(14.2, "Evaporação", 7);
-        a.Addevent(5.77, "Evaporação", 5);
-        a.Addevent(5.34, "Evaporação", 4);
-        a.Addevent(5.1, "Evaporação", 2);
-        /*for (int i = 0; i < 2; i++) {
-            CenasFormigas ola = a.getFirstElement();
-            System.out.println(ola.getTipo() + " em " + ola.getTempo() + "seg, com ID " + ola.getID());
-        }*/
-        a.Addevent(13.9, "Evaporação", 6);
-        a.Addevent(4.9, "Evaporação", 1);
+        int Nu = 5;
+        Double tau = 10.0;
+        PEC a = new PEC(2.0, 0.2, new Colony(), Nu, tau);
+        /*for(int i = 0; i < 10; i++){*/
         while (a.Tamanho_lista() != 0) {
-            CenasFormigas ola = a.getFirstElement();
-            System.out.println(ola.getTipo() + " em " + ola.getTempo() + "seg, com ID " + ola.getID());
+            Eventos ola = a.getFirstElement();
+            /*if (!ola.getTipo().equals("Observacao")) {
+                 System.out.println(ola.getTipo() + " em " + ola.getTempo() + "seg, com ID " + ola.getID());*/
+            }
         }
     }
 }
