@@ -1,15 +1,15 @@
 package AntCO ;
-import package graph.IWeigthedGraph;
+import  graph.IWeightedGraph;
 import java.util.ArrayList;
 /*
 Name: Colony
 description: Colony class for Ant Colony Optimization
 Date added: 05 Jun 2023
-Last modified: 05 Jun 2023
+Last modified: 08 Jun 2023
  */
 public class Colony  implements IColony {
     Pheromone pheromone;
-    IWeigthedGraph graph;
+    IWeightedGraph graph;
     float pherovalue[][]; //pheromone value
     int maxvertex;
     int start;
@@ -20,7 +20,7 @@ public class Colony  implements IColony {
     float rho;
     int maxantpop;
     Ant population[];
-    BestPath bestpath[5];
+    BestPath bestpath[];
 
     /*Constructors*/
     public Colony(int max, int start, float gamma, float alpha, float beta, int maxantpop) {
@@ -31,22 +31,21 @@ public class Colony  implements IColony {
         this.beta = beta;
         this.maxantpop = maxantpop;
         this.pheromone = new Pheromone(this.maxvertex, this);
-        this.fvalue = new float[maxvertex][maxvertex];
-        Arrays.fill(this.fvalue, 0);
+        this.pherovalue = new float[maxvertex][maxvertex];
         this.population = new Ant[this.maxantpop];
 
         for (int i = 0; i < this.maxantpop; i++) {
             this.population[i] = new Ant(this.maxvertex, this.start, this.gamma, i, this);
         }
-        this.bestpathcost = new int[5];
+
         for (BestPath bp : this.bestpath) {
-            bp = new BestPath(0, -1);
+            bp = new BestPath(-1);
         }
 }
 
 
         /*setter*/
-        public void setGraph (IWeigthedGraph graph){
+        public void setGraph (IWeightedGraph graph){
             this.graph = graph;
         }
 
@@ -58,12 +57,11 @@ public class Colony  implements IColony {
     Last modified: 05 Jun 2023
     */
         public int getCost ( int hashedge){
-            int hash[ 2]=unHash(hashedge);
+            int hash[]=unHash(hashedge);
             return this.graph.getCost(hash[0] + 1, hash[1] + 1);
         }
-        public int
-        public int getAdj ( int i, int j){
-            return this.graph.NodeAdj(i + 1, j + 1);
+        public ArrayList<Integer> getAdj ( int target){
+            return this.graph.NodeAdj(target + 1);
         }
     /* Name: triggerAntMovement
     input: triggerid
@@ -111,7 +109,7 @@ public class Colony  implements IColony {
     Last modified: 05 Jun 2023
     */
         public boolean triggerPheromoneDecay ( int hashededge){
-            int[2]coords = this.unHash(hashededge);
+            int[]coords = this.unHash(hashededge);
             return this.pheromone.decayFvalue(coords[0], coords[1], this.rho);
         }
     /* Name: Hash
@@ -131,7 +129,7 @@ public class Colony  implements IColony {
     Date added: 05 Jun 2023
     Last modified: 05 Jun 2023
     */
-        public int[2]unHash( int hash){
+        public int[] unHash( int hash){
             int i = hash / this.maxvertex - 1;
             int j = hash % this.maxvertex - 1;
             return new int[]{i, j};
@@ -139,12 +137,16 @@ public class Colony  implements IColony {
     }
 
 
+/*NESTED
+Name: BestPath
+description: BestPath class for Ant Colony Optimization
+Date added: 07 Jun 2023
+*/
 
-private class BestPath{
+class BestPath{
         int path[];
         int cost;
-        public bestpath(int path[], int cost){
-            this.path = path;
+        public BestPath(int cost){
             this.cost = cost;
         }
 }

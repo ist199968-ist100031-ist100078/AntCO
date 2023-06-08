@@ -20,7 +20,7 @@ public class Ant {
 
 
     /*Constructor*/
-    public Ant(int max, int start, int end, float gamma, int id, AntColony antcolony) {
+    public Ant(int max, int start, float gamma, int id, Colony antcolony) {
         this.id = id;
         this.maxvertex = max;
         this.start = start;
@@ -57,11 +57,12 @@ public class Ant {
     public int selectNext(int current){ /*TODO: reset path if all adjacent were already visited*/
         int next = -1;
         float max = 0;
+        float aux=0;
         float alpha = this.antcolony.alpha;
         float beta = this.antcolony.beta;
         float abs_prob = 0;
-        int Arraylist<Integer> possible = this.antcolony.GetAdj(current);
-        float Arraylist<Float> prob_arr = new ArrayList<Float>();
+        ArrayList<Integer> possible = this.antcolony.getAdj(current);
+        ArrayList<Float> prob_arr = new ArrayList<Float>();
         float sum=0;
         if (possible.size > 0) {
             /*Have to fix this. Had an EMERGENCY and had to left the work a meio */
