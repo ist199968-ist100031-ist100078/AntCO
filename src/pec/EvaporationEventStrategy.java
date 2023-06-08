@@ -1,23 +1,25 @@
 package pec;
 
 import java.util.Random;
-import java.util.function.DoubleToLongFunction;
 
-public class EEventStrategy implements EventStrategy {
+public class EvaporationEventStrategy implements EventStrategy {
     Double mean;
-    public EEventStrategy(double mean) {
+    IColony colony;
+
+    public EvaporationEventStrategy(Double mean, IColony colony) {
         this.mean = mean;
+        this.colony = colony;
     }
 
     @Override
-    public Double execute(int id) {
-        Double lambda = 1/mean;
+    public Double execute(Double id, Integer[] NumberEvents) {
+        NumberEvents[1]++;
         //Querem que faça aqui o decaimento
         //decayFvalue true(fazer algo) or false
         Random rand = new Random();
         if (decayFvalue(rand.nextInt(0,2))) {
             double u = rand.nextDouble();
-            return -(1/lambda) * Math.log(1 - u);
+            return -(this.mean) * Math.log(1 - u);
             /*int aux = 0;
             for (int x= 0; u > (1 - Math.exp(-this.lambda*x)); x++) {
                 aux = x;
