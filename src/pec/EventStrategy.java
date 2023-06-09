@@ -1,5 +1,5 @@
 package pec;
 
 public interface EventStrategy {
-    Double execute(Double id, Integer[] NumberEvents);
+   void execute(int id, double tempo, Integer[] NumberEvents);
 }

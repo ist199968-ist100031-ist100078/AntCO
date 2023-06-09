@@ -8,11 +8,8 @@ public class Eventos {
     Eventos(Double tempo, String type, Integer id) {
         this.Tempo = tempo;
         this.Tipo = type;
-        if (id == 0) {
-            this.ID = null;
-        } else {
-            this.ID = id;
-        }
+        this.ID = id;
+
     }
 
     public Double getTempo() {

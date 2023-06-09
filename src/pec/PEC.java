@@ -1,19 +1,18 @@
 package pec;
-
+import  AntCO.IColony;
 import java.util.*;
 
 public class PEC {
-    private final List<Eventos> PriorQue;
+    private final PriorityQueue<Eventos> PriorQueue;
     private final Map<String, EventStrategy> EventTypeMap = new HashMap<>();
     Integer[] NumberEvents = new Integer[]{0, 0}; //Number of Move Events,Number of Evaporation Events
-    private IColony colonia;
+
 
     public PEC(double eta, double delta, IColony colonia, int Nu, Double tau) {
-        this.PriorQue = new ArrayList<>();
+        this.PriorQueue = new PriorityQueue<>(Comparator.comparingDouble(Eventos::getTempo));
         insertEvent("Movimento", new MovementEventStrategy(delta, eta, colonia, this));
         insertEvent("Evaporação", new EvaporationEventStrategy(eta, colonia, this));
-        insertEvent("Observacao", new ObservationEventStrategy(tau));
-        this.colonia = colonia;
+        insertEvent("Observacao", new ObservationEventStrategy(tau, this));
         this.InicializationOfEvents(Nu, tau);
     }
 
@@ -27,66 +26,38 @@ public class PEC {
     }
 
     public void Addevent(Double time, String Tipo, Integer id) {
-        int aux = 0;
-        for (Eventos i : this.PriorQue) {
-            if (time <= i.getTempo()) { //Ordena por tempo, parando quando encontra um tempo maior
-                break;
-            }
-            aux++;  //Auxiliar para saber em que posição inserir
-        }
-        this.PriorQue.add(aux, new Eventos(time, Tipo, id));
+        this.PriorQueue.add(new Eventos(time, Tipo, id));
     }
 
 
     public Eventos getFirstElement() {
         //Obtém o primeiro elemento da lista e retira o da fila
-        Eventos Elemento = this.PriorQue.get(0);
-        this.PriorQue.remove(0);
-        Double tempo;
-        if (Elemento.getID() == null) {
-            tempo = ChooseAndExecuteEventStrat(Elemento.getTipo(), Elemento.getTempo());
-        } else {
-            tempo = ChooseAndExecuteEventStrat(Elemento.getTipo(), Double.valueOf(Elemento.getID()));
-        }
-        if (tempo == -2.0) {
-            this.PriorQue.clear();
-        } else if (tempo != -1.0) { // Caso em que há decaimento ou movimento das formigas, logo é agenda um novo evento
-            tempo += Elemento.getTempo(); // Adiciona o tempo da distribuição exponencial ao tempo atual, para saber em que altura agendar
-            Addevent(tempo, Elemento.getTipo(), Elemento.getID());
-        }
+        Eventos Elemento = this.PriorQueue.poll();
+        ChooseAndExecuteEventStrat(Elemento.getTipo(), Elemento.getID(),Elemento.getTempo());
         return Elemento;
     }
 
-    public List<Eventos> getPriorQue() {
-        return PriorQue;
+    public PriorityQueue<Eventos> getPriorQueue() {
+        return PriorQueue;
     }
 
     public void insertEvent(String str, EventStrategy eventStrategy) {
         this.EventTypeMap.put(str, eventStrategy);
     }
 
-    public Double ChooseAndExecuteEventStrat(String event, Double id) {
-
-        return this.EventTypeMap.get(event).execute(id, this.NumberEvents);
+    public void ChooseAndExecuteEventStrat(String event, int id, double tempo) {
+        this.EventTypeMap.get(event).execute(id,tempo, this.NumberEvents);
     }
+
     public Double ExponentialTime(Double mean) {
         Random rand = new Random(); //Criar singleton depois
         double u = rand.nextDouble();
         return -(mean) * Math.log(1 - u);
-    }
-    public int Tamanho_lista() {
-        return this.PriorQue.size();
+
     }
 
-    public static void main(String[] args) {
-        int Nu = 5;
-        Double tau = 20.0;
-        PEC a = new PEC(2.0, 0.2, new Colony(), Nu, tau);
-        while (a.Tamanho_lista() != 0) {
-            Eventos ola = a.getFirstElement();
-            /*if (!ola.getTipo().equals("Observacao")) {
-                 System.out.println(ola.getTipo() + " em " + ola.getTempo() + "seg, com ID " + ola.getID());*/
-        }
+    public boolean isEmpty() {
+        return this.PriorQueue.isEmpty();
     }
 }
 
