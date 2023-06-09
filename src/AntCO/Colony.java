@@ -10,17 +10,16 @@ Last modified: 08 Jun 2023
 public class Colony  implements IColony {
     Pheromone pheromone;
     IWeightedGraph graph;
-    float pherovalue[][]; //pheromone value
+    float[][] pherovalue; //pheromone value
     int maxvertex;
     int start;
     float gamma;
-    int bestpathcost[];
     float alpha;
     float beta;
     float rho;
     int maxantpop;
-    Ant population[];
-    BestPath bestpath[];
+    Ant[] population;
+    BestPath[] bestpath = new BestPath[5];
 
     /*Constructors*/
     public Colony(int max, int start, float gamma, float alpha, float beta, int maxantpop) {
@@ -35,9 +34,8 @@ public class Colony  implements IColony {
         this.population = new Ant[this.maxantpop];
 
         for (int i = 0; i < this.maxantpop; i++) {
-            this.population[i] = new Ant(this.maxvertex, this.start, this.gamma, i, this);
+            this.population[i] = new Ant(this.maxvertex, this.start, i, this);
         }
-
         for (BestPath bp : this.bestpath) {
             bp = new BestPath(-1);
         }
@@ -57,11 +55,11 @@ public class Colony  implements IColony {
     Last modified: 05 Jun 2023
     */
         public int getCost ( int hashedge){
-            int hash[]=unHash(hashedge);
+            int[] hash =unHash(hashedge);
             return this.graph.getCost(hash[0] + 1, hash[1] + 1);
         }
         public ArrayList<Integer> getAdj ( int target){
-            return this.graph.NodeAdj(target + 1);
+            return this.graph.nodeAdj(target + 1);
         }
     /* Name: triggerAntMovement
     input: triggerid
@@ -92,7 +90,7 @@ public class Colony  implements IColony {
     description: update the best path if the path is better than the current best path
      */
 
-        public void updateBestPath ( int path[], int sigma){
+        public void updateBestPath (int[] path, int sigma){
             for (BestPath bp : this.bestpath) {
                 if (sigma < bp.cost) {
                     bp.path = path;
@@ -144,7 +142,7 @@ Date added: 07 Jun 2023
 */
 
 class BestPath{
-        int path[];
+        int[] path;
         int cost;
         public BestPath(int cost){
             this.cost = cost;
