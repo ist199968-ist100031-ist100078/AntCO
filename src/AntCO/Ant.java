@@ -64,30 +64,30 @@ public class Ant {
         ArrayList<Integer> possible = this.antcolony.getAdj(current);
         ArrayList<Float> prob_arr = new ArrayList<Float>();
         float sum=0;
-        if (possible.size > 0) {
+        if (possible.size() > 0) {
             /*Have to fix this. Had an EMERGENCY and had to left the work a meio */
             //Get probability array for all adjacent nodes
-            for (int i = 0; i < possible.size; i++) {
+            for (int i = 0; i < possible.size(); i++) {
                 next = possible.get(i);
                 abs_prob = (float) alpha / (beta + this.antcolony.graph.getCost(current+1, next+1));
                 prob_arr.add(abs_prob);
                 sum+=prob_arr.get(i);
             }
-            for (int i = 0; i < possible.size; i++) {
+            for (int i = 0; i < possible.size(); i++) {
                 prob_arr.set(i, prob_arr.get(i) / sum);
                 //System.out.println("Probabilities: " + prob_arr.get(i));
             }
 
             sum = 0;
             aux = 0;
-            for (int i = 0; i < possible.size; i++) {
+            for (int i = 0; i < possible.size(); i++) {
                 aux = prob_arr.get(i);
                 prob_arr.set(i, aux + sum);
                 sum+=aux;
             }
 
             aux = rand.nextFloat();
-            for (int i = 0; i < possible.size; i++) {
+            for (int i = 0; i < possible.size(); i++) {
                 if (Float.compare(aux, prob_arr.get(i)) < 0) {
                     next = possible.get(i);
                     return next;
