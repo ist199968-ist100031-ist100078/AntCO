@@ -1,4 +1,4 @@
-package graph;
+package graph2;
 
 import java.util.Random;
 

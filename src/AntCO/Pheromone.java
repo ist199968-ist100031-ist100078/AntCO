@@ -44,8 +44,8 @@ public class Pheromone {
     Last modified: 04 Jun 2023
      */
     public void incrementFvalue(int i, int j, float gamma, int sigma, int weight) {
-        this.getFvalue(i,j) += gamma*weight/sigma;
-        this.getFvalue(j,i) += gamma*weight/sigma;
+        this.antcolony.pherovalue[i][j] += gamma*weight/sigma;
+        this.antcolony.pherovalue[j][i] += gamma*weight/sigma;
     }
 
 }

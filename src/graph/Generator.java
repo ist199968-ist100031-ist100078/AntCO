@@ -1,4 +1,4 @@
-package graph;
+package graph2;
 
 //Strategy Pattern for Graph Generation - Context
 public class Generator {

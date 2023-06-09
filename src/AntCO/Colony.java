@@ -76,7 +76,7 @@ public class Colony  implements IColony {
             if (hamilton) {
                 this.population[triggerid].pheromonize();
                 this.updateBestPath(this.population[triggerid].path, this.population[triggerid].sigma);
-                for (int i = 0; i < this.population[triggerid].pathlenght; i++) {
+                for (int i = 0; i < this.population[triggerid].pathlength; i++) {
                     if (this.pherovalue[this.population[triggerid].path[i]][this.population[triggerid].path[i + 1]] == 0)
                         path.add(Hash(this.population[triggerid].path[i], this.population[triggerid].path[i + 1]));
                 }
