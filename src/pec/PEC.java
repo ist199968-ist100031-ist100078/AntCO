@@ -1,5 +1,7 @@
 package pec;
-import  AntCO.IColony;
+
+import AntCO.IColony;
+
 import java.util.*;
 
 public class PEC {
@@ -7,9 +9,10 @@ public class PEC {
     private final Map<String, EventStrategy> EventTypeMap = new HashMap<>();
     Integer[] NumberEvents = new Integer[]{0, 0}; //Number of Move Events,Number of Evaporation Events
 
+    private ArrayList<Integer> TopCycles = new ArrayList<>();
 
-    public PEC(double eta, double delta, IColony colonia, int Nu, Double tau) {
-        this.PriorQueue = new PriorityQueue<>(Comparator.comparingDouble(Eventos::getTempo));
+    public PEC(double eta, double delta, IColony colonia, int Nu, Double tau, int n) {
+        this.PriorQueue = new PriorityQueue<>(Nu + (n * (n - 1) / 2 - n) + 20, Comparator.comparingDouble(Eventos::getTempo));
         insertEvent("Movimento", new MovementEventStrategy(delta, eta, colonia, this));
         insertEvent("Evaporação", new EvaporationEventStrategy(eta, colonia, this));
         insertEvent("Observacao", new ObservationEventStrategy(tau, this));
@@ -33,7 +36,7 @@ public class PEC {
     public Eventos getFirstElement() {
         //Obtém o primeiro elemento da lista e retira o da fila
         Eventos Elemento = this.PriorQueue.poll();
-        ChooseAndExecuteEventStrat(Elemento.getTipo(), Elemento.getID(),Elemento.getTempo());
+        ChooseAndExecuteEventStrat(Elemento.getTipo(), Elemento.getID(), Elemento.getTempo());
         return Elemento;
     }
 
@@ -46,7 +49,7 @@ public class PEC {
     }
 
     public void ChooseAndExecuteEventStrat(String event, int id, double tempo) {
-        this.EventTypeMap.get(event).execute(id,tempo, this.NumberEvents);
+        this.EventTypeMap.get(event).execute(id, tempo, this.NumberEvents);
     }
 
     public Double ExponentialTime(Double mean) {
@@ -58,6 +61,20 @@ public class PEC {
 
     public boolean isEmpty() {
         return this.PriorQueue.isEmpty();
+    }
+
+    public ArrayList<Integer> getTopCycles() {
+        return TopCycles;
+    }
+
+    public void setTopCycles(ArrayList<Integer> topCycles) {
+        for (Integer i : topCycles) {
+            if (i == 0) {
+                break;
+            }
+            TopCycles = topCycles;
+            break;
+        }
     }
 }
 

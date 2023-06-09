@@ -22,7 +22,7 @@ public class Colony  implements IColony {
     BestPath[] bestpath = new BestPath[5];
 
     /*Constructors*/
-    public Colony(int max, int start, float gamma, float alpha, float beta, int maxantpop) {
+    public Colony(int max, int start, float gamma, float alpha, float beta, int maxantpop, IWeightedGraph graph) {
         this.maxvertex = max;
         this.start = start;
         this.gamma = gamma;
@@ -39,6 +39,7 @@ public class Colony  implements IColony {
         for (BestPath bp : this.bestpath) {
             bp = new BestPath(-1);
         }
+        setGraph(graph);
 }
 
 
