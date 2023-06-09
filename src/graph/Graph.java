@@ -1,5 +1,4 @@
-package graph2;
-
+package graph;
 
 import java.io.File;
 import java.io.FileNotFoundException;

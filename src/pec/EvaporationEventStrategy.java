@@ -5,21 +5,21 @@ import java.util.Random;
 public class EvaporationEventStrategy implements EventStrategy {
     Double mean;
     IColony colony;
+    PEC pec;
 
-    public EvaporationEventStrategy(Double mean, IColony colony) {
+    public EvaporationEventStrategy(Double mean, IColony colony, PEC pec) {
         this.mean = mean;
         this.colony = colony;
+        this.pec = pec;
     }
 
     @Override
     public Double execute(Double id, Integer[] NumberEvents) {
         NumberEvents[1]++;
-        //Querem que faça aqui o decaimento
         //decayFvalue true(fazer algo) or false
-        Random rand = new Random();
-        if (decayFvalue(rand.nextInt(0,2))) {
-            double u = rand.nextDouble();
-            return -(this.mean) * Math.log(1 - u);
+        Random rand = new Random(); //apagar depois
+        if (this.colony.triggerPheromoneDecay(rand.nextInt(0,2))) {
+            return this.pec.ExponentialTime(this.mean);
             /*int aux = 0;
             for (int x= 0; u > (1 - Math.exp(-this.lambda*x)); x++) {
                 aux = x;
@@ -30,8 +30,5 @@ public class EvaporationEventStrategy implements EventStrategy {
         }
         return -1.0; // Caso em que não há decaimento, porque já chegou a 0
     }
-    public boolean decayFvalue(int a)
-    {
-        return a == 1;
-    }
+
 }

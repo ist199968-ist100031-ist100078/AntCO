@@ -1,9 +1,6 @@
 package pec;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 public class PEC {
     private final List<Eventos> PriorQue;
@@ -13,21 +10,20 @@ public class PEC {
 
     public PEC(double eta, double delta, IColony colonia, int Nu, Double tau) {
         this.PriorQue = new ArrayList<>();
-        insertEvent("Movimento", new MovementEventStrategy(delta, colonia));
-        insertEvent("Evaporação", new EvaporationEventStrategy(eta, colonia));
+        insertEvent("Movimento", new MovementEventStrategy(delta, eta, colonia, this));
+        insertEvent("Evaporação", new EvaporationEventStrategy(eta, colonia, this));
         insertEvent("Observacao", new ObservationEventStrategy(tau));
         this.colonia = colonia;
         this.InicializationOfEvents(Nu, tau);
     }
 
-    public void InicializationOfEvents(int Nu, Double tau) {
+    private void InicializationOfEvents(int Nu, Double tau) {
         for (int i = 1; i <= Nu; i++) {
             this.Addevent(0.0, "Movimento", i);
         }
         for (int i = 1; i <= 20; i++) {
             this.Addevent(i * (tau / 20), "Observacao", 0);
         }
-
     }
 
     public void Addevent(Double time, String Tipo, Integer id) {
@@ -39,7 +35,6 @@ public class PEC {
             aux++;  //Auxiliar para saber em que posição inserir
         }
         this.PriorQue.add(aux, new Eventos(time, Tipo, id));
-
     }
 
 
@@ -74,21 +69,24 @@ public class PEC {
 
         return this.EventTypeMap.get(event).execute(id, this.NumberEvents);
     }
-
+    public Double ExponentialTime(Double mean) {
+        Random rand = new Random(); //Criar singleton depois
+        double u = rand.nextDouble();
+        return -(mean) * Math.log(1 - u);
+    }
     public int Tamanho_lista() {
         return this.PriorQue.size();
     }
 
     public static void main(String[] args) {
         int Nu = 5;
-        Double tau = 10.0;
+        Double tau = 20.0;
         PEC a = new PEC(2.0, 0.2, new Colony(), Nu, tau);
-        /*for(int i = 0; i < 10; i++){*/
         while (a.Tamanho_lista() != 0) {
             Eventos ola = a.getFirstElement();
             /*if (!ola.getTipo().equals("Observacao")) {
                  System.out.println(ola.getTipo() + " em " + ola.getTempo() + "seg, com ID " + ola.getID());*/
-            }
         }
     }
 }
+
