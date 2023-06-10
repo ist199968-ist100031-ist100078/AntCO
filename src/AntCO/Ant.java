@@ -1,6 +1,7 @@
 package AntCO;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Random;
 
 /* Name: Ant
@@ -12,7 +13,7 @@ public class Ant {
     Colony antcolony;
     int id;
     int[] path;
-    bool[] visited;
+    boolean[] visited;
     int pathlength;
     int maxvertex;
     int start;
@@ -29,7 +30,7 @@ public class Ant {
         this.start = start;
         this.antcolony = antcolony;
         this.path = new int[this.maxvertex];
-        this.visited = new bool[this.maxvertex];
+        this.visited = new boolean[this.maxvertex];
         Arrays.fill(this.visited, false);
         this.sigma = 0;
         this.weight = 0;
@@ -119,7 +120,7 @@ public class Ant {
         for (int i = 0; i < this.pathlength - 1; i++) {
             this.antcolony.pheromone.incrementFvalue(this.path[i], this.path[i + 1], this.antcolony.gamma, this.sigma, this.antcolony.graph.getCost(i + 1, i + 2));
         }
-        this.antcolony.pheromone.incrementFvalue(this.path[pathlength-1], this.path[0], this.antcolony.gamma, this.sigma, this.antcolony.graph.getCost(1, pathlength));
+        this.antcolony.pheromone.incrementFvalue(this.path[pathlength - 1], this.path[0], this.antcolony.gamma, this.sigma, this.antcolony.graph.getCost(1, pathlength));
     }
 
     /* Name: reset

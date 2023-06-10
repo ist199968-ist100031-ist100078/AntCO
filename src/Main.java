@@ -1,11 +1,6 @@
 import AntCO.Colony;
-import graph.FileStrategy;
-import graph.Generator;
-import graph.Graph;
-import graph.RandomStrategy;
-import pec.Eventos;
-import pec.*;
-
+import graph.*;
+import pec.PEC;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.InputMismatchException;
@@ -18,7 +13,7 @@ public class Main {
             System.out.println("ERROR - Incorrect Arguments");
             return;
         }
-        int numNodes = 0, maxWeight = 0, nest = 0;
+        int numNodes, maxWeight, nest;
         float[] inParams = new float[8];//alpha, beta, delta, eta, ro, gamma, nu, tau
 
         Graph graph;
@@ -72,11 +67,9 @@ public class Main {
         graph.displayAdj();
         System.out.println("Graph: ");
         graph.displayMat();*/
-        int Nu = 100;
-        Double tau = 20.0;
         PEC a = new PEC(inParams[3], inParams[2], new Colony(numNodes,nest,inParams[5], inParams[0], inParams[1], (int)inParams[6], graph), (int)inParams[6], (double) inParams[7], numNodes);
         while (!a.isEmpty()) {
-            Eventos ola = a.getFirstElement();
+            a.getFirstElement();
         }
     }
 }

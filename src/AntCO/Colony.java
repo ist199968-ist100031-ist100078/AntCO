@@ -1,6 +1,8 @@
 package AntCO ;
 import  graph.IWeightedGraph;
 import java.util.ArrayList;
+import java.util.Arrays;
+
 /*
 Name: Colony
 description: Colony class for Ant Colony Optimization
@@ -36,9 +38,7 @@ public class Colony  implements IColony {
         for (int i = 0; i < this.maxantpop; i++) {
             this.population[i] = new Ant(this.maxvertex, this.start, i, this);
         }
-        for (BestPath bp : this.bestpath) {
-            bp = new BestPath(-1);
-        }
+        Arrays.fill(this.bestpath,new BestPath(-1));
         setGraph(graph);
 }
 
