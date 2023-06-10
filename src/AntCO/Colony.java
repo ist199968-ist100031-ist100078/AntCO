@@ -60,7 +60,14 @@ public class Colony  implements IColony {
             return this.graph.getCost(hash[0] + 1, hash[1] + 1);
         }
         public ArrayList<Integer> getAdj ( int target){
-            return this.graph.nodeAdj(target + 1);
+            ArrayList<Integer> adj = this.graph.nodeAdj(target + 1);
+            int j=0;
+            for (Integer i: adj){
+                i--;
+                adj.set(j, i);
+                j++;
+            }
+            return adj;
         }
     /* Name: triggerAntMovement
     input: triggerid
@@ -69,7 +76,7 @@ public class Colony  implements IColony {
     Date added: 05 Jun 2023
     Last modified: 05 Jun 2023
      */
-        public ArrayList<Integer> triggerAntMovement ( int triggerid){
+        public ArrayList<Integer> triggerAntMovement (int triggerid){
             boolean hamilton = this.population[triggerid].move();
             ArrayList<Integer> path = new ArrayList<>();
             if (hamilton) {

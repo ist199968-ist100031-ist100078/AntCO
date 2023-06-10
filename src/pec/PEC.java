@@ -20,11 +20,11 @@ public class PEC {
     }
 
     private void InicializationOfEvents(int Nu, Double tau) {
-        for (int i = 1; i <= Nu; i++) {
+        for (int i = 0; i < Nu; i++) {
             this.Addevent(0.0, "Movimento", i);
         }
         for (int i = 1; i <= 20; i++) {
-            this.Addevent(i * (tau / 20), "Observacao", 0);
+            this.Addevent(i * (tau / 20), "Observacao", -1);
         }
     }
 

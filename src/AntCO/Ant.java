@@ -66,7 +66,6 @@ public class Ant {
         ArrayList<Float> prob_arr = new ArrayList<>();
         float sum = 0;
         if (possible.size() > 0) {
-            /*Have to fix this. Had an EMERGENCY and had to left the work a meio */
             //Get probability array for all adjacent nodes
             for (int i = 0; i < possible.size(); i++) {
                 next = possible.get(i);
@@ -106,8 +105,10 @@ public class Ant {
     Last modified: 04 Jun 2023
     */
     public void pheromonize() {
-        for (int i = 0; i < this.pathlength; i++)
+        for (int i = 0; i < this.pathlength - 1; i++) {
             this.antcolony.pheromone.incrementFvalue(this.path[i], this.path[i + 1], this.antcolony.gamma, this.sigma, this.antcolony.graph.getCost(i + 1, i + 2));
+        }
+        this.antcolony.pheromone.incrementFvalue(this.path[pathlength-1], this.path[0], this.antcolony.gamma, this.sigma, this.antcolony.graph.getCost(1, pathlength));
     }
 
     /* Name: reset
