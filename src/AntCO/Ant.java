@@ -12,6 +12,7 @@ public class Ant {
     Colony antcolony;
     int id;
     int[] path;
+    bool[] visited;
     int pathlength;
     int maxvertex;
     int start;
@@ -28,6 +29,8 @@ public class Ant {
         this.start = start;
         this.antcolony = antcolony;
         this.path = new int[this.maxvertex];
+        this.visited = new bool[this.maxvertex];
+        Arrays.fill(this.visited, false);
         this.sigma = 0;
         this.weight = 0;
         this.current = start;
@@ -46,6 +49,7 @@ public class Ant {
     public boolean move() {
         boolean hamilton = false;
         this.next = this.selectNext(this.current);
+        this.visited[this.next] = true;
         this.path[this.pathlength] = this.next;
         this.pathlength++;
         this.sigma += this.antcolony.graph.getCost(this.current + 1, this.next + 1);
@@ -63,6 +67,13 @@ public class Ant {
         float beta = this.antcolony.beta;
         float abs_prob = 0;
         ArrayList<Integer> possible = this.antcolony.getAdj(current);
+
+        for (int i = 0; i < possible.size(); i++) {
+            if (this.visited[possible.get(i)]) {
+                possible.remove(i);
+            }
+        }
+
         ArrayList<Float> prob_arr = new ArrayList<>();
         float sum = 0;
         if (possible.size() > 0) {
