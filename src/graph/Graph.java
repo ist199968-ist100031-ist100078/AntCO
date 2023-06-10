@@ -67,26 +67,8 @@ public class Graph implements IWeightedGraph{
     }
 
     private void sortAdj(int idx) {
-        List<Vertex> l;
-        l = adjs.get(idx);
-        int sz = l.size(), i = 0, j, m = 0;
-        Vertex min = Vertex.getInstance(1);
-
-        for (Vertex a1 : l) {
-            min = Vertex.getInstance(a1.getId());
-            j = 0;
-            for (Vertex a2 : l.subList(i, sz)) {
-                if (a2.lessthan(min)) {
-                    min = Vertex.getInstance(a2.getId());
-                    m = j;
-                } else {
-                    m = i;
-                }
-                j++;
-            }
-            Collections.swap(l, i, m);
-            i++;
-        }
+        List<Vertex> l = adjs.get(idx);
+        Collections.sort(l);
     }
 
     public void addEdge(Vertex a, Vertex b) {
@@ -174,26 +156,70 @@ public class Graph implements IWeightedGraph{
     }
 
     private void sortEdges() {
-        int sz = edges.size(), i = 0, j, min;
-        Vertex[] a1, a2;
-        for (Edge e1 : edges) {
-            a1 = e1.get_nodes();
-            min = i;
-            j = 0;
-            for (Edge e2 : edges.subList(i + 1, sz)) {
-                a2 = e2.get_nodes();
-                //e1 comes first in list
-                if (a1[0].lessthan(a2[0]) || (a1[0].equals(a2[0]) && a1[1].lessthan(a2[1]))) {
-                    min = i;
-                } else {
-                    min = j;
-                    a1[0] = a2[0];
-                    a1[1] = a2[1];
-                }
-                j++;
-            }
-            Collections.swap(edges, i, min);
-            i++;
+        Collections.sort(edges);
+    }
+
+    public static void main(String args[]) {
+        String[] params = new String[]{"-r", "-f"};
+        if (args.length < 2 || (!args[0].equals(params[0]) && !args[0].equals(params[1])) || (args[0].equals(params[0]) && args.length != 12)) {
+            System.out.println("ERROR - Incorrect Arguments");
+            return;
         }
+        int numNodes = 0, maxWeight = 0, nest = 0;
+        float[] inParams = new float[8];//alpha, beta, delta, eta, ro, gamma, nu, tau
+
+        Graph G;
+        Generator gen = new Generator();
+        
+        if (args[0].equals(params[0])) {
+            numNodes = Integer.parseInt(args[1]);
+            maxWeight = Integer.parseInt(args[2]);
+            nest = Integer.parseInt(args[3]);
+            for (int i = 0; i < 8; i++) {
+                inParams[i] = Float.parseFloat(args[i + 4]);
+            }
+            G = new Graph(numNodes);
+            
+            gen.setGenerationStrat(new RandomStrategy());
+            gen.generate(G, maxWeight);
+            
+        } else {
+            try {
+                File f = new File(args[1]);
+                Scanner reader = new Scanner(f);
+
+                //Read Int parameters
+                numNodes = reader.nextInt();
+                nest = reader.nextInt();
+                System.out.println(numNodes + " " + nest);
+
+                //Read float parameters
+                try {
+                    for (int i = 0; i < 8; i++) {
+                        inParams[i] = reader.nextFloat();
+                        System.out.println(inParams[i]);
+                    }
+                } catch (InputMismatchException e) {
+                    System.out.println("Float has wrong format: " + e + "\n Format should be 'x,y'");
+                    reader.close();
+                    return;
+                }
+                G = new Graph(numNodes);
+                
+                gen.setGenerationStrat(new FileStrategy());
+                gen.generate(G, reader);
+                
+            } catch (FileNotFoundException e) {
+                System.out.println("Exception: " + e);
+                return;
+            }
+           
+        }
+        
+        G.displayGraph();
+        G.displayAdj();
+        System.out.println("Graph: ");
+        G.displayMat();
+    
     }
 }

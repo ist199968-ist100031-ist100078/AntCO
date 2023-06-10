@@ -2,7 +2,7 @@ package graph;
 
 import java.util.ArrayList;
 
-public class Vertex {
+public class Vertex implements Comparable<Vertex> {
 	private int id;
 	private static ArrayList<Vertex> V = new ArrayList<>();
 	
@@ -42,11 +42,9 @@ public class Vertex {
 		return false;
 	}
 	
-	public boolean lessthan(Object o) {
-		Vertex v = (Vertex)o;
+	public int compareTo(Vertex v1) {
 		
-		if (this.id < v.getId())
-			return true;
-		return false;
+		return Integer.compare(this.getId(), v1.getId());
+	
 	}
 }
