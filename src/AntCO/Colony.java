@@ -21,7 +21,7 @@ public class Colony  implements IColony {
     float rho;
     int maxantpop;
     Ant[] population;
-    BestPath[] bestpath = new BestPath[5];
+    BestPath[] bestpath;
 
     /*Constructors*/
     public Colony(int max, int start, float gamma, float alpha, float beta, int maxantpop, IWeightedGraph graph) {
@@ -34,6 +34,7 @@ public class Colony  implements IColony {
         this.pheromone = new Pheromone(this.maxvertex, this);
         this.pherovalue = new float[maxvertex][maxvertex];
         this.population = new Ant[this.maxantpop];
+        this.bestpath = new BestPath[5];
 
         for (int i = 0; i < this.maxantpop; i++) {
             this.population[i] = new Ant(this.maxvertex, this.start, i, this);
@@ -100,7 +101,7 @@ public class Colony  implements IColony {
 
         public void updateBestPath (int[] path, int sigma){
             for (BestPath bp : this.bestpath) {
-                if (sigma < bp.cost) {
+                if (sigma < bp.cost || bp.cost == -1) {
                     bp.path = path;
                     bp.cost = sigma;
                     break;

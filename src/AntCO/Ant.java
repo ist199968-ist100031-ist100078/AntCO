@@ -1,7 +1,6 @@
 package AntCO;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Random;
 
 /* Name: Ant
@@ -67,12 +66,18 @@ public class Ant {
         float alpha = this.antcolony.alpha;
         float beta = this.antcolony.beta;
         float abs_prob = 0;
+        boolean loop = false;
         ArrayList<Integer> possible = this.antcolony.getAdj(current);
 
         for (int i = 0; i < possible.size(); i++) {
             if (this.visited[possible.get(i)]) {
                 possible.remove(i);
             }
+        }
+
+        if(possible.IsEmpty()){
+            possible = this.antcolony.getAdj(current);
+            loop = true;
         }
 
         ArrayList<Float> prob_arr = new ArrayList<>();
@@ -106,6 +111,8 @@ public class Ant {
                 }
             }
         }
+        if(loop)
+            this.redirect(next);
         return next;
     }
 
@@ -139,4 +146,29 @@ public class Ant {
         this.path[0] = this.start;
 
     }
+
+    /* Name: redirect
+    input: none
+    output: none
+    description: reset the ant to its initial state
+    Date added: 04 Jun 2023
+    Last modified: 04 Jun 2023
+    */
+        public void redirect(int next) {
+            int[] newpath = new int[this.maxvertex]; /*I think this is not needed as it should overwrite over the previous path*/
+            int newpathlength = -1; /*using this variable*/
+            int newsigma=0;
+            for(int i = 0; i < this.pathlength; i++){
+                newpathlength++;
+                newpath[i] = this.path[i];
+                if(this.path[i] == next)
+                    break;
+                newsigma += this.antcolony.graph.getCost(this.path[i]+1, this.path[i+1]+1));
+
+            }
+            this.path = newpath;
+            this.pathlength = newpathlength;
+            this.sigma = newsigma;
+        }
+
 }
