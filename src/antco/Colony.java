@@ -49,6 +49,17 @@ public class Colony implements IColony {
         this.graph = graph;
     }
 
+    public float getGamma(){
+	    return gamma;
+    }
+
+	public float getAlpha(){
+	    return alpha;
+    }
+
+	public float getBeta(){
+	    return beta;
+    }
     /* Name: getCost
     input: edge
     output: cost of edge (i,j)

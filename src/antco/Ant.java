@@ -68,8 +68,8 @@ public class Ant {
     public int selectNext(int current) {
         int next = -1;
         double aux = 0;
-        float alpha = this.antcolony.alpha;
-        float beta = this.antcolony.beta;
+        float alpha = this.antcolony.getAlpha();
+        float beta = this.antcolony.getBeta();
         double abs_prob = 0;
         ArrayList<Integer> possible = this.antcolony.getAdj(current);
 
@@ -143,7 +143,7 @@ public class Ant {
         int i;
         for (int p : path.subList(0, path.size() - 1)) {
             i = path.indexOf(p) + 1;
-            antcolony.pheromone.incrementFvalue(p - 1, path.get(i) - 1, antcolony.gamma, sigma, antcolony.graph.getCost(p, path.get(i)));
+            this.antcolony.pheromone.incrementFvalue(p - 1, path.get(i) - 1, this.antcolony.getGamma(), this.antcolony.graph.getTotWeight(), this.antcolony.graph.getCost(p, path.get(i)));
         }
     }
 
@@ -158,8 +158,8 @@ public class Ant {
         this.sigma = 0;
         this.current = this.start;
         this.next = -1;
-        path.clear();
-        path.add(start);
+        this.path.clear();
+        this.path.add(start);
     }
 
 }
