@@ -1,4 +1,4 @@
-package AntCO;
+package antco;
 
 /* Name: Pheromone
 description: Pheromone class for Ant Colony Optimization
@@ -29,7 +29,6 @@ public class Pheromone {
         this.antcolony.setFvalue(i,j,this.antcolony.getFvalue(i,j)-this.rho);
         if (this.antcolony.getFvalue(i,j) <= 0 || this.antcolony.getFvalue(j,i) <= 0) {
             this.antcolony.setFvalue(i,j) = 0;
-	    this.antcolony.setFvalue(i,j) = 0;
             positive = false;
         }
         return positive;

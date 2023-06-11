@@ -1,5 +1,5 @@
 package pec;
-import  AntCO.IColony;
+import  antco.IColony;
 
 public class EvaporationEventStrategy implements EventStrategy {
     private final Double mean;

@@ -1,6 +1,6 @@
 package pec;
 
-import AntCO.IColony;
+import antco.IColony;
 
 import java.util.*;
 

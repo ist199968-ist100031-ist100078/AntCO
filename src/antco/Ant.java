@@ -1,4 +1,4 @@
-package AntCO;
+package antco;
 
 import java.util.ArrayList;
 import java.util.Random;

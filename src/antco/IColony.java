@@ -1,4 +1,4 @@
-package AntCO;
+package antco;
 import java.util.ArrayList;
 
 public interface IColony {

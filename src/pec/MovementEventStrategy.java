@@ -1,5 +1,5 @@
 package pec;
-import  AntCO.IColony;
+import  antco.IColony;
 import java.util.ArrayList;
 
 public class MovementEventStrategy implements EventStrategy {
