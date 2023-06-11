@@ -11,7 +11,7 @@ public class ObservationEventStrategy implements EventStrategy {
 
     @Override
     public void execute(int id, double tempo, Integer[] NumberEvents) {
-        System.out.println("\nPresent istant:\t" + tempo);
+        System.out.println("\nPresent instant\t" + tempo);
         System.out.println("Number of move events:\t" + NumberEvents[0]);
         System.out.println("Number of evaporation events:\t" + NumberEvents[1]);
         System.out.print("Top candidate cycles:\n");

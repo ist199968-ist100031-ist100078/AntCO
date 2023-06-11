@@ -61,7 +61,7 @@ public class Ant {
         return hamilton;
     }
 
-    public int selectNext(int current) { /*TODO: reset path if all adjacent were already visited*/
+    public int selectNext(int current) {
         int next = -1;
         double aux = 0;
         float alpha = this.antcolony.alpha;
@@ -141,7 +141,7 @@ public class Ant {
         int i;
         for (int p : path.subList(0, path.size() - 1)){
             i = path.indexOf(p) + 1;
-            antcolony.pheromone.incrementFvalue(p-1, path.get(i)-1, antcolony.gamma, sigma, antcolony.graph.getCost(i, i + 1));
+            antcolony.pheromone.incrementFvalue(p-1, path.get(i)-1, antcolony.gamma, sigma, antcolony.graph.getCost(p, path.get(i)));
         }
     }
 
