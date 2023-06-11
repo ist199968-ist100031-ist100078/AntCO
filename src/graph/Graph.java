@@ -100,6 +100,14 @@ public class Graph implements IWeightedGraph {
         return 0;
     }
 
+    public int getTotWeight() {
+    	int w = 0;
+    	for (Edge e: edges) {
+    		w+= e.get_weight();
+    	}
+    	return w;
+    }
+    
     public List<Vertex> nodeAdj(Vertex a) {
         return adjs.get(a.getId() - 1);
     }
