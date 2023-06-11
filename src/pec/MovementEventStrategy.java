@@ -19,11 +19,12 @@ public class MovementEventStrategy implements EventStrategy {
     public void execute(int id, double tempo, Integer[] NumberEvents) {
         NumberEvents[0]++;
         ArrayList<Integer> list = this.colony.triggerAntMovement(id);
+        double time = this.pec.ExponentialTime( this.meanMovimento * colony.getCost(colony.getIdEdge(id)));
         for (Integer i : list) {
             if(i != 0){
-                this.pec.Addevent(tempo + this.pec.ExponentialTime(this.meanEvaporacao * this.colony.getCost(i)), "Evaporação", i);
+                this.pec.Addevent(tempo + time + this.pec.ExponentialTime(this.meanEvaporacao), "Evaporação", i);
             }
         }
-        this.pec.Addevent(tempo + this.pec.ExponentialTime( this.meanMovimento * colony.getCost(colony.getIdEdge(id))), "Movimento", id);
+        this.pec.Addevent(tempo + time, "Movimento", id);
     }
 }
