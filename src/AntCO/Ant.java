@@ -12,13 +12,12 @@ public class Ant {
     Colony antcolony;
     int id;
     ArrayList<Integer> path;
-    int pathlength;
+
     int maxvertex;
     int start;
     int current;
     int next;
     int sigma; /*sum of all weights*/
-    int weight;
 
 
     /*Constructor*/
@@ -29,10 +28,8 @@ public class Ant {
         this.antcolony = antcolony;
         this.path = new ArrayList<>();
         this.sigma = 0;
-        this.weight = 0;
         this.current = start;
         this.next = -1;
-        this.pathlength = 0;
         this.path.add(start);
     }
 
@@ -45,17 +42,15 @@ public class Ant {
     */
     public boolean move() {
         boolean hamilton = false;
-        for (int p : path) {
-            System.out.println("path: " + p);
-        }
         this.next = this.selectNext(this.current);
-        while(this.path.get(this.path.size()-1) == this.next){ //Caso em que o next é um nó repetido
+        while (this.path.get(this.path.size() - 1) == this.next) { //Caso em que o next é um nó repetido
+            current = this.path.get(this.path.size() - 1);
             this.next = this.selectNext(this.next);
         }
         this.path.add(this.next);
         this.sigma += this.antcolony.graph.getCost(this.current, this.next);
         this.current = this.next;
-        if (this.current == this.start && this.path.size() == this.maxvertex+1) {
+        if (this.current == this.start && this.path.size() == this.maxvertex + 1) {
             hamilton = true;
         }
         return hamilton;
@@ -104,9 +99,6 @@ public class Ant {
             }
         } else { //If there are no not yet visited nodes in adjacency list
             possible = this.antcolony.getAdj(current);
-            if (this.path.size() == this.maxvertex && possible.contains(this.start-1)) {
-                next = this.start;
-            } else {
                 sum = possible.size();
                 for (int i = 1; i <= (int) sum; i++) {
                     if (aux < i / sum) {
@@ -114,19 +106,20 @@ public class Ant {
                         break;
                     }
                 }
+                if (this.path.size() == this.maxvertex && next == this.start){
+                   return next;
+                }
+
                 int idx;
                 idx = this.path.indexOf(next);
-                System.out.println(idx);;
                 int p_anterior = this.path.get(idx);
-                for(Integer p : path.subList(idx + 1, path.size())) {
+                for (Integer p : path.subList(idx + 1, path.size())) {
                     this.sigma -= this.antcolony.graph.getCost(p_anterior, p);
                     p_anterior = p;
                 }
                 this.path.subList(idx + 1, this.path.size()).clear(); //remove all elements after idx
-            }
         }
 
-        System.out.println("next is " + next);
         return next;
     }
 
@@ -139,9 +132,9 @@ public class Ant {
     */
     public void pheromonize() {
         int i;
-        for (int p : path.subList(0, path.size() - 1)){
+        for (int p : path.subList(0, path.size() - 1)) {
             i = path.indexOf(p) + 1;
-            antcolony.pheromone.incrementFvalue(p-1, path.get(i)-1, antcolony.gamma, sigma, antcolony.graph.getCost(p, path.get(i)));
+            antcolony.pheromone.incrementFvalue(p - 1, path.get(i) - 1, antcolony.gamma, sigma, antcolony.graph.getCost(p, path.get(i)));
         }
     }
 
@@ -153,38 +146,11 @@ public class Ant {
     Last modified: 04 Jun 2023
     */
     public void reset() {
-        this.pathlength = 0;
         this.sigma = 0;
-        this.weight = 0;
         this.current = this.start;
         this.next = -1;
         path.clear();
         path.add(start);
-
     }
-
-    /* Name: redirect
-    input: none
-    output: none
-    description: reset the ant to its initial state
-    Date added: 04 Jun 2023
-    Last modified: 04 Jun 2023
-    */
-     /*   public void redirect(int next) {
-            int[] newpath = new int[this.maxvertex]; //I think this is not needed as it should overwrite over the previous path
-            int newpathlength = -1; //using this variable
-            int newsigma=0;
-            for(int i = 0; i < this.pathlength; i++){
-                newpathlength++;
-                newpath[i] = this.path[i];
-                if(this.path[i] == next)
-                    break;
-                newsigma += this.antcolony.graph.getCost(this.path[i]+1, this.path[i+1]+1);
-
-            }
-            this.path = newpath;
-            this.pathlength = newpathlength;
-            this.sigma = newsigma;
-        }*/
 
 }

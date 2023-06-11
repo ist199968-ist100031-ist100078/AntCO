@@ -6,4 +6,6 @@ public interface IColony {
     public int getIdEdge(int id);
     public ArrayList<Integer> triggerAntMovement(int triggerid);
     public boolean triggerPheromoneDecay(int hashededge);
+    public ArrayList<Integer> getBestPath(int i);
+    public int getBestCost(int i);
 }

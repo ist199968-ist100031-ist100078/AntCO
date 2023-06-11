@@ -15,7 +15,7 @@ public class PEC {
         this.PriorQueue = new PriorityQueue<>(Nu + (n * (n - 1) / 2 - n) + 20, Comparator.comparingDouble(Eventos::getTempo));
         insertEvent("Movimento", new MovementEventStrategy(delta, eta, colonia, this));
         insertEvent("Evaporação", new EvaporationEventStrategy(eta, colonia, this));
-        insertEvent("Observacao", new ObservationEventStrategy(tau, this));
+        insertEvent("Observacao", new ObservationEventStrategy(tau, this, colonia));
         this.InicializationOfEvents(Nu, tau);
     }
 
@@ -63,18 +63,5 @@ public class PEC {
         return this.PriorQueue.isEmpty();
     }
 
-    public ArrayList<Integer> getTopCycles() {
-        return TopCycles;
-    }
-
-    public void setTopCycles(ArrayList<Integer> topCycles) {
-        for (Integer i : topCycles) {
-            if (i == 0) {
-                break;
-            }
-            TopCycles = topCycles;
-            break;
-        }
-    }
 }
 
