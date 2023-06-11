@@ -1,3 +1,5 @@
+package main;
+
 import AntCO.Colony;
 import graph.*;
 import pec.PEC;
@@ -65,8 +67,7 @@ public class Main {
         }
         /*graph.displayGraph();
         graph.displayAdj();
-        System.out.println("Graph: ");
-        graph.displayMat();*/
+        System.out.println("Graph: ");*/
         PEC a = new PEC(inParams[3], inParams[2], new Colony(numNodes,nest,inParams[5], inParams[0], inParams[1], (int)inParams[6], graph), (int)inParams[6], (double) inParams[7], numNodes);
         while (!a.isEmpty()) {
             a.getFirstElement();

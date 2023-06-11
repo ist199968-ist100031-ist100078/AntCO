@@ -67,8 +67,7 @@ public class Graph implements IWeightedGraph{
     }
 
     private void sortAdj(int idx) {
-        List<Vertex> l = adjs.get(idx);
-        Collections.sort(l);
+        Collections.sort(adjs.get(idx));
     }
 
     public void addEdge(Vertex a, Vertex b) {

@@ -24,7 +24,8 @@ public class MovementEventStrategy implements EventStrategy {
                 this.pec.Addevent(tempo + this.pec.ExponentialTime(this.meanEvaporacao * this.colony.getCost(i)), "Evaporação", i);
             }
         }
-        this.pec.Addevent(tempo + this.pec.ExponentialTime( this.meanMovimento * colony.getCost(1)), "Movimento", id);
+        this.pec.Addevent(tempo + this.pec.ExponentialTime( this.meanMovimento * colony.getCost(colony.getIdEdge(id))), "Movimento", id);
+        System.out.println((colony.getCost(colony.getIdEdge(id))));
         this.pec.setTopCycles(list);
     }
 }

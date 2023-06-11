@@ -1,6 +1,5 @@
 package pec;
 import  AntCO.IColony;
-import java.util.Random;
 
 public class EvaporationEventStrategy implements EventStrategy {
     private final Double mean;
@@ -16,8 +15,7 @@ public class EvaporationEventStrategy implements EventStrategy {
     @Override
     public void execute(int id, double tempo, Integer[] NumberEvents) {
         NumberEvents[1]++;
-        Random rand = new Random(); //apagar depois
-        if (this.colony.triggerPheromoneDecay(rand.nextInt(0, 2))) {
+        if (this.colony.triggerPheromoneDecay(id)) {
             this.pec.Addevent(tempo + this.pec.ExponentialTime(this.mean), "Evaporação", id);
         }
     }

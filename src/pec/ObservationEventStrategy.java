@@ -1,7 +1,5 @@
 package pec;
 
-import java.util.ArrayList;
-
 public class ObservationEventStrategy implements EventStrategy {
     private final Double tau;
     private final PEC pec;

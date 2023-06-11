@@ -9,6 +9,7 @@ public interface IGraph {
 	public void clear();
 	public ArrayList<Integer> nodeAdj(int a);
 	public int getNumNodes();
+	public int getNumEdges();
 	public void displayMat();
 	
 }

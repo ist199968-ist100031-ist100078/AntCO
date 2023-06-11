@@ -11,8 +11,7 @@ Last modified: 04 Jun 2023
 public class Ant {
     Colony antcolony;
     int id;
-    int[] path;
-    boolean[] visited;
+    ArrayList<Integer> path;
     int pathlength;
     int maxvertex;
     int start;
@@ -28,15 +27,13 @@ public class Ant {
         this.maxvertex = max;
         this.start = start;
         this.antcolony = antcolony;
-        this.path = new int[this.maxvertex];
-        this.visited = new boolean[this.maxvertex];
-        Arrays.fill(this.visited, false);
+        this.path = new ArrayList<>();
         this.sigma = 0;
         this.weight = 0;
         this.current = start;
         this.next = -1;
         this.pathlength = 0;
-        this.path[0] = start;
+        this.path.add(start);
     }
 
     /* Name: move
@@ -48,13 +45,17 @@ public class Ant {
     */
     public boolean move() {
         boolean hamilton = false;
+        for (int p : path) {
+            System.out.println("path: " + p);
+        }
         this.next = this.selectNext(this.current);
-        this.visited[this.next] = true;
-        this.path[this.pathlength] = this.next;
-        this.pathlength++;
-        this.sigma += this.antcolony.graph.getCost(this.current + 1, this.next + 1);
+        while(this.path.get(this.path.size()-1) == this.next){ //Caso em que o next é um nó repetido
+            this.next = this.selectNext(this.next);
+        }
+        this.path.add(this.next);
+        this.sigma += this.antcolony.graph.getCost(this.current, this.next);
         this.current = this.next;
-        if (this.current == this.start) {
+        if (this.current == this.start && this.path.size() == this.maxvertex+1) {
             hamilton = true;
         }
         return hamilton;
@@ -62,57 +63,70 @@ public class Ant {
 
     public int selectNext(int current) { /*TODO: reset path if all adjacent were already visited*/
         int next = -1;
-        float aux = 0;
+        double aux = 0;
         float alpha = this.antcolony.alpha;
         float beta = this.antcolony.beta;
-        float abs_prob = 0;
-        boolean loop = false;
+        double abs_prob = 0;
         ArrayList<Integer> possible = this.antcolony.getAdj(current);
 
-        for (int i = 0; i < possible.size(); i++) {
-            if (this.visited[possible.get(i)]) {
-                possible.remove(i);
-            }
-        }
 
-        if(possible.IsEmpty()){
-            possible = this.antcolony.getAdj(current);
-            loop = true;
-        }
-
-        ArrayList<Float> prob_arr = new ArrayList<>();
-        float sum = 0;
-        if (possible.size() > 0) {
-            //Get probability array for all adjacent nodes
-            for (int i = 0; i < possible.size(); i++) {
-                next = possible.get(i);
-                abs_prob = (alpha + this.antcolony.pheromone.getFvalue(current, next)) / (beta + this.antcolony.graph.getCost(current + 1, next + 1));
-                prob_arr.add(abs_prob);
-                sum += prob_arr.get(i);
-            }
-            for (int i = 0; i < possible.size(); i++) {
-                prob_arr.set(i, prob_arr.get(i) / sum);
-                //System.out.println("Probabilities: " + prob_arr.get(i));
-            }
-
-            sum = 0;
-            aux = 0;
-            for (int i = 0; i < possible.size(); i++) {
-                aux = prob_arr.get(i);
-                prob_arr.set(i, aux + sum);
-                sum += aux;
-            }
-            Random rand = new Random();
-            aux = rand.nextFloat();
-            for (int i = 0; i < possible.size(); i++) {
-                if (Float.compare(aux, prob_arr.get(i)) < 0) {
-                    next = possible.get(i);
+        //Remove all already visited nodes from adjacency list
+        for (Integer n : this.path) {
+            for (Integer p : possible) {
+                if (p.equals(n - 1)) {
+                    possible.remove(possible.indexOf(p));
                     break;
                 }
             }
         }
-        if(loop)
-            this.redirect(next);
+
+        ArrayList<Double> prob_arr = new ArrayList<>();
+        double sum = 0;
+        Random rand = new Random();
+        aux = rand.nextDouble(); //random number for probabilities
+
+        if (possible.size() > 0) {
+            for (int p : possible) {
+                //Cijk
+                abs_prob = (alpha + this.antcolony.pheromone.getFvalue(current - 1, p));
+                abs_prob /= (beta + this.antcolony.graph.getCost(current, p + 1));
+                prob_arr.add(abs_prob + sum);
+
+                sum += abs_prob; //Ci
+            }
+
+            for (double p : prob_arr) {
+                next++;
+                if (Double.compare(aux, p / sum) < 0) {
+                    next = possible.get(next) + 1;
+                    break;
+                }
+            }
+        } else { //If there are no not yet visited nodes in adjacency list
+            possible = this.antcolony.getAdj(current);
+            if (this.path.size() == this.maxvertex && possible.contains(this.start-1)) {
+                next = this.start;
+            } else {
+                sum = possible.size();
+                for (int i = 1; i <= (int) sum; i++) {
+                    if (aux < i / sum) {
+                        next = possible.get(i - 1) + 1;
+                        break;
+                    }
+                }
+                int idx;
+                idx = this.path.indexOf(next);
+                System.out.println(idx);;
+                int p_anterior = this.path.get(idx);
+                for(Integer p : path.subList(idx + 1, path.size())) {
+                    this.sigma -= this.antcolony.graph.getCost(p_anterior, p);
+                    p_anterior = p;
+                }
+                this.path.subList(idx + 1, this.path.size()).clear(); //remove all elements after idx
+            }
+        }
+
+        System.out.println("next is " + next);
         return next;
     }
 
@@ -124,10 +138,11 @@ public class Ant {
     Last modified: 04 Jun 2023
     */
     public void pheromonize() {
-        for (int i = 0; i < this.pathlength - 1; i++) {
-            this.antcolony.pheromone.incrementFvalue(this.path[i], this.path[i + 1], this.antcolony.gamma, this.sigma, this.antcolony.graph.getCost(i + 1, i + 2));
+        int i;
+        for (int p : path.subList(0, path.size() - 1)){
+            i = path.indexOf(p) + 1;
+            antcolony.pheromone.incrementFvalue(p-1, path.get(i)-1, antcolony.gamma, sigma, antcolony.graph.getCost(i, i + 1));
         }
-        this.antcolony.pheromone.incrementFvalue(this.path[pathlength - 1], this.path[0], this.antcolony.gamma, this.sigma, this.antcolony.graph.getCost(1, pathlength));
     }
 
     /* Name: reset
@@ -143,7 +158,8 @@ public class Ant {
         this.weight = 0;
         this.current = this.start;
         this.next = -1;
-        this.path[0] = this.start;
+        path.clear();
+        path.add(start);
 
     }
 
@@ -154,21 +170,21 @@ public class Ant {
     Date added: 04 Jun 2023
     Last modified: 04 Jun 2023
     */
-        public void redirect(int next) {
-            int[] newpath = new int[this.maxvertex]; /*I think this is not needed as it should overwrite over the previous path*/
-            int newpathlength = -1; /*using this variable*/
+     /*   public void redirect(int next) {
+            int[] newpath = new int[this.maxvertex]; //I think this is not needed as it should overwrite over the previous path
+            int newpathlength = -1; //using this variable
             int newsigma=0;
             for(int i = 0; i < this.pathlength; i++){
                 newpathlength++;
                 newpath[i] = this.path[i];
                 if(this.path[i] == next)
                     break;
-                newsigma += this.antcolony.graph.getCost(this.path[i]+1, this.path[i+1]+1));
+                newsigma += this.antcolony.graph.getCost(this.path[i]+1, this.path[i+1]+1);
 
             }
             this.path = newpath;
             this.pathlength = newpathlength;
             this.sigma = newsigma;
-        }
+        }*/
 
 }

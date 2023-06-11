@@ -56,12 +56,16 @@ public class Colony  implements IColony {
     Date added: 05 Jun 2023
     Last modified: 05 Jun 2023
     */
-        public int getCost ( int hashedge){
+        public int getCost (int hashedge){
             int[] hash =unHash(hashedge);
             return this.graph.getCost(hash[0] + 1, hash[1] + 1);
         }
+        public int getIdEdge(int id){
+            int size = this.population[id].path.size();
+            return Hash(this.population[id].path.get(size-2)-1, this.population[id].path.get(size-1)-1) ;
+        }
         public ArrayList<Integer> getAdj ( int target){
-            ArrayList<Integer> adj = this.graph.nodeAdj(target + 1);
+            ArrayList<Integer> adj = this.graph.nodeAdj(target);
             int j=0;
             for (Integer i: adj){
                 i--;
@@ -78,15 +82,19 @@ public class Colony  implements IColony {
     Last modified: 05 Jun 2023
      */
         public ArrayList<Integer> triggerAntMovement (int triggerid){
+        	
             boolean hamilton = this.population[triggerid].move();
             ArrayList<Integer> path = new ArrayList<>();
             if (hamilton) {
                 this.population[triggerid].pheromonize();
+                //falta ver daqui para a frente
                 this.updateBestPath(this.population[triggerid].path, this.population[triggerid].sigma);
-                for (int i = 0; i < this.population[triggerid].pathlength; i++) {
-                    if (this.pherovalue[this.population[triggerid].path[i]][this.population[triggerid].path[i + 1]] == 0)
-                        path.add(Hash(this.population[triggerid].path[i], this.population[triggerid].path[i + 1]));
+                for (int i: this.population[triggerid].path) {
+                	if (pherovalue[i][population[triggerid].path.get(population[triggerid].path.indexOf(i)+1)] == 0.0) {
+                		path.add(Hash(i, this.population[triggerid].path.indexOf(i)+1));
+                	}
                 }
+                
             } else {
                 path.add(0);
             }
@@ -99,7 +107,7 @@ public class Colony  implements IColony {
     description: update the best path if the path is better than the current best path
      */
 
-        public void updateBestPath (int[] path, int sigma){
+        public void updateBestPath (ArrayList<Integer> path, int sigma){
             for (BestPath bp : this.bestpath) {
                 if (sigma < bp.cost || bp.cost == -1) {
                     bp.path = path;
@@ -127,7 +135,7 @@ public class Colony  implements IColony {
     Last modified: 05 Jun 2023
     */
         public int Hash ( int i, int j){
-            return (i + 1) * this.maxvertex + (j + 1);
+            return i * this.maxvertex + j;
         }
     /* Name: unHash
     input: hash
@@ -137,8 +145,8 @@ public class Colony  implements IColony {
     Last modified: 05 Jun 2023
     */
         public int[] unHash( int hash){
-            int i = hash / this.maxvertex - 1;
-            int j = hash % this.maxvertex - 1;
+            int i = hash / this.maxvertex;
+            int j = hash % this.maxvertex;
             return new int[]{i, j};
         }
     }
@@ -151,7 +159,7 @@ Date added: 07 Jun 2023
 */
 
 class BestPath{
-        int[] path;
+        ArrayList<Integer> path;
         int cost;
         public BestPath(int cost){
             this.cost = cost;
