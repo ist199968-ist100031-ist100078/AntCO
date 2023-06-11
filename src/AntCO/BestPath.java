@@ -8,8 +8,8 @@ Date added: 07 Jun 2023
 */
 
 class BestPath {
-    ArrayList<Integer> path;
-    int cost;
+    private ArrayList<Integer> path;
+    private int cost;
 
     public BestPath(int cost, ArrayList<Integer> path) {
         this.cost = cost;

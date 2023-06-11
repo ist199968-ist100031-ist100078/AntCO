@@ -11,17 +11,17 @@ Date added: 05 Jun 2023
 Last modified: 08 Jun 2023
  */
 public class Colony implements IColony {
-    Pheromone pheromone;
-    IWeightedGraph graph;
-    float[][] pherovalue; //pheromone value
-    int maxvertex;
-    int start;
-    float gamma;
-    float alpha;
-    float beta;
-    int maxantpop;
-    Ant[] population;
-    ArrayList<BestPath> bestpath;
+    private Pheromone pheromone;
+    private IWeightedGraph graph;
+    private float[][] pherovalue; //pheromone value
+    private int maxvertex;
+    private int start;
+    private float gamma;
+    private float alpha;
+    private float beta;
+    private int maxantpop;
+    private Ant[] population;
+    private ArrayList<BestPath> bestpath;
 
     /*Constructors*/
     public Colony(int max, int start, float gamma, float alpha, float beta, int maxantpop, IWeightedGraph graph, float rho) {
@@ -98,7 +98,7 @@ public class Colony implements IColony {
                 }
             }
             this.population[triggerid].pheromonize();
-            this.updateBestPath(this.population[triggerid].path, this.population[triggerid].sigma);
+            this.updateBestPath(this.population[triggerid].getPath(), this.population[triggerid].getSigma());
         } else {
             path.add(0);
         }
@@ -125,7 +125,7 @@ public class Colony implements IColony {
             if(bp.equals(aux)){
                 return;
             }
-            else if (sigma < bp.cost || this.bestpath.get(idx).path.isEmpty()) { //insert new candidate in the correct position
+            else if (sigma < bp.getCost() || this.bestpath.get(idx).path.isEmpty()) { //insert new candidate in the correct position
                 this.bestpath.add(idx, aux);
                 if (this.bestpath.size() > 6 || this.bestpath.get(this.bestpath.size() - 1).path.isEmpty()) {
                     this.bestpath.remove(this.bestpath.size() - 1);
@@ -139,6 +139,15 @@ public class Colony implements IColony {
         }
     }
 
+    /*getter*/
+    public float getFvalue(int i, int j) {
+        return this.pherovalue[i][j];
+    }
+    /*setter*/
+    public void setFvalue(int i, int j, value) {
+        this.antcolony.pherovalue[i][j]=value;
+	this.antcolony.pherovalue[j][i]=value;
+    }
 
     /* Name: triggerPheromoneDecay
     input: hashededge, rho

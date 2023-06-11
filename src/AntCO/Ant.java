@@ -9,15 +9,15 @@ Date added: 04 Jun 2023
 Last modified: 04 Jun 2023
 */
 public class Ant {
-    Colony antcolony;
-    int id;
-    ArrayList<Integer> path;
+    private Colony antcolony;
+    private int id;
+    private ArrayList<Integer> path;
 
-    int maxvertex;
-    int start;
-    int current;
-    int next;
-    int sigma; /*sum of all weights*/
+    private int maxvertex;
+    private int start;
+    private int current;
+    private int next;
+    private int sigma; /*sum of all weights*/
 
 
     /*Constructor*/
@@ -31,6 +31,15 @@ public class Ant {
         this.current = start;
         this.next = -1;
         this.path.add(start);
+    }
+
+    public ArrayList<Integer> getPath(){
+	    return path;
+
+    }
+
+    public int getSigma(){
+	    return sigma;
     }
 
     /* Name: move
@@ -83,7 +92,7 @@ public class Ant {
         if (possible.size() > 0) {
             for (int p : possible) {
                 //Cijk
-                abs_prob = (alpha + this.antcolony.pheromone.getFvalue(current - 1, p));
+                abs_prob = (alpha + this.antcolony.getFvalue(current - 1, p));
                 abs_prob /= (beta + this.antcolony.graph.getCost(current, p + 1));
                 prob_arr.add(abs_prob + sum);
 
