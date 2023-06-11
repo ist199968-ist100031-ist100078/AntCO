@@ -1,9 +1,8 @@
 package AntCO;
 
 import graph.IWeightedGraph;
-
 import java.util.ArrayList;
-import java.util.Arrays;
+
 
 /*
 Name: Colony
@@ -123,7 +122,10 @@ public class Colony implements IColony {
         }
         int idx = 0;
         for (BestPath bp : this.bestpath) {
-            if (sigma < bp.cost || this.bestpath.get(idx).path.isEmpty()) { //insert new candidate in the correct position
+            if(bp.equals(aux)){
+                return;
+            }
+            else if (sigma < bp.cost || this.bestpath.get(idx).path.isEmpty()) { //insert new candidate in the correct position
                 this.bestpath.add(idx, aux);
                 if (this.bestpath.size() > 6 || this.bestpath.get(this.bestpath.size() - 1).path.isEmpty()) {
                     this.bestpath.remove(this.bestpath.size() - 1);

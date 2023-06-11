@@ -8,7 +8,7 @@ import java.util.InputMismatchException;
 import java.util.List;
 import java.util.Scanner;
 
-public class Graph implements IWeightedGraph{
+public class Graph implements IWeightedGraph {
 
     private int nodes;
     private List<Edge> edges;
@@ -35,13 +35,13 @@ public class Graph implements IWeightedGraph{
         this.nodes--;
         return this.nodes + 1;
     }
-    
+
     public int getNumNodes() {
-    	return this.nodes;
+        return this.nodes;
     }
-    
+
     public int getNumEdges() {
-    	return this.edges.size();
+        return this.edges.size();
     }
 
     public void clear() {
@@ -83,35 +83,35 @@ public class Graph implements IWeightedGraph{
     }
 
     public int getCost(int a, int b) {
-    	Vertex va = Vertex.getInstance(a);
-    	Vertex vb = Vertex.getInstance(b);
-    	
-    	return getCost(va, vb);
+        Vertex va = Vertex.getInstance(a);
+        Vertex vb = Vertex.getInstance(b);
+
+        return getCost(va, vb);
     }
-    
+
     public int getCost(Vertex a, Vertex b) {
         Vertex[] arr;
-        for (Edge e: edges) {
-        	arr = e.get_nodes();
+        for (Edge e : edges) {
+            arr = e.get_nodes();
             if ((arr[0].equals(a) && arr[1].equals(b) || (arr[0].equals(b) && arr[1].equals(a)))) {
                 return e.get_weight();
             }
         }
         return 0;
     }
-    
+
     public List<Vertex> nodeAdj(Vertex a) {
-    	return adjs.get(a.getId() - 1);
+        return adjs.get(a.getId() - 1);
     }
-    
-    public ArrayList<Integer> nodeAdj(int a){
-    	
-    	ArrayList<Integer> al = new ArrayList<>();
-    	
-    	for (Vertex v: adjs.get(a-1)) {
-    		al.add(v.getId());
-    	}
-    	return al;
+
+    public ArrayList<Integer> nodeAdj(int a) {
+
+        ArrayList<Integer> al = new ArrayList<>();
+
+        for (Vertex v : adjs.get(a - 1)) {
+            al.add(v.getId());
+        }
+        return al;
     }
 
     //Displays All adjacencies
@@ -126,8 +126,8 @@ public class Graph implements IWeightedGraph{
 
     public void displayAdj(int node) {
         System.out.println("Node " + node + " is adjacent to:");
-        for (Vertex aux: adjs.get(node - 1)) {
-        	System.out.print(aux.getId() + " - ");
+        for (Vertex aux : adjs.get(node - 1)) {
+            System.out.print(aux.getId() + " - ");
         }
         System.out.println();
     }
@@ -158,67 +158,4 @@ public class Graph implements IWeightedGraph{
         Collections.sort(edges);
     }
 
-    public static void main(String args[]) {
-        String[] params = new String[]{"-r", "-f"};
-        if (args.length < 2 || (!args[0].equals(params[0]) && !args[0].equals(params[1])) || (args[0].equals(params[0]) && args.length != 12)) {
-            System.out.println("ERROR - Incorrect Arguments");
-            return;
-        }
-        int numNodes = 0, maxWeight = 0, nest = 0;
-        float[] inParams = new float[8];//alpha, beta, delta, eta, ro, gamma, nu, tau
-
-        Graph G;
-        Generator gen = new Generator();
-        
-        if (args[0].equals(params[0])) {
-            numNodes = Integer.parseInt(args[1]);
-            maxWeight = Integer.parseInt(args[2]);
-            nest = Integer.parseInt(args[3]);
-            for (int i = 0; i < 8; i++) {
-                inParams[i] = Float.parseFloat(args[i + 4]);
-            }
-            G = new Graph(numNodes);
-            
-            gen.setGenerationStrat(new RandomStrategy());
-            gen.generate(G, maxWeight);
-            
-        } else {
-            try {
-                File f = new File(args[1]);
-                Scanner reader = new Scanner(f);
-
-                //Read Int parameters
-                numNodes = reader.nextInt();
-                nest = reader.nextInt();
-                System.out.println(numNodes + " " + nest);
-
-                //Read float parameters
-                try {
-                    for (int i = 0; i < 8; i++) {
-                        inParams[i] = reader.nextFloat();
-                        System.out.println(inParams[i]);
-                    }
-                } catch (InputMismatchException e) {
-                    System.out.println("Float has wrong format: " + e + "\n Format should be 'x,y'");
-                    reader.close();
-                    return;
-                }
-                G = new Graph(numNodes);
-                
-                gen.setGenerationStrat(new FileStrategy());
-                gen.generate(G, reader);
-                
-            } catch (FileNotFoundException e) {
-                System.out.println("Exception: " + e);
-                return;
-            }
-           
-        }
-        
-        G.displayGraph();
-        G.displayAdj();
-        System.out.println("Graph: ");
-        G.displayMat();
-    
-    }
 }

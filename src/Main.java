@@ -48,7 +48,7 @@ public class Main {
                         System.out.println(i + ":" + inParams[i]);
                     }
                 } catch (InputMismatchException e) {
-                    System.out.println("Float has wrong format: " + e + "\n Format should be 'x,y'");
+                    System.out.println("Float has wrong format: " + e + "\n Format should be 'x.y'");
                     reader.close();
                     return;
                 }
@@ -66,6 +66,7 @@ public class Main {
         /*graph.displayGraph();
         graph.displayAdj();
         System.out.println("Graph: ");*/
+        graph.displayMat();
         PEC a = new PEC(inParams[3], inParams[2], new Colony(numNodes,nest,inParams[5], inParams[0], inParams[1], (int)inParams[6], graph, inParams[4]), (int)inParams[6], (double) inParams[7], numNodes);
         while (!a.isEmpty()) {
             a.getFirstElement();
