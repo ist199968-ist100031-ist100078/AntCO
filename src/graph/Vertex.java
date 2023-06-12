@@ -31,17 +31,14 @@ public class Vertex implements Comparable<Vertex> {
 
 	void setId(int id) {
 		this.id = id;
-	}	
-	
+	}
+
 	@Override
 	public boolean equals(Object o) {
 		Vertex v = (Vertex)o;
-		
-		if (this.id == v.getId())
-			return true;
-		return false;
+		return this.id == v.getId();
 	}
-	
+
 	public int compareTo(Vertex v1) {
 		
 		return Integer.compare(this.getId(), v1.getId());

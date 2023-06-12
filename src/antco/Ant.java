@@ -9,20 +9,17 @@ Date added: 04 Jun 2023
 Last modified: 04 Jun 2023
 */
 public class Ant {
-    private Colony antcolony;
-    private int id;
-    private ArrayList<Integer> path;
-
-    private int maxvertex;
-    private int start;
+    private final Colony antcolony;
+    private final ArrayList<Integer> path;
+    private final int maxvertex;
+    private final int start;
     private int current;
     private int next;
     private int sigma; /*sum of all weights*/
 
 
     /*Constructor*/
-    public Ant(int max, int start, int id, Colony antcolony) {
-        this.id = id;
+    public Ant(int max, int start, Colony antcolony) {
         this.maxvertex = max;
         this.start = start;
         this.antcolony = antcolony;
@@ -33,13 +30,13 @@ public class Ant {
         this.path.add(start);
     }
 
-    public ArrayList<Integer> getPath(){
-	    return path;
+    public ArrayList<Integer> getPath() {
+        return path;
 
     }
 
-    public int getSigma(){
-	    return sigma;
+    public int getSigma() {
+        return sigma;
     }
 
     /* Name: move
@@ -67,10 +64,10 @@ public class Ant {
 
     public int selectNext(int current) {
         int next = -1;
-        double aux = 0;
+        double aux;
         float alpha = this.antcolony.getAlpha();
         float beta = this.antcolony.getBeta();
-        double abs_prob = 0;
+        double abs_prob;
         ArrayList<Integer> possible = this.antcolony.getAdj(current);
 
 
@@ -108,43 +105,27 @@ public class Ant {
             }
         } else { //If there are no not yet visited nodes in adjacency list
             possible = this.antcolony.getAdj(current);
-                sum = possible.size();
-                for (int i = 1; i <= (int) sum; i++) {
-                    if (aux < i / sum) {
-                        next = possible.get(i - 1) + 1;
-                        break;
-                    }
+            sum = possible.size();
+            for (int i = 1; i <= (int) sum; i++) {
+                if (aux < i / sum) {
+                    next = possible.get(i - 1) + 1;
+                    break;
                 }
-                if (this.path.size() == this.maxvertex && next == this.start){
-                   return next;
-                }
+            }
+            if (this.path.size() == this.maxvertex && next == this.start) {
+                return next;
+            }
 
-                int idx;
-                idx = this.path.indexOf(next);
-                int p_anterior = this.path.get(idx);
-                for (Integer p : path.subList(idx + 1, path.size())) {
-                    this.sigma -= this.antcolony.getGraph().getCost(p_anterior, p);
-                    p_anterior = p;
-                }
-                this.path.subList(idx + 1, this.path.size()).clear(); //remove all elements after idx
+            int idx;
+            idx = this.path.indexOf(next);
+            int p_anterior = this.path.get(idx);
+            for (Integer p : path.subList(idx + 1, path.size())) {
+                this.sigma -= this.antcolony.getGraph().getCost(p_anterior, p);
+                p_anterior = p;
+            }
+            this.path.subList(idx + 1, this.path.size()).clear(); //remove all elements after idx
         }
-
         return next;
-    }
-
-    /* Name: pheromonize
-    input: none
-    output: none
-    description: pheromonize all edges in the stored path
-    Date added: 04 Jun 2023
-    Last modified: 04 Jun 2023
-    */
-    public void pheromonize() {
-        int i;
-        for (int p : path.subList(0, path.size() - 1)) {
-            i = path.indexOf(p) + 1;
-            this.antcolony.getPheromone().incrementFvalue(p - 1, path.get(i) - 1, this.antcolony.getGamma(), this.antcolony.getGraph().getTotWeight(), this.antcolony.getGraph().getCost(p, path.get(i)));
-        }
     }
 
     /* Name: reset
@@ -162,4 +143,18 @@ public class Ant {
         this.path.add(start);
     }
 
+    /*Name: pheromonize
+    input: none
+    output: none
+    description: pheromonize all edges in the stored path
+    Date added: 04 Jun 2023
+    Last modified: 04 Jun 2023
+    */
+    public void pheromonize() {
+        int i;
+        for (int p : path.subList(0, path.size() - 1)) {
+            i = path.indexOf(p) + 1;
+            this.antcolony.getPheromone().incrementFvalue(p - 1, path.get(i) - 1, sigma);
+        }
+    }
 }

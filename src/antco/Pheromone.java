@@ -1,20 +1,25 @@
 package antco;
 
+import java.util.ArrayList;
+
 /* Name: Pheromone
 description: Pheromone class for Ant Colony Optimization
 Date added: 03 Jun 2023
 Last modified: 04 Jun 2023
 */
 public class Pheromone {
-    private int maxvertex;
-    private float rho;
+
+    private final float rho;
     private Colony antcolony;
+    private final float gamma;
+    private final int maxWeight;
 
     /*Constructor*/
-    public Pheromone(int max, Colony colony, float rho) {
-        this.maxvertex = max;
+    public Pheromone(Colony colony, float rho, float gamma){
         this.antcolony = colony;
         this.rho = rho;
+        maxWeight = colony.getGraph().getTotWeight();
+        this.gamma = gamma;
     } 
 
     /* Name: decayFvalue
@@ -28,7 +33,7 @@ public class Pheromone {
         boolean positive = true;
         this.antcolony.setFvalue(i,j,this.antcolony.getFvalue(i,j)-this.rho);
         if (this.antcolony.getFvalue(i,j) <= 0 || this.antcolony.getFvalue(j,i) <= 0) {
-            this.antcolony.setFvalue(i,j,0.0);
+            this.antcolony.setFvalue(i,j, 0.0F);
             positive = false;
         }
         return positive;
@@ -41,9 +46,7 @@ public class Pheromone {
     Date added: 03 Jun 2023
     Last modified: 04 Jun 2023
      */
-    public void incrementFvalue(int i, int j, float gamma, int sigma, int weight) {
-        this.antcolony.setFvalue(i,j,this.antcolony.getFvalue(i,j) + gamma * weight / sigma);
-	return;
+    public void incrementFvalue(int i, int j, int sigma) {
+        this.antcolony.setFvalue(i,j,this.antcolony.getFvalue(i,j) + (this.gamma * this.maxWeight) / sigma);
     }
-
 }

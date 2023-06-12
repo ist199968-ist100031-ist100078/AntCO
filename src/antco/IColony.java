@@ -2,10 +2,10 @@ package antco;
 import java.util.ArrayList;
 
 public interface IColony {
-    public int getCost(int hashedge);
-    public int getIdEdge(int id);
-    public ArrayList<Integer> triggerAntMovement(int triggerid);
-    public boolean triggerPheromoneDecay(int hashededge);
-    public ArrayList<Integer> getBestPath(int i);
-    public int getBestCost(int i);
+    int getCost(int hashedge);
+    int getIdEdge(int id);
+    ArrayList<Integer> triggerAntMovement(int triggerid);
+    boolean triggerPheromoneDecay(int hashededge);
+    ArrayList<Integer> getBestPath(int i);
+    int getBestCost(int i);
 }

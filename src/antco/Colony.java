@@ -14,33 +14,27 @@ public class Colony implements IColony {
     private Pheromone pheromone;
     private IWeightedGraph graph;
     private float[][] pherovalue; //pheromone value
-    private int maxvertex;
-    private int start;
-    private float gamma;
-    private float alpha;
-    private float beta;
-    private int maxantpop;
+    private final int maxvertex;
+    private final float alpha;
+    private final float beta;
     private Ant[] population;
     private ArrayList<BestPath> bestpath;
-
     /*Constructors*/
     public Colony(int max, int start, float gamma, float alpha, float beta, int maxantpop, IWeightedGraph graph, float rho) {
         this.maxvertex = max;
-        this.start = start;
-        this.gamma = gamma;
         this.alpha = alpha;
         this.beta = beta;
-        this.maxantpop = maxantpop;
-        this.pheromone = new Pheromone(this.maxvertex, this, rho);
+        setGraph(graph);
+        this.pheromone = new Pheromone(this, rho, gamma);
         this.pherovalue = new float[maxvertex][maxvertex];
-        this.population = new Ant[this.maxantpop];
-        for (int i = 0; i < this.maxantpop; i++) {
-            this.population[i] = new Ant(this.maxvertex, this.start, i, this);
+        this.population = new Ant[maxantpop];
+        for (int i = 0; i < maxantpop; i++) {
+            this.population[i] = new Ant(this.maxvertex, start, this);
         }
         //Initializing bestpath
         bestpath = new ArrayList<>();
         //Add one empty path to the bestpath ArrayList
-        setGraph(graph);
+
     }
 
 
@@ -53,9 +47,6 @@ public class Colony implements IColony {
     }
     public Pheromone getPheromone(){
 	    return this.pheromone;
-    }
-    public float getGamma(){
-	    return gamma;
     }
 
 	public float getAlpha(){
@@ -107,14 +98,15 @@ public class Colony implements IColony {
         boolean hamilton = this.population[triggerid].move();
         ArrayList<Integer> path = new ArrayList<>();
         if (hamilton) {
-            for (int p : this.population[triggerid].getPath().subList(0, this.population[triggerid].path.size() - 1)) {
-                int i = population[triggerid].getPath().get(this.population[triggerid].path.indexOf(p) + 1) - 1;
+            for (int p : this.population[triggerid].getPath().subList(0, this.population[triggerid].getPath().size() - 1)) {
+                int i = population[triggerid].getPath().get(this.population[triggerid].getPath().indexOf(p) + 1) - 1;
                 if (pherovalue[p - 1][i] == 0.0) {
                     path.add(Hash(p - 1, i));
                 }
             }
             this.population[triggerid].pheromonize();
             this.updateBestPath(this.population[triggerid].getPath(), this.population[triggerid].getSigma());
+            /*System.out.println("Path found: " + this.population[triggerid].getPath() + " with cost: " + this.population[triggerid].getSigma());*/
         } else {
             path.add(0);
         }
@@ -141,9 +133,9 @@ public class Colony implements IColony {
             if(bp.equals(aux)){
                 return;
             }
-            else if (sigma < bp.getCost() || this.bestpath.get(idx).path.isEmpty()) { //insert new candidate in the correct position
+            else if (sigma < bp.getCost() || this.bestpath.get(idx).getPath().isEmpty()) { //insert new candidate in the correct position
                 this.bestpath.add(idx, aux);
-                if (this.bestpath.size() > 6 || this.bestpath.get(this.bestpath.size() - 1).path.isEmpty()) {
+                if (this.bestpath.size() > 6 || this.bestpath.get(this.bestpath.size() - 1).getPath().isEmpty()) {
                     this.bestpath.remove(this.bestpath.size() - 1);
                 }
                 return;
@@ -162,7 +154,7 @@ public class Colony implements IColony {
     /*setter*/
     public void setFvalue(int i, int j, float value) {
         this.pherovalue[i][j]=value;
-	this.pherovalue[j][i]=value;
+	    this.pherovalue[j][i]=value;
     }
 
     /* Name: triggerPheromoneDecay

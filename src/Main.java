@@ -1,7 +1,9 @@
 import antco.Colony;
+import graph.FileStrategy;
 import graph.Graph;
 import graph.Generator;
 
+import graph.RandomStrategy;
 import pec.PEC;
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -68,7 +70,7 @@ public class Main {
         /*graph.displayGraph();
         graph.displayAdj();
         System.out.println("Graph: ");*/
-        graph.displayMat();
+        /*graph.displayMat();*/
         PEC a = new PEC(inParams[3], inParams[2], new Colony(numNodes,nest,inParams[5], inParams[0], inParams[1], (int)inParams[6], graph, inParams[4]), (int)inParams[6], (double) inParams[7], numNodes);
         while (!a.isEmpty()) {
             a.getFirstElement();

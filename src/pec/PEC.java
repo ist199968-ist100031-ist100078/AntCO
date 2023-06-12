@@ -3,16 +3,15 @@ package pec;
 import antco.IColony;
 
 import java.util.PriorityQueue;
-import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Map;
 import java.util.Random;
+import java.util.Comparator;
 
 public class PEC {
     private final PriorityQueue<Eventos> PriorQueue;
     private final Map<String, EventStrategy> EventTypeMap = new HashMap<>();
     Integer[] NumberEvents = new Integer[]{0, 0}; //Number of Move Events,Number of Evaporation Events
-
-    private ArrayList<Integer> TopCycles = new ArrayList<>();
 
     public PEC(double eta, double delta, IColony colonia, int Nu, Double tau, int n) {
         this.PriorQueue = new PriorityQueue<>(Nu + (n * (n - 1) / 2 - n) + 20, Comparator.comparingDouble(Eventos::getTempo));
@@ -36,11 +35,10 @@ public class PEC {
     }
 
 
-    public Eventos getFirstElement() {
+    public void getFirstElement() {
         //Obtém o primeiro elemento da lista e retira o da fila
         Eventos Elemento = this.PriorQueue.poll();
         ChooseAndExecuteEventStrat(Elemento.getTipo(), Elemento.getID(), Elemento.getTempo());
-        return Elemento;
     }
 
     public PriorityQueue<Eventos> getPriorQueue() {
