@@ -3,10 +3,9 @@ package antco;
 import java.util.ArrayList;
 import java.util.Random;
 
-/* Name: Ant
-description: Ant class for Ant Colony Optimization
-Date added: 04 Jun 2023
-Last modified: 04 Jun 2023
+/** Ant Classfor Ant Colony Optimization
+* @since 04-Jun-2023
+* @see com.my.antco.Colony
 */
 public class Ant {
     private final Colony antcolony;
@@ -18,9 +17,14 @@ public class Ant {
     private int sigma; /*sum of all weights*/
 
 
-    /*Constructor*/
+    /**
+     * Public Constructor for class Ant
+     * @param number of vertexes in graph
+     * @param nest vertex (start)
+     * @param Colony to which the Ant belongs to
+     */
     public Ant(int max, int start, Colony antcolony) {
-        this.maxvertex = max;
+        this.maxvertex = max; /*Talvez limpar isto daqui e aceder pelo Colony?*/
         this.start = start;
         this.antcolony = antcolony;
         this.path = new ArrayList<>();
@@ -29,22 +33,23 @@ public class Ant {
         this.next = -1;
         this.path.add(start);
     }
-
+	/**
+	 * @return Current Path of the Ant
+	 *
+	 */
     public ArrayList<Integer> getPath() {
         return path;
 
     }
-
+	/**
+	 * @return Current sum of cost of edges travelled by Ant
+	 */
     public int getSigma() {
         return sigma;
     }
 
-    /* Name: move
-    input: none
-    output: none
-    description: move the ant to the next vertex and update stored path
-    Date added: 04 Jun 2023
-    Last modified: 04 Jun 2023
+    /** @return If Ant has completed a Hamilton cycle (back to the nest) 
+    @since 04-Jun-2023
     */
     public boolean move() {
         boolean hamilton = false;
@@ -62,6 +67,10 @@ public class Ant {
         return hamilton;
     }
 
+    /**@param Current Node
+     * @return Node to move into next
+     * @since 10-Jun-2023
+     */
     public int selectNext(int current) {
         int next = -1;
         double aux;
@@ -128,12 +137,8 @@ public class Ant {
         return next;
     }
 
-    /* Name: reset
-    input: none
-    output: none
-    description: reset the ant to its initial state
-    Date added: 04 Jun 2023
-    Last modified: 04 Jun 2023
+    /** Reset Ant (for after completing a Hamilton Cycle) 
+     * @since 04-Jun-2023
     */
     public void reset() {
         this.sigma = 0;
@@ -143,12 +148,8 @@ public class Ant {
         this.path.add(start);
     }
 
-    /*Name: pheromonize
-    input: none
-    output: none
-    description: pheromonize all edges in the stored path
-    Date added: 04 Jun 2023
-    Last modified: 04 Jun 2023
+    /** Pheromonize all edges travelled (for after completing a Hamilton Cycle)
+     * @since 04-Jun-2023
     */
     public void pheromonize() {
         int i;

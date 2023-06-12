@@ -4,11 +4,12 @@ import graph.IWeightedGraph;
 import java.util.ArrayList;
 
 
-/*
-Name: Colony
-description: Colony class for Ant Colony Optimization
-Date added: 05 Jun 2023
-Last modified: 08 Jun 2023
+/** Colony class for Ant Colony Optimization
+ * @since 05-Jun-2023
+ * @see com.my.antco.IColony
+ * @see com.my.antco.Ant
+ * @see com.my.antco.Pheromone
+ * @see com.my.antco.BestPath
  */
 public class Colony implements IColony {
     private Pheromone pheromone;
