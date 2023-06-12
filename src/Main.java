@@ -1,5 +1,5 @@
-import AntCO.Colony;
-import graph.*;
+import antco.Colony;
+import graph.*; /*bad practice*/
 import pec.PEC;
 import java.io.File;
 import java.io.FileNotFoundException;

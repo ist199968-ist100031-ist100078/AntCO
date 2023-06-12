@@ -51,7 +51,9 @@ public class Colony implements IColony {
     public IWeightedGraph getGraph(){
 	    return this.graph;
     }
-
+    public Pheromone getPheromone(){
+	    return this.pheromone;
+    }
     public float getGamma(){
 	    return gamma;
     }

@@ -143,7 +143,7 @@ public class Ant {
         int i;
         for (int p : path.subList(0, path.size() - 1)) {
             i = path.indexOf(p) + 1;
-            this.antcolony.pheromone.incrementFvalue(p - 1, path.get(i) - 1, this.antcolony.getGamma(), this.antcolony.getGraph().getTotWeight(), this.antcolony.getGraph().getCost(p, path.get(i)));
+            this.antcolony.getPheromone().incrementFvalue(p - 1, path.get(i) - 1, this.antcolony.getGamma(), this.antcolony.getGraph().getTotWeight(), this.antcolony.getGraph().getCost(p, path.get(i)));
         }
     }
 
