@@ -57,7 +57,7 @@ public class Ant {
             this.next = this.selectNext(this.next);
         }
         this.path.add(this.next);
-        this.sigma += this.antcolony.graph.getCost(this.current, this.next);
+        this.sigma += this.antcolony.getGraph.getCost(this.current, this.next);
         this.current = this.next;
         if (this.current == this.start && this.path.size() == this.maxvertex + 1) {
             hamilton = true;
@@ -123,7 +123,7 @@ public class Ant {
                 idx = this.path.indexOf(next);
                 int p_anterior = this.path.get(idx);
                 for (Integer p : path.subList(idx + 1, path.size())) {
-                    this.sigma -= this.antcolony.graph.getCost(p_anterior, p);
+                    this.sigma -= this.antcolony.getGraph.getCost(p_anterior, p);
                     p_anterior = p;
                 }
                 this.path.subList(idx + 1, this.path.size()).clear(); //remove all elements after idx
@@ -143,7 +143,7 @@ public class Ant {
         int i;
         for (int p : path.subList(0, path.size() - 1)) {
             i = path.indexOf(p) + 1;
-            this.antcolony.pheromone.incrementFvalue(p - 1, path.get(i) - 1, this.antcolony.getGamma(), this.antcolony.graph.getTotWeight(), this.antcolony.graph.getCost(p, path.get(i)));
+            this.antcolony.pheromone.incrementFvalue(p - 1, path.get(i) - 1, this.antcolony.getGamma(), this.antcolony.getGraph.getTotWeight(), this.antcolony.getGraph.getCost(p, path.get(i)));
         }
     }
 

@@ -28,7 +28,7 @@ public class Pheromone {
         boolean positive = true;
         this.antcolony.setFvalue(i,j,this.antcolony.getFvalue(i,j)-this.rho);
         if (this.antcolony.getFvalue(i,j) <= 0 || this.antcolony.getFvalue(j,i) <= 0) {
-            this.antcolony.setFvalue(i,j) = 0;
+            this.antcolony.setFvalue(i,j,0.0);
             positive = false;
         }
         return positive;

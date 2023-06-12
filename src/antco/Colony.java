@@ -48,6 +48,9 @@ public class Colony implements IColony {
     public void setGraph(IWeightedGraph graph) {
         this.graph = graph;
     }
+    public IWeightedGraph getGraph(){
+	    return this.graph;
+    }
 
     public float getGamma(){
 	    return gamma;
@@ -73,8 +76,8 @@ public class Colony implements IColony {
     }
 
     public int getIdEdge(int id) {
-        int size = this.population[id].path.size();
-        return Hash(this.population[id].path.get(size - 2) - 1, this.population[id].path.get(size - 1) - 1);
+        int size = this.population[id].getPath().size();
+        return Hash(this.population[id].getPath().get(size - 2) - 1, this.population[id].getPath().get(size - 1) - 1);
     }
 
     public ArrayList<Integer> getAdj(int target) {
@@ -96,14 +99,14 @@ public class Colony implements IColony {
     Last modified: 05 Jun 2023
      */
     public ArrayList<Integer> triggerAntMovement(int triggerid) {
-        if (this.population[triggerid].path.size() == this.maxvertex + 1) {
+        if (this.population[triggerid].getPath().size() == this.maxvertex + 1) {
             this.population[triggerid].reset();
         }
         boolean hamilton = this.population[triggerid].move();
         ArrayList<Integer> path = new ArrayList<>();
         if (hamilton) {
-            for (int p : this.population[triggerid].path.subList(0, this.population[triggerid].path.size() - 1)) {
-                int i = population[triggerid].path.get(this.population[triggerid].path.indexOf(p) + 1) - 1;
+            for (int p : this.population[triggerid].getPath().subList(0, this.population[triggerid].path.size() - 1)) {
+                int i = population[triggerid].getPath().get(this.population[triggerid].path.indexOf(p) + 1) - 1;
                 if (pherovalue[p - 1][i] == 0.0) {
                     path.add(Hash(p - 1, i));
                 }
@@ -155,7 +158,7 @@ public class Colony implements IColony {
         return this.pherovalue[i][j];
     }
     /*setter*/
-    public void setFvalue(int i, int j, value) {
+    public void setFvalue(int i, int j, float value) {
         this.pherovalue[i][j]=value;
 	this.pherovalue[j][i]=value;
     }
