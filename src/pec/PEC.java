@@ -5,6 +5,7 @@ import antco.IColony;
 import java.util.PriorityQueue;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Random;
 
 public class PEC {
     private final PriorityQueue<Eventos> PriorQueue;
