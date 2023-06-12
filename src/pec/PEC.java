@@ -2,7 +2,7 @@ package pec;
 
 import antco.IColony;
 
-import java.util.*;
+import java.util.*; /*Bad practice, plz fix Alpha*/
 
 public class PEC {
     private final PriorityQueue<Eventos> PriorQueue;
