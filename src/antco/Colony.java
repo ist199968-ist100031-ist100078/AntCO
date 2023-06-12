@@ -156,8 +156,8 @@ public class Colony implements IColony {
     }
     /*setter*/
     public void setFvalue(int i, int j, value) {
-        this.antcolony.pherovalue[i][j]=value;
-	this.antcolony.pherovalue[j][i]=value;
+        this.pherovalue[i][j]=value;
+	this.pherovalue[j][i]=value;
     }
 
     /* Name: triggerPheromoneDecay
