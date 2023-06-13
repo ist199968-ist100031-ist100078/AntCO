@@ -49,7 +49,6 @@ public class Main {
                 try {
                     for (int i = 0; i < 8; i++) {
                         inParams[i] = reader.nextFloat();
-                        System.out.println(i + ":" + inParams[i]);
                     }
                 } catch (InputMismatchException e) {
                     System.out.println("Float has wrong format: " + e + "\n Format should be 'x.y'");

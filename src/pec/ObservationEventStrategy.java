@@ -17,17 +17,18 @@ public class ObservationEventStrategy implements EventStrategy {
 
     @Override
     public void execute(int id, double tempo, Integer[] NumberEvents) {
-        System.out.println("\nPresent instant\t" + tempo);
-        System.out.println("Number of move events:\t" + NumberEvents[0]);
-        System.out.println("Number of evaporation events:\t" + NumberEvents[1]);
-        System.out.print("Top candidate cycles:\n");
+        System.out.println("\nObservation " + id+ ":");
+        System.out.println("\tPresent instant: " + tempo);
+        System.out.println("\tNumber of move events: " + NumberEvents[0]);
+        System.out.println("\tNumber of evaporation events: " + NumberEvents[1]);
+        System.out.println("\tTop candidate cycles:");
         ArrayList<Integer> path;
         int aux = 0, custo, size;
         for (int i = 1; i <= 5; i++, aux = 0) {
-            System.out.print("{");
             path = this.colony.getBestPath(i);
             size = path.size();
             if (size != 0) {
+                System.out.print("\t\t{");
                 custo = this.colony.getBestCost(i);
                 for (Integer cycle : path) {
                     aux++;
@@ -37,11 +38,9 @@ public class ObservationEventStrategy implements EventStrategy {
                         System.out.print(cycle + ",");
                     }
                 }
-            } else {
-                System.out.print("}\n");
             }
         }
-        System.out.print("Best Hamiltonian cycle:\n{");
+        System.out.print("\tBest Hamiltonian cycle:\n\t\t{");
         path = this.colony.getBestPath(0);
         size = path.size();
         if (size != 0) {
@@ -56,9 +55,6 @@ public class ObservationEventStrategy implements EventStrategy {
             }
         } else {
             System.out.print("}\n");
-        }
-        if (tempo >= tau.intValue()) {
-            this.pec.getPriorQueue().clear();
         }
     }
 }
