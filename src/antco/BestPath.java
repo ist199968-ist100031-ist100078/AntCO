@@ -2,18 +2,17 @@ package antco;
 
 import java.util.ArrayList;
 import java.util.Objects;
+
 /** BestPath class for Ant Colony Optimization
 @since 07-Jun-2023
-@see com.my.antco.Colony
-@see com.my.antco.Colony#updateBestPath
 */
 
 class BestPath {
     private ArrayList<Integer> path;
     private int cost;
 	/** Public Constructor for BestPath
-	 * @param total cost of path
-	 * @param Node List description of path
+	 * @param cost total cost of path
+	 * @param path Node List description of path
 	 */
     public BestPath(int cost, ArrayList<Integer> path) {
         this.cost = cost;

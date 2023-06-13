@@ -3,9 +3,8 @@ package antco;
 import java.util.ArrayList;
 import java.util.Random;
 
-/** Ant Classfor Ant Colony Optimization
+/** Ant Class for Ant Colony Optimization
 * @since 04-Jun-2023
-* @see com.my.antco.Colony
 */
 public class Ant {
     private final Colony antcolony;
@@ -19,9 +18,9 @@ public class Ant {
 
     /**
      * Public Constructor for class Ant
-     * @param number of vertexes in graph
-     * @param nest vertex (start)
-     * @param Colony to which the Ant belongs to
+     * @param max number of vertexes in graph
+     * @param start nest vertex
+     * @param antcolony Colony to which the Ant belongs to
      */
     public Ant(int max, int start, Colony antcolony) {
         this.maxvertex = max; /*Talvez limpar isto daqui e aceder pelo Colony?*/
@@ -67,7 +66,7 @@ public class Ant {
         return hamilton;
     }
 
-    /**@param Current Node
+    /**@param current Node
      * @return Node to move into next
      * @since 10-Jun-2023
      */
