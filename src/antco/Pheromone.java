@@ -2,19 +2,23 @@ package antco;
 
 import java.util.ArrayList;
 
-/* Name: Pheromone
-description: Pheromone class for Ant Colony Optimization
-Date added: 03 Jun 2023
-Last modified: 04 Jun 2023
+/** Pheromone class for Ant Colony Optimization
+ * @since 03-Jun-2023
+ * @see antco.Colony
 */
 public class Pheromone {
 
     private final float rho;
     private Colony antcolony;
     private final float gamma;
-    private final int maxWeight;
+    private final int maxWeight; /*can we change this?*/
 
-    /*Constructor*/
+    /** Public constructor for Pheromone Class
+     * @param colony Colony to Which the pheromone refers to
+     * @param rho rho paramenter for pheromone decay
+     * @param gamma parameter for pheromone increment
+     * @since 03-Jun-2023
+     */
     public Pheromone(Colony colony, float rho, float gamma){
         this.antcolony = colony;
         this.rho = rho;
@@ -22,12 +26,11 @@ public class Pheromone {
         this.gamma = gamma;
     } 
 
-    /* Name: decayFvalue
-    input: i, j, rho
-    output: boolean
-    description: decay target pheromone value by rho
-    Date added: 03 Jun 2023
-    Last modified: 04 Jun 2023
+    /** Decay pheromone value of edge that connects node i an j
+     * @param i ID of node
+     * @param j ID of node connected to i
+     * @return is positive/negative pheromone information
+     * @since 03-Jun-2023
     */
     public boolean decayFvalue(int i, int j) {
         boolean positive = true;
@@ -39,13 +42,13 @@ public class Pheromone {
         return positive;
     }
 
-    /* Name: incrementFvalue
-    input: i, j, gamma, sigma, weight
-    output: none
-    description: increment the pheromone value of edge (i,j)
-    Date added: 03 Jun 2023
-    Last modified: 04 Jun 2023
-     */
+    /** Increment pheromone value of edge that connects node i an j after completing a hamilton cycle
+     * @param i ID of node
+     * @param j ID of node connected to i
+     * @param sigma total cost of hamilton cycle
+     * @since 03-Jun-2023
+    */
+
     public void incrementFvalue(int i, int j, int sigma) {
         this.antcolony.setFvalue(i,j,this.antcolony.getFvalue(i,j) + (this.gamma * this.maxWeight) / sigma);
     }

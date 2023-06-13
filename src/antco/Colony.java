@@ -21,15 +21,15 @@ public class Colony implements IColony {
      * @param max max vertex in a graph
      * @param start nest node identifier
      * @param gamma gamma parameter for pheromone decay
-     * See @link antco.Pheromone#decayFvalue Pheromone decay function
+     * @see antco.Pheromone#decayFvalue Pheromone decay function
      * @param alpha alpha parameter for ant movement
      * @param beta beta parameter for ant movement
-     * See @link antco.Ant#move Ant move function 
-     * See @link antco.Ant#selectNext Ant selectNext function
+     * @see antco.Ant#move Ant move function 
+     * @see antco.Ant#selectNext Ant selectNext function
      * @param maxantpop maximum population of Ants in a Colony
      * @param graph Interface to acess graph to operate over
      * @param rho rho parameter for pheromone increment
-     * see @link antco.Pheromone#incrementFvalue Pheromone increment function
+     * @see antco.Pheromone#incrementFvalue Pheromone increment function
      *
      */
     public Colony(int max, int start, float gamma, float alpha, float beta, int maxantpop, IWeightedGraph graph, float rho) {
@@ -85,6 +85,30 @@ public class Colony implements IColony {
 	public float getBeta(){
 	    return beta;
     }
+
+    /**
+     * Public getter for pheromone trail in edge of nodes i and j
+     * @param i a node
+     * @param j other node connected to j
+     * @return pheromone trail in (i,j)
+     */
+    public float getFvalue(int i, int j) {
+        return this.pherovalue[i][j];
+    }
+    
+    /**
+     * Public setter for pheromone trail in edge of nodes i and j
+     * @param i a node
+     * @param j other node connected to j
+     * @param value new pheromone value in edge
+     * @since 04-Jun-2023
+     */
+
+    public void setFvalue(int i, int j, float value) {
+        this.pherovalue[i][j]=value;
+	    this.pherovalue[j][i]=value;
+    }
+
 
     /*[TRANSLATORS AND HASHES]*/
     /**
@@ -183,30 +207,27 @@ public class Colony implements IColony {
             this.bestpath.add(aux);
         }
     }
-    /**
-     * Public getter for pheromone trail in edge of nodes i and j
-     * @param i a node
-     * @param j other node connected to j
-     * @return pheromone trail in (i,j)
+     /** getter for path in BestPath object list in index i
+     * @param i index of desired Bestpath to get path
+     * @return path of Bestpath in index i
+     * @see antco.BestPath
      */
-    public float getFvalue(int i, int j) {
-        return this.pherovalue[i][j];
-    }
-    
-    /**
-     * Public setter for pheromone trail in edge of nodes i and j
-     * @param i a node
-     * @param j other node connected to j
-     * @param value new pheromone value in edge
-     * @since 04-Jun-2023
-     */
-
-    public void setFvalue(int i, int j, float value) {
-        this.pherovalue[i][j]=value;
-	    this.pherovalue[j][i]=value;
+    public ArrayList<Integer> getBestPath(int i) {
+        if (i >= this.bestpath.size()) {
+            return new ArrayList<>();
+        }
+        return this.bestpath.get(i).getPath();
     }
 
-	/*[TRIGGERS]*/
+     /** getter for cost in BestPath object list in index i
+     * @param i index of desired Bestpath to get cost
+     * @return cost of Bestpath in index i
+     * @see antco.BestPath
+     */
+    public int getBestCost(int i) {
+        return this.bestpath.get(i).getCost();
+    }
+   	/*[TRIGGERS]*/
     /**
      * Public trigger for Pheromone decay
      * @param hashededge edge in which pheromone must decay
