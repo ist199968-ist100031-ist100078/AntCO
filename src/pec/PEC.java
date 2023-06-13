@@ -1,7 +1,6 @@
 package pec;
 
 import antco.IColony;
-
 import java.util.PriorityQueue;
 import java.util.HashMap;
 import java.util.Map;
@@ -19,7 +18,7 @@ public class PEC {
         this.tau = tau;
         insertEvent("Movimento", new MovementEventStrategy(delta, eta, colonia, this));
         insertEvent("Evaporação", new EvaporationEventStrategy(eta, colonia, this));
-        insertEvent("Observacao", new ObservationEventStrategy(tau, this, colonia));
+        insertEvent("Observacao", new ObservationEventStrategy(colonia));
         this.InicializationOfEvents(Nu);
     }
 

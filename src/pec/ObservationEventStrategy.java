@@ -3,17 +3,23 @@ package pec;
 import antco.IColony;
 
 import java.util.ArrayList;
-
+/** Observation Event Strategy for PEC simulator
+ *
+ */
 public class ObservationEventStrategy implements EventStrategy {
-    private final Double tau;
-    private final PEC pec;
     private final IColony colony;
-
-    public ObservationEventStrategy(Double tau, PEC pec, IColony colony) {
-        this.tau = tau;
-        this.pec = pec;
-        this.colony = colony;
+	
+    	/** Public Constructor for ObservationEventStrategy class
+	 * @param colony colony to which the observation will refer to
+	 */
+    public ObservationEventStrategy(IColony colony) {
+       this.colony = colony;
     }
+	/**
+	 * @param id id of Observation
+	 * @param tempo current "time"
+	 * @param NumberEvents number of events is pec queue
+	 */
 
     @Override
     public void execute(int id, double tempo, Integer[] NumberEvents) {
