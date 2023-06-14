@@ -11,8 +11,11 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.InputMismatchException;
 import java.util.Scanner;
-
+/**Main class*/
 public class Main {
+    /** Main method
+     * @param args input command line arguments
+     */
     public static void main(String[] args) {
         String[] params = new String[]{"-r", "-f"};
         if (args.length < 2 || (!args[0].equals(params[0]) && !args[0].equals(params[1])) || (args[0].equals(params[0]) && args.length != 12)) {

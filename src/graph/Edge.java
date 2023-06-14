@@ -1,4 +1,5 @@
 package graph;
+/***Edge class for Graph package*/
 public class Edge implements Comparable<Edge>{
 	/**Weight of edge*/
 	private int weight;
@@ -50,9 +51,9 @@ public class Edge implements Comparable<Edge>{
 
 	public Edge(Vertex a, Vertex b) {buildEdge(a, b, 1);}
 	
-	/**
+	/** Compare edge identity 
 	 * @param e1 a edge
-	 * @return
+	 * @return difference between identities of this edge and e1
 	 */
 	public int compareTo(Edge e1) {
 		Integer c = Integer.compare(this.na.getId(), e1.get_nodes()[0].getId());
