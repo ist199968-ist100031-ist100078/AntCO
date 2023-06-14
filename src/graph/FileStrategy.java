@@ -1,13 +1,18 @@
 package graph;
 
 import java.util.Scanner;
-
+/** FileStrategy class for graph generation
+ */
 public class FileStrategy implements GenerationStrategy {
-	
+	/** Public Constructor
+	 */
 	public FileStrategy() {
 		
 	}
-	
+	/**Public method for graph generation from file
+	 * @param G Graph mainframe to be generated in
+	 * @param o Input file
+	 */
 	public void generate(Graph G, Object o) {
         //Read adj matrix
         int cost;

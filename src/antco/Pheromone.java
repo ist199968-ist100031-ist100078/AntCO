@@ -23,8 +23,32 @@ public class Pheromone {
         this.antcolony = colony;
         this.rho = rho;
         maxWeight = colony.getGraph().getTotWeight();
+	this.pherovalue = new float[colony.getMaxVertex()][colony.getMaxVertex()];
         this.gamma = gamma;
     } 
+
+    /**
+     * Public getter for pheromone trail in edge of nodes i and j
+     * @param i a node
+     * @param j other node connected to j
+     * @return pheromone trail in (i,j)
+     */
+    public float getFvalue(int i, int j) {
+        return this.pherovalue[i][j];
+    }
+    
+    /**
+     * Public setter for pheromone trail in edge of nodes i and j
+     * @param i a node
+     * @param j other node connected to j
+     * @param value new pheromone value in edge
+     * @since 04-Jun-2023
+     */
+
+    public void setFvalue(int i, int j, float value) {
+        this.pherovalue[i][j]=value;
+	    this.pherovalue[j][i]=value;
+    }
 
     /** Decay pheromone value of edge that connects node i an j
      * @param i ID of node
@@ -34,9 +58,9 @@ public class Pheromone {
     */
     public boolean decayFvalue(int i, int j) {
         boolean positive = true;
-        this.antcolony.setFvalue(i,j,this.antcolony.getFvalue(i,j)-this.rho);
-        if (this.antcolony.getFvalue(i,j) <= 0 || this.antcolony.getFvalue(j,i) <= 0) {
-            this.antcolony.setFvalue(i,j, 0.0F);
+        this.antcolony.setFvalue(i,j,this.getFvalue(i,j)-this.rho);
+        if (this.getFvalue(i,j) <= 0 || this.getFvalue(j,i) <= 0) {
+            this.setFvalue(i,j, 0.0F);
             positive = false;
         }
         return positive;
@@ -50,6 +74,6 @@ public class Pheromone {
     */
 
     public void incrementFvalue(int i, int j, int sigma) {
-        this.antcolony.setFvalue(i,j,this.antcolony.getFvalue(i,j) + (this.gamma * this.maxWeight) / sigma);
+        this.setFvalue(i,j,this.getFvalue(i,j) + (this.gamma * this.maxWeight) / sigma);
     }
 }

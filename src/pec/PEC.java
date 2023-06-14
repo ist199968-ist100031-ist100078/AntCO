@@ -64,16 +64,16 @@ public class PEC {
         ChooseAndExecuteEventStrat(Elemento.getTipo(), Elemento.getID(), Elemento.getTempo());
     }
 	/** Insert event into Hash Map to choose strategy
-	 * @param str
-	 * @param eventStrategy
+	 * @param str event type
+	 * @param eventStrategy type of strategy to use for event
 	*/
     public void insertEvent(String str, EventStrategy eventStrategy) {
         this.EventTypeMap.put(str, eventStrategy);
     }
-	/** Choose a strategy
-	 * @param event event 
-	 * @param id
-	 * @param tempo
+	/** Choose a strategy and excute event accordingly
+	 * @param event event type can be a Movement, a Pheromone Decay or Observaion
+	 * @param id Identifier of Ant to move, Edge to decay pheromone from or Frame to observe
+	 * @param tempo current time
 	 */
     public void ChooseAndExecuteEventStrat(String event, int id, double tempo) {
         this.EventTypeMap.get(event).execute(id, tempo, this.NumberEvents);

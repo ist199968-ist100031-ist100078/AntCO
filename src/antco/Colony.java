@@ -38,7 +38,6 @@ public class Colony implements IColony {
         this.beta = beta;
         setGraph(graph);
         this.pheromone = new Pheromone(this, rho, gamma);
-        this.pherovalue = new float[maxvertex][maxvertex];
         this.population = new Ant[maxantpop];
         for (int i = 0; i < maxantpop; i++) {
             this.population[i] = new Ant(this.maxvertex, start, this);
@@ -84,29 +83,6 @@ public class Colony implements IColony {
 	 */
 	public float getBeta(){
 	    return beta;
-    }
-
-    /**
-     * Public getter for pheromone trail in edge of nodes i and j
-     * @param i a node
-     * @param j other node connected to j
-     * @return pheromone trail in (i,j)
-     */
-    public float getFvalue(int i, int j) {
-        return this.pherovalue[i][j];
-    }
-    
-    /**
-     * Public setter for pheromone trail in edge of nodes i and j
-     * @param i a node
-     * @param j other node connected to j
-     * @param value new pheromone value in edge
-     * @since 04-Jun-2023
-     */
-
-    public void setFvalue(int i, int j, float value) {
-        this.pherovalue[i][j]=value;
-	    this.pherovalue[j][i]=value;
     }
 
 

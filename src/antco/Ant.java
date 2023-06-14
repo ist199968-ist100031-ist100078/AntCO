@@ -97,7 +97,7 @@ public class Ant {
         if (possible.size() > 0) {
             for (int p : possible) {
                 //Cijk
-                abs_prob = (alpha + this.antcolony.getFvalue(current - 1, p));
+                abs_prob = (alpha + this.antcolony.getPheromone().getFvalue(current - 1, p));
                 abs_prob /= (beta + this.antcolony.getGraph().getCost(current, p + 1));
                 prob_arr.add(abs_prob + sum);
 
