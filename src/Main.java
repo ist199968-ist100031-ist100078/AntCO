@@ -1,3 +1,5 @@
+package main;
+
 import antco.Colony;
 import graph.FileStrategy;
 import graph.Graph;
