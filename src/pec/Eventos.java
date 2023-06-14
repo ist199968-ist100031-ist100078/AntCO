@@ -2,9 +2,13 @@ package pec;
 /**Event Class for PEC simulator
  */
 public class Eventos {
+    /**Time to which the event is scheduled to execute*/
     private final Double Tempo;
+    /**Type of event*/
     private final String Tipo;
+    /**Identifier of target of event*/
     private final Integer ID;
+
 	/**Public Constructor for Eventos Class
 	 * @param tempo a time value
 	 * @param type type of event can be "Evaporação" (EvaporationEvent), "Observacao"(ObservationEvent) or "Movimento" (MovementEvent)

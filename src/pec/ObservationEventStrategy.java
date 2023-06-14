@@ -7,7 +7,8 @@ import java.util.ArrayList;
  *
  */
 public class ObservationEventStrategy implements EventStrategy {
-    private final IColony colony;
+    	/**Interface to acess colony to which observation frames refer to*/
+	private final IColony colony;
 	
     	/** Public Constructor for ObservationEventStrategy class
 	 * @param colony colony to which the observation will refer to

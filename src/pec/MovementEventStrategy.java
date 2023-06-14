@@ -5,10 +5,18 @@ import java.util.ArrayList;
  * @see antco.Ant
  */
 public class MovementEventStrategy implements EventStrategy {
+    /**Mean value to determine exponential distribution of movement event scheduling*/
     private final Double meanMovimento;
+    
+    /**Mean value to determine exponential distribution of evaporation event scheduling*/
     private final Double meanEvaporacao;
+
+    /**Interface to acess Colony to which the event refers to*/
     private final IColony colony;
+    
+    /**PEC simulator to which the event belongs to*/
     private final PEC pec;
+
 /** Public constructor for MovementEventStrategy Class
  * @param meanMovimento arithmetic parameter for scheduling next movement
  * @param meanEvaporacao arithmetic parameter for scheduling next evaporation

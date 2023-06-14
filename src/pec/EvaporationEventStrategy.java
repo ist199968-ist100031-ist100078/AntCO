@@ -5,8 +5,11 @@ import  antco.IColony;
  * @see antco.Pheromone
  */
 public class EvaporationEventStrategy implements EventStrategy {
+    /**Mean value for exponential distribution calculation*/
     private final Double mean;
+    /**Interface to access the Colony to which this event refers to */
     private final IColony colony;
+    /**PEC simulator to which this event refers to*/
     private final PEC pec;
 
 	/**Public Constructor for EvaporationEventStrategy class

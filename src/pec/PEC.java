@@ -10,9 +10,13 @@ import java.util.Comparator;
  * PEC simulator class for Ant Colony Optimization simulation
  */
 public class PEC {
+    /**Priority Queue of events to be executed and popped*/
     private PriorityQueue<Eventos> PriorQueue;
+    /**Type of Event HashMap*/
     private Map<String, EventStrategy> EventTypeMap = new HashMap<>();
+    /**Number of move events in index 0, number of evaporation events in index 1*/
     Integer[] NumberEvents = new Integer[]{0, 0}; //Number of Move Events,Number of Evaporation Events
+    /**final instant of simulation aka determiner of simulation duration*/
     private double tau;
 	/**Public constructor for PEC simulator
 	 * @param eta arithmethic parameter for pheromone evaporation event scheduling

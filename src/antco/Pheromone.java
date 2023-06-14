@@ -7,11 +7,15 @@ import java.util.ArrayList;
  * @see antco.Colony
 */
 public class Pheromone {
-
+    /**Arithmethic parameter for pheromone decay*/
     private final float rho;
+    /**Colony to which the pheromone refers*/
     private Colony antcolony;
+    /**Arithmethic attribute for pheromone increment*/
     private final float gamma;
-    private final int maxWeight; /*can we change this?*/
+    /**Weight of graph in which the Colony operates over*/
+    private final int maxWeight;
+    /**pheromone density adjacency matrix*/
     private final float[][] pherovalue;
     /** Public constructor for Pheromone Class
      * @param colony Colony to Which the pheromone refers to

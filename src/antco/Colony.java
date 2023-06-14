@@ -8,11 +8,17 @@ import java.util.ArrayList;
  * @since 05-Jun-2023
  */
 public class Colony implements IColony {
+    /**Pheromone which the colony will use for path calculations*/
     private Pheromone pheromone;
+    /**Graph in which the Colony will operate its ants over*/
     private IWeightedGraph graph;
+    /**Arithmethic parameter for ant travel calculations*/
     private final float alpha;
+    /**Arithmethic parameter for ant travel calculations*/
     private final float beta;
+    /**Ant population in colony*/
     private Ant[] population;
+    /**List of best paths found in colony*/
     private ArrayList<BestPath> bestpath;
     /**
      * Public constructor for a Colony class
@@ -82,6 +88,7 @@ public class Colony implements IColony {
     }
     /**
      * Public getter for maxvertex in Colony Graph
+     * @return maximum vertex in Colony Graph
      */
     public int getMaxVertex(){
 	    return this.graph.getNumNodes();

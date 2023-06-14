@@ -7,17 +7,22 @@ import java.util.Random;
 * @since 04-Jun-2023
 */
 public class Ant {
+    /**Colony to which the Ant belongs*/	
     private final Colony antcolony;
+    /**Path taken by Ant*/
     private final ArrayList<Integer> path;
+    /**Nest Node aka From which to start exploring*/
     private final int start;
+    /**Node in which the Ant is currently in*/
     private int current;
+    /**Node to which the Ant has chosen to travel to*/
     private int next;
-    private int sigma; /*sum of all weights*/
+    /**Sum of the weight of the edges travelled*/
+    private int sigma; 
 
 
     /**
      * Public Constructor for class Ant
-     * @param max number of vertexes in graph
      * @param start nest vertex
      * @param antcolony Colony to which the Ant belongs to
      */
@@ -30,7 +35,7 @@ public class Ant {
         this.next = -1;
         this.path.add(start);
     }
-	/**
+	/** Public getter for the path attribute
 	 * @return Current Path of the Ant
 	 *
 	 */
@@ -38,15 +43,16 @@ public class Ant {
         return path;
 
     }
-	/**
+	/**Public getter for the sigma attribute
 	 * @return Current sum of cost of edges travelled by Ant
 	 */
     public int getSigma() {
         return sigma;
     }
 
-    /** @return If Ant has completed a Hamilton cycle (back to the nest) 
-    @since 04-Jun-2023
+    /** Move Ant to adjacent node and register such move
+    *@return If Ant has completed a Hamilton cycle (back to the nest) 
+    *@since 04-Jun-2023
     */
     public boolean move() {
         boolean hamilton = false;
@@ -64,7 +70,8 @@ public class Ant {
         return hamilton;
     }
 
-    /**@param current Node
+    /** Select the next node to move into using a arithmetic expression, with loop detection
+     * @param current Node
      * @return Node to move into next
      * @since 10-Jun-2023
      */

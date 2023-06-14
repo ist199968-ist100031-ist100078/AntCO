@@ -1,7 +1,12 @@
 package graph;
 public class Edge implements Comparable<Edge>{
+	/**Weight of edge*/
 	private int weight;
-	private Vertex na, nb;
+	/**A Node A adjacent to B, that composes the edge*/
+	private Vertex na;
+	/**A Node B adjacent to A, that composes the edge */
+	private Vertex nb;
+	
 	/** Public getter for weight attribute
 	 * @return weight of edge
 	 */
