@@ -10,14 +10,14 @@ public class EvaporationEventStrategy implements EventStrategy {
     /**Interface to access the Colony to which this event refers to */
     private final IColony colony;
     /**PEC simulator to which this event refers to*/
-    private final PEC pec;
+    private final IPEC pec;
 
 	/**Public Constructor for EvaporationEventStrategy class
 	 * @param mean arithmethic mean parameter to schedule events
 	 * @param colony interface to access the colony the simulator refers to
 	 * @param pec simulator for which the event refers
 	 */
-    public EvaporationEventStrategy(Double mean, IColony colony, PEC pec) {
+    public EvaporationEventStrategy(Double mean, IColony colony, IPEC pec) {
         this.mean = mean;
         this.colony = colony;
         this.pec = pec;

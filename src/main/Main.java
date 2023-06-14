@@ -7,13 +7,20 @@ import graph.Generator;
 
 import graph.RandomStrategy;
 import pec.PEC;
+
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.InputMismatchException;
+import java.util.NoSuchElementException;
 import java.util.Scanner;
-/**Main class*/
+
+/**
+ * Main class
+ */
 public class Main {
-    /** Main method
+    /**
+     * Main method
+     *
      * @param args input command line arguments
      */
     public static void main(String[] args) {
@@ -59,6 +66,10 @@ public class Main {
                     System.out.println("Float has wrong format: " + e + "\n Format should be 'x.y'");
                     reader.close();
                     return;
+                } catch (NoSuchElementException e) {
+                    System.out.println("Not enough parameters in the file: " + e);
+                    reader.close();
+                    return;
                 }
                 graph = new Graph(numNodes);
 
@@ -75,7 +86,7 @@ public class Main {
         graph.displayAdj();
         System.out.println("Graph: ");*/
         /*graph.displayMat();*/
-        PEC a = new PEC(inParams[3], inParams[2], new Colony(nest,inParams[5], inParams[0], inParams[1], (int)inParams[6], graph, inParams[4]), (int)inParams[6], (double) inParams[7], numNodes);
+        PEC a = new PEC(inParams[3], inParams[2], new Colony(nest, inParams[5], inParams[0], inParams[1], (int) inParams[6], graph, inParams[4]), (int) inParams[6], (double) inParams[7], numNodes);
         while (!a.isEmpty()) {
             a.getFirstElement();
         }

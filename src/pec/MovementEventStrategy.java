@@ -15,7 +15,7 @@ public class MovementEventStrategy implements EventStrategy {
     private final IColony colony;
     
     /**PEC simulator to which the event belongs to*/
-    private final PEC pec;
+    private final IPEC pec;
 
 /** Public constructor for MovementEventStrategy Class
  * @param meanMovimento arithmetic parameter for scheduling next movement
@@ -23,7 +23,7 @@ public class MovementEventStrategy implements EventStrategy {
  * @param colony colony to which the event refers to
  * @param pec simulator to which the event refers to
  */
-    public MovementEventStrategy(Double meanMovimento, Double meanEvaporacao, IColony colony, PEC pec) {
+    public MovementEventStrategy(Double meanMovimento, Double meanEvaporacao, IColony colony, IPEC pec) {
         this.meanMovimento = meanMovimento;
         this.meanEvaporacao = meanEvaporacao;
         this.colony = colony;

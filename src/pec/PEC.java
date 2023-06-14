@@ -9,7 +9,7 @@ import java.util.Comparator;
 /**
  * PEC simulator class for Ant Colony Optimization simulation
  */
-public class PEC {
+public class PEC implements IPEC{
     /**Priority Queue of events to be executed and popped*/
     private PriorityQueue<Eventos> PriorQueue;
     /**Type of Event HashMap*/
