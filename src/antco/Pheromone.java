@@ -12,7 +12,7 @@ public class Pheromone {
     private Colony antcolony;
     private final float gamma;
     private final int maxWeight; /*can we change this?*/
-
+    private final float[][] pherovalue;
     /** Public constructor for Pheromone Class
      * @param colony Colony to Which the pheromone refers to
      * @param rho rho paramenter for pheromone decay
@@ -58,7 +58,7 @@ public class Pheromone {
     */
     public boolean decayFvalue(int i, int j) {
         boolean positive = true;
-        this.antcolony.setFvalue(i,j,this.getFvalue(i,j)-this.rho);
+        this.setFvalue(i,j,this.getFvalue(i,j)-this.rho);
         if (this.getFvalue(i,j) <= 0 || this.getFvalue(j,i) <= 0) {
             this.setFvalue(i,j, 0.0F);
             positive = false;

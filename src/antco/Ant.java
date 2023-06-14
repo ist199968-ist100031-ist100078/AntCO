@@ -9,7 +9,6 @@ import java.util.Random;
 public class Ant {
     private final Colony antcolony;
     private final ArrayList<Integer> path;
-    private final int maxvertex;
     private final int start;
     private int current;
     private int next;
@@ -22,8 +21,7 @@ public class Ant {
      * @param start nest vertex
      * @param antcolony Colony to which the Ant belongs to
      */
-    public Ant(int max, int start, Colony antcolony) {
-        this.maxvertex = max; /*Talvez limpar isto daqui e aceder pelo Colony?*/
+    public Ant(int start, Colony antcolony) {
         this.start = start;
         this.antcolony = antcolony;
         this.path = new ArrayList<>();
@@ -60,7 +58,7 @@ public class Ant {
         this.path.add(this.next);
         this.sigma += this.antcolony.getGraph().getCost(this.current, this.next);
         this.current = this.next;
-        if (this.current == this.start && this.path.size() == this.maxvertex + 1) {
+        if (this.current == this.start && this.path.size() == this.antcolony.getMaxVertex() + 1) {
             hamilton = true;
         }
         return hamilton;
@@ -120,7 +118,7 @@ public class Ant {
                     break;
                 }
             }
-            if (this.path.size() == this.maxvertex && next == this.start) {
+            if (this.path.size() == this.antcolony.getMaxVertex() && next == this.start) {
                 return next;
             }
 

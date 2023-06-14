@@ -70,7 +70,7 @@ public class Main {
         graph.displayAdj();
         System.out.println("Graph: ");*/
         /*graph.displayMat();*/
-        PEC a = new PEC(inParams[3], inParams[2], new Colony(numNodes,nest,inParams[5], inParams[0], inParams[1], (int)inParams[6], graph, inParams[4]), (int)inParams[6], (double) inParams[7], numNodes);
+        PEC a = new PEC(inParams[3], inParams[2], new Colony(nest,inParams[5], inParams[0], inParams[1], (int)inParams[6], graph, inParams[4]), (int)inParams[6], (double) inParams[7], numNodes);
         while (!a.isEmpty()) {
             a.getFirstElement();
         }

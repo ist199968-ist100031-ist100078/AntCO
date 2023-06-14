@@ -10,15 +10,12 @@ import java.util.ArrayList;
 public class Colony implements IColony {
     private Pheromone pheromone;
     private IWeightedGraph graph;
-    private float[][] pherovalue; //pheromone value
-    private final int maxvertex;
     private final float alpha;
     private final float beta;
     private Ant[] population;
     private ArrayList<BestPath> bestpath;
     /**
      * Public constructor for a Colony class
-     * @param max max vertex in a graph
      * @param start nest node identifier
      * @param gamma gamma parameter for pheromone decay
      * @see antco.Pheromone#decayFvalue Pheromone decay function
@@ -32,15 +29,14 @@ public class Colony implements IColony {
      * @see antco.Pheromone#incrementFvalue Pheromone increment function
      *
      */
-    public Colony(int max, int start, float gamma, float alpha, float beta, int maxantpop, IWeightedGraph graph, float rho) {
-        this.maxvertex = max; /*Isto poderia ser mudado não? E ser apenas acedido peli IWeightedGraph*/
+    public Colony(int start, float gamma, float alpha, float beta, int maxantpop, IWeightedGraph graph, float rho) {
         this.alpha = alpha;
         this.beta = beta;
         setGraph(graph);
         this.pheromone = new Pheromone(this, rho, gamma);
         this.population = new Ant[maxantpop];
         for (int i = 0; i < maxantpop; i++) {
-            this.population[i] = new Ant(this.maxvertex, start, this);
+            this.population[i] = new Ant(start, this);
         }
         //Initializing bestpath
         bestpath = new ArrayList<>();
@@ -83,6 +79,12 @@ public class Colony implements IColony {
 	 */
 	public float getBeta(){
 	    return beta;
+    }
+    /**
+     * Public getter for maxvertex in Colony Graph
+     */
+    public int getMaxVertex(){
+	    return this.graph.getNumNodes();
     }
 
 
@@ -131,7 +133,7 @@ public class Colony implements IColony {
      * @since 05-Jun-2023
     */
     public int Hash(int i, int j) {
-        return i * this.maxvertex + j;
+        return i * this.getMaxVertex() + j;
     }
 
     /**
@@ -140,8 +142,8 @@ public class Colony implements IColony {
      * @return Node IDs into array format
     */
     public int[] unHash(int hash) {
-        int i = hash / this.maxvertex;
-        int j = hash % this.maxvertex;
+        int i = hash / this.getMaxVertex();
+        int j = hash % this.getMaxVertex();
         return new int[]{i, j};
     }
 
@@ -220,7 +222,7 @@ public class Colony implements IColony {
      * @since 05-Jun-2023
      */
     public ArrayList<Integer> triggerAntMovement(int triggerid) {
-        if (this.population[triggerid].getPath().size() == this.maxvertex + 1) {
+        if (this.population[triggerid].getPath().size() == this.getMaxVertex() + 1) {
             this.population[triggerid].reset();
         }
         boolean hamilton = this.population[triggerid].move();
@@ -228,7 +230,7 @@ public class Colony implements IColony {
         if (hamilton) {
             for (int p : this.population[triggerid].getPath().subList(0, this.population[triggerid].getPath().size() - 1)) {
                 int i = population[triggerid].getPath().get(this.population[triggerid].getPath().indexOf(p) + 1) - 1;
-                if (pherovalue[p - 1][i] == 0.0) {
+                if (this.pheromone.getFvalue(p - 1,i) == 0.0) {
                     path.add(Hash(p - 1, i));
                 }
             }
