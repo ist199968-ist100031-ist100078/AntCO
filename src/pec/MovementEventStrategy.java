@@ -3,6 +3,7 @@ import  antco.IColony;
 import java.util.ArrayList;
 /** Movement Event Strategy for PEC simulator
  * @see antco.Ant
+ * @since 04-Jun-2023
  */
 public class MovementEventStrategy implements EventStrategy {
     /**Mean value to determine exponential distribution of movement event scheduling*/

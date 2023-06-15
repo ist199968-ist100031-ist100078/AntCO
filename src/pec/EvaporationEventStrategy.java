@@ -3,6 +3,7 @@ import  antco.IColony;
 /**
  * Strategy pattern for Evaporation Event
  * @see antco.Pheromone
+ * @since 04-Jun-2023
  */
 public class EvaporationEventStrategy implements EventStrategy {
     /**Mean value for exponential distribution calculation*/

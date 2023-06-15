@@ -1,11 +1,17 @@
 package graph;
 
 import java.util.Random;
-
+/**RandomStrategy class for Graph Generation in Graph package
+ * @since 03-Jun-2023 */
 public class RandomStrategy implements GenerationStrategy{
 
 	public RandomStrategy() {
+		
 	}
+	/**Generates a Graph with at least a Hamilton Cycle accordingly to input Object information
+	 * @param G Graph to generate into
+	 * @param o Generic Object with Graph generation information
+	 * */
     public void generate(Graph G, Object o) {
     	
     	int maxCost = (Integer)o;

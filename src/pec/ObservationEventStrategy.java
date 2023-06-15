@@ -4,7 +4,7 @@ import antco.IColony;
 
 import java.util.ArrayList;
 /** Observation Event Strategy for PEC simulator
- *
+ * @since 08-Jun-2023
  */
 public class ObservationEventStrategy implements EventStrategy {
     	/**Interface to acess colony to which observation frames refer to*/
@@ -16,12 +16,12 @@ public class ObservationEventStrategy implements EventStrategy {
     public ObservationEventStrategy(IColony colony) {
        this.colony = colony;
     }
-	/**
+
+    /**Public executer for Observation Events
 	 * @param id id of Observation
 	 * @param tempo current "time"
 	 * @param NumberEvents number of events is pec queue
 	 */
-
     @Override
     public void execute(int id, double tempo, int[] NumberEvents) {
         System.out.println("\nObservation " + id+ ":");

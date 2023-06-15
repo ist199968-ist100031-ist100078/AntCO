@@ -1,5 +1,6 @@
 package pec;
 /**Event Class for PEC simulator
+ * @since 04-Jun-2023
  */
 public class Eventos {
     /**Time to which the event is scheduled to execute*/

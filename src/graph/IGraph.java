@@ -1,6 +1,8 @@
 package graph;
 
 import java.util.ArrayList;
+/**Interface for Graph access
+ * @since 28-May-2023*/
 
 public interface IGraph {
 

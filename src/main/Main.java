@@ -39,14 +39,13 @@ public class Main {
             numNodes = Integer.parseInt(args[1]);
             maxWeight = Integer.parseInt(args[2]);
             nest = Integer.parseInt(args[3]);
-            if(numNodes >= 2 && maxWeight >= 1 && nest >= 1){
-                System.out.println("ERROR - Incorrect Arguments");
+            if(numNodes < 2 || maxWeight < 1 || nest < 1 || nest > numNodes){
+                System.out.println("ERROR - Incorrect Value For Arguments");
                 return;
             }
             for (int i = 0; i < 8; i++) {
                 inParams[i] = Float.parseFloat(args[i + 4]);
             }
-
             graph = new Graph(numNodes);
 
             gen.setGenerationStrat(new RandomStrategy());
@@ -60,8 +59,10 @@ public class Main {
                 //Read Int parameters
                 numNodes = reader.nextInt();
                 nest = reader.nextInt();
-                //System.out.println(numNodes + " " + nest);
-
+                if(numNodes < 2 || nest < 1 || nest > numNodes){
+                    System.out.println("ERROR - Incorrect Value For Arguments");
+                    return;
+                }
                 //Read float parameters
                 try {
                     for (int i = 0; i < 8; i++) {
@@ -87,10 +88,14 @@ public class Main {
             }
 
         }
-        /*graph.displayGraph();
-        graph.displayAdj();
-        System.out.println("Graph: ");*/
-        /*graph.displayMat();*/
+        if(inParams[0] <= 0 || inParams[1] < 0 || inParams[2] <= 0 || inParams[3] < 0 || inParams[4] < 0 || inParams[5] < 0 || inParams[6] <= 0 || inParams[7] <= 0){
+            System.out.println("ERROR - Incorrect Value For Arguments");
+            return;
+        }
+        System.out.println("Input parameters:\n\t" + numNodes + ": number of nodes in the graph\n\t" + nest + ": the nest node\n\t" + inParams[0] + ": alpha, ant move event");
+        System.out.println("\t" + inParams[1] + ": beta, ant move event\n\t" + inParams[2] + ": delta, ant move event\n\t" + inParams[3] + ": eta, pheromone evaporation event");
+        System.out.println("\t" + inParams[4] + ": rho, pheromone evaporation event\n\t" + inParams[5] + ": gamma, pheromone level\n\t" + (int) inParams[6] + ": nu, ant colony size\n\t" + (int) inParams[7] + ": tau, final instant");
+        graph.displayMat();
         PEC a = new PEC(inParams[3], inParams[2], new Colony(nest, inParams[5], inParams[0], inParams[1], (int) inParams[6], graph, inParams[4]), (int) inParams[6], inParams[7], numNodes);
         while (!a.isEmpty()) {
             a.getFirstElement();

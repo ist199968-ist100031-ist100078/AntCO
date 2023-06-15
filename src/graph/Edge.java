@@ -1,5 +1,6 @@
 package graph;
-/***Edge class for Graph package*/
+/***Edge class for Graph package
+ * @since 21-May-2023*/
 public class Edge implements Comparable<Edge>{
 	/**Weight of edge*/
 	private int weight;
