@@ -39,9 +39,14 @@ public class Main {
             numNodes = Integer.parseInt(args[1]);
             maxWeight = Integer.parseInt(args[2]);
             nest = Integer.parseInt(args[3]);
+            if(numNodes >= 2 && maxWeight >= 1 && nest >= 1){
+                System.out.println("ERROR - Incorrect Arguments");
+                return;
+            }
             for (int i = 0; i < 8; i++) {
                 inParams[i] = Float.parseFloat(args[i + 4]);
             }
+
             graph = new Graph(numNodes);
 
             gen.setGenerationStrat(new RandomStrategy());
@@ -86,7 +91,7 @@ public class Main {
         graph.displayAdj();
         System.out.println("Graph: ");*/
         /*graph.displayMat();*/
-        PEC a = new PEC(inParams[3], inParams[2], new Colony(nest, inParams[5], inParams[0], inParams[1], (int) inParams[6], graph, inParams[4]), (int) inParams[6], (double) inParams[7], numNodes);
+        PEC a = new PEC(inParams[3], inParams[2], new Colony(nest, inParams[5], inParams[0], inParams[1], (int) inParams[6], graph, inParams[4]), (int) inParams[6], inParams[7], numNodes);
         while (!a.isEmpty()) {
             a.getFirstElement();
         }

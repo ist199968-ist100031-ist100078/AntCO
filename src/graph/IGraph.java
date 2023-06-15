@@ -4,12 +4,11 @@ import java.util.ArrayList;
 
 public interface IGraph {
 
-	public void addNode();
-	public int rmvNode();
-	public void clear();
-	public ArrayList<Integer> nodeAdj(int a);
-	public int getNumNodes();
-	public int getNumEdges();
-	public void displayMat();
-	
+	void addNode();
+	int rmvNode();
+	void clear();
+	ArrayList<Integer> nodeAdj(int a);
+	int getNumNodes();
+	int getNumEdges();
+	void displayMat();
 }

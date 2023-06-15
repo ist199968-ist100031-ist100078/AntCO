@@ -5,5 +5,5 @@ package pec;
  * @see pec.ObservationEventStrategy
  */
 public interface EventStrategy {
-   void execute(int id, double tempo, Integer[] NumberEvents);
+   void execute(int id, double tempo, int[] NumberEvents);
 }

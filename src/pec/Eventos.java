@@ -3,11 +3,11 @@ package pec;
  */
 public class Eventos {
     /**Time to which the event is scheduled to execute*/
-    private final Double Tempo;
+    private final double Tempo;
     /**Type of event*/
     private final String Tipo;
     /**Identifier of target of event*/
-    private final Integer ID;
+    private final int ID;
 
 	/**Public Constructor for Eventos Class
 	 * @param tempo a time value
@@ -17,7 +17,7 @@ public class Eventos {
 	 * @see pec.MovementEventStrategy
 	 * @see pec.ObservationEventStrategy
 	 */
-    Eventos(Double tempo, String type, Integer id) {
+    Eventos(double tempo, String type, int id) {
         this.Tempo = tempo;
         this.Tipo = type;
         this.ID = id;
@@ -26,7 +26,7 @@ public class Eventos {
 	/** getter for Tempo attribute
 	 *@return time of event
 	 */
-    public Double getTempo() {
+    public double getTempo() {
         return Tempo;
     }
 	/**getter for Tipo attribute
@@ -38,7 +38,7 @@ public class Eventos {
 	/**getter for ID attribute
 	 * @return ID of Ant or Edge
 	 */
-    public Integer getID() {
+    public int getID() {
         return ID;
     }
 

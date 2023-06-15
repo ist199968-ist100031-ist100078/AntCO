@@ -23,7 +23,7 @@ public class ObservationEventStrategy implements EventStrategy {
 	 */
 
     @Override
-    public void execute(int id, double tempo, Integer[] NumberEvents) {
+    public void execute(int id, double tempo, int[] NumberEvents) {
         System.out.println("\nObservation " + id+ ":");
         System.out.println("\tPresent instant: " + tempo);
         System.out.println("\tNumber of move events: " + NumberEvents[0]);

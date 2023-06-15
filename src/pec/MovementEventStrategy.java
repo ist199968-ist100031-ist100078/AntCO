@@ -6,10 +6,10 @@ import java.util.ArrayList;
  */
 public class MovementEventStrategy implements EventStrategy {
     /**Mean value to determine exponential distribution of movement event scheduling*/
-    private final Double meanMovimento;
+    private final double meanMovimento;
     
     /**Mean value to determine exponential distribution of evaporation event scheduling*/
-    private final Double meanEvaporacao;
+    private final double meanEvaporacao;
 
     /**Interface to acess Colony to which the event refers to*/
     private final IColony colony;
@@ -23,7 +23,7 @@ public class MovementEventStrategy implements EventStrategy {
  * @param colony colony to which the event refers to
  * @param pec simulator to which the event refers to
  */
-    public MovementEventStrategy(Double meanMovimento, Double meanEvaporacao, IColony colony, IPEC pec) {
+    public MovementEventStrategy(double meanMovimento, double meanEvaporacao, IColony colony, IPEC pec) {
         this.meanMovimento = meanMovimento;
         this.meanEvaporacao = meanEvaporacao;
         this.colony = colony;
@@ -36,7 +36,7 @@ public class MovementEventStrategy implements EventStrategy {
  * @see antco.Colony#triggerAntMovement
  */
     @Override
-    public void execute(int id, double tempo, Integer[] NumberEvents) {
+    public void execute(int id, double tempo, int[] NumberEvents) {
         NumberEvents[0]++;
         ArrayList<Integer> list = this.colony.triggerAntMovement(id);
         double time = this.pec.ExponentialTime( this.meanMovimento * colony.getCost(colony.getIdEdge(id)));

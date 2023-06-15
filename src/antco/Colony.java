@@ -9,7 +9,7 @@ import java.util.ArrayList;
  */
 public class Colony implements IColony {
     /**Pheromone which the colony will use for path calculations*/
-    private Pheromone pheromone;
+    private final Pheromone pheromone;
     /**Graph in which the Colony will operate its ants over*/
     private IWeightedGraph graph;
     /**Arithmethic parameter for ant travel calculations*/
@@ -17,9 +17,9 @@ public class Colony implements IColony {
     /**Arithmethic parameter for ant travel calculations*/
     private final float beta;
     /**Ant population in colony*/
-    private Ant[] population;
+    private final Ant[] population;
     /**List of best paths found in colony*/
-    private ArrayList<BestPath> bestpath;
+    private final ArrayList<BestPath> bestpath;
     /**
      * Public constructor for a Colony class
      * @param start nest node identifier

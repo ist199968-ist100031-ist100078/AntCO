@@ -6,7 +6,7 @@ import  antco.IColony;
  */
 public class EvaporationEventStrategy implements EventStrategy {
     /**Mean value for exponential distribution calculation*/
-    private final Double mean;
+    private final double mean;
     /**Interface to access the Colony to which this event refers to */
     private final IColony colony;
     /**PEC simulator to which this event refers to*/
@@ -17,7 +17,7 @@ public class EvaporationEventStrategy implements EventStrategy {
 	 * @param colony interface to access the colony the simulator refers to
 	 * @param pec simulator for which the event refers
 	 */
-    public EvaporationEventStrategy(Double mean, IColony colony, IPEC pec) {
+    public EvaporationEventStrategy(double mean, IColony colony, IPEC pec) {
         this.mean = mean;
         this.colony = colony;
         this.pec = pec;
@@ -29,7 +29,7 @@ public class EvaporationEventStrategy implements EventStrategy {
 	 * @param NumberEvents current number of events in pec queue
 	 */
     @Override
-    public void execute(int id, double tempo, Integer[] NumberEvents) {
+    public void execute(int id, double tempo, int[] NumberEvents) {
         NumberEvents[1]++;
         if (this.colony.triggerPheromoneDecay(id)) {
             this.pec.Addevent(tempo + this.pec.ExponentialTime(this.mean), "Evaporação", id);

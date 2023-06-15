@@ -11,13 +11,13 @@ import java.util.Comparator;
  */
 public class PEC implements IPEC{
     /**Priority Queue of events to be executed and popped*/
-    private PriorityQueue<Eventos> PriorQueue;
+    private final PriorityQueue<Eventos> PriorQueue;
     /**Type of Event HashMap*/
-    private Map<String, EventStrategy> EventTypeMap = new HashMap<>();
+    private final Map<String, EventStrategy> EventTypeMap = new HashMap<>();
     /**Number of move events in index 0, number of evaporation events in index 1*/
-    Integer[] NumberEvents = new Integer[]{0, 0}; //Number of Move Events,Number of Evaporation Events
+    int[] NumberEvents = new int[]{0, 0}; //Number of Move Events,Number of Evaporation Events
     /**final instant of simulation aka determiner of simulation duration*/
-    private double tau;
+    private final double tau;
 	/**Public constructor for PEC simulator
 	 * @param eta arithmethic parameter for pheromone evaporation event scheduling
 	 * @param delta arithmethic parameter for ant move event scheduling
@@ -50,16 +50,10 @@ public class PEC implements IPEC{
 	 * @param Tipo type of event can be a Movement, a Evaporation or a Observation event
 	 * @param id ID of Ant to move, Edge to evaporate pheromone from or frame to observe
 	 */
-    public void Addevent(double time, String Tipo, Integer id) {
+    public void Addevent(double time, String Tipo, int id) {
         if (time < this.tau || Tipo.equals("Observacao")){
             this.PriorQueue.add(new Eventos(time, Tipo, id));
         }
-    }
-	/** Public getter for PEC Queue
-	 *@return PEC Priority Queue
-	 */
-    public PriorityQueue<Eventos> getPriorQueue() {
-        return PriorQueue;
     }
 	/**Public popper for PEC highest priority event in Queue*/
     public void getFirstElement() {
@@ -86,7 +80,7 @@ public class PEC implements IPEC{
 	 * @param mean center value to determine exponential distribution from
 	 * @return timestamp
 	 */
-    public Double ExponentialTime(Double mean) {
+    public double ExponentialTime(double mean) {
         Random rand = new Random(); //Criar singleton depois
         double u = rand.nextDouble();
         return -(mean) * Math.log(1 - u);

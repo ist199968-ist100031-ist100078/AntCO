@@ -1,7 +1,5 @@
 package antco;
 
-import java.util.ArrayList;
-
 /** Pheromone class for Ant Colony Optimization
  * @since 03-Jun-2023
  * @see antco.Colony
@@ -9,8 +7,6 @@ import java.util.ArrayList;
 public class Pheromone {
     /**Arithmethic parameter for pheromone decay*/
     private final float rho;
-    /**Colony to which the pheromone refers*/
-    private Colony antcolony;
     /**Arithmethic attribute for pheromone increment*/
     private final float gamma;
     /**Weight of graph in which the Colony operates over*/
@@ -18,16 +14,15 @@ public class Pheromone {
     /**pheromone density adjacency matrix*/
     private final float[][] pherovalue;
     /** Public constructor for Pheromone Class
-     * @param colony Colony to Which the pheromone refers to
+     * @param colony Colony to which the pheromone refers to
      * @param rho rho paramenter for pheromone decay
      * @param gamma parameter for pheromone increment
      * @since 03-Jun-2023
      */
     public Pheromone(Colony colony, float rho, float gamma){
-        this.antcolony = colony;
         this.rho = rho;
         maxWeight = colony.getGraph().getTotWeight();
-	this.pherovalue = new float[colony.getMaxVertex()][colony.getMaxVertex()];
+	    this.pherovalue = new float[colony.getMaxVertex()][colony.getMaxVertex()];
         this.gamma = gamma;
     } 
 

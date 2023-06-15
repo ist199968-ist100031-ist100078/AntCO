@@ -9,9 +9,9 @@ import java.util.Objects;
 
 class BestPath {
     /**path contained*/
-    private ArrayList<Integer> path;
+    private final ArrayList<Integer> path;
     /**cost of path contained*/
-    private int cost;
+    private final int cost;
 
 	/** Public Constructor for BestPath
 	 * @param cost total cost of path
