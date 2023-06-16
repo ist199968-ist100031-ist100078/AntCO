@@ -30,7 +30,7 @@ public class FileStrategy implements GenerationStrategy {
                 for (int j = 0; j < G.getNumNodes(); j++) {
                     cost = reader.nextInt();
                     if (cost < 0) {
-                        System.out.println("Invalid cost in the file");
+                        System.out.println("ERROR - Invalid Cost In The File.");
                         reader.close();
                         System.exit(1);
                     }
