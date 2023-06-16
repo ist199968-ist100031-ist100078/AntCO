@@ -15,7 +15,7 @@ public class RandomStrategy implements GenerationStrategy{
     public void generate(Graph G, Object o) {
     	
     	int maxCost = (Integer)o;
-        Random rand = new Random();  //Fazer singleton neste rand?
+        Random rand = new Random();
 
         //Creates a Ring Graph which automatically has a Hamilatonian Cycle
         for (int i = 0; i < G.getNumNodes() - 1; i++) {
@@ -26,7 +26,7 @@ public class RandomStrategy implements GenerationStrategy{
         //Add up to n(n-1)/2 - n edges, where n is the number of nodes
         int bound = G.getNumNodes() * (G.getNumNodes() - 1) / 2 - G.getNumNodes();
         if (bound > 0) {
-            bound = rand.nextInt(bound+1); //number of extra edges to add
+            /*bound = rand.nextInt(bound+1); //number of extra edges to add*/
             int n1, n2;
             //Add extra edges in new places
             for (int i = 0; i < bound; i++) {

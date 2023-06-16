@@ -36,6 +36,7 @@ public class Main {
         Generator gen = new Generator();
 
         if (args[0].equals(params[0])) {
+            try {
             numNodes = Integer.parseInt(args[1]);
             maxWeight = Integer.parseInt(args[2]);
             nest = Integer.parseInt(args[3]);
@@ -43,20 +44,25 @@ public class Main {
                 System.out.println("ERROR - Incorrect Value For Arguments");
                 return;
             }
-            for (int i = 0; i < 8; i++) {
-                inParams[i] = Float.parseFloat(args[i + 4]);
+                for (int i = 0; i < 8; i++) {
+                    inParams[i] = Float.parseFloat(args[i + 4]);
+                }
+            } catch (NumberFormatException e) {
+                System.out.println("Input arguments have the wrong format: " + e);
+                return;
             }
             graph = new Graph(numNodes);
 
             gen.setGenerationStrat(new RandomStrategy());
             gen.generate(graph, maxWeight);
 
-        } else {
+        }else {
             try {
                 File f = new File(args[1]);
                 Scanner reader = new Scanner(f);
 
                 //Read Int parameters
+                try {
                 numNodes = reader.nextInt();
                 nest = reader.nextInt();
                 if(numNodes < 2 || nest < 1 || nest > numNodes){
@@ -64,12 +70,11 @@ public class Main {
                     return;
                 }
                 //Read float parameters
-                try {
                     for (int i = 0; i < 8; i++) {
                         inParams[i] = reader.nextFloat();
                     }
                 } catch (InputMismatchException e) {
-                    System.out.println("Float has wrong format: " + e + "\n Format should be 'x.y'");
+                    System.out.println("Values have wrong formats: " + e);
                     reader.close();
                     return;
                 } catch (NoSuchElementException e) {

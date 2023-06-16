@@ -168,6 +168,7 @@ public class Graph implements IWeightedGraph {
 
     /**Display graph in a verbose way in stdout
      * @deprecated substituted by displayMat() */
+    @Deprecated
     public void displayGraph() {
         Vertex[] arr;
         System.out.println("Graph has " + this.nodes + " nodes.");
@@ -179,6 +180,7 @@ public class Graph implements IWeightedGraph {
 	/**Display adjacencies of target node in a verbose way in stdout
 	 * @param node target node to display adjacencies from
      * @deprecated subsrtituted by displayMat() */
+    @Deprecated
     public void displayAdj(int node) {
         System.out.println("Node " + node + " is adjacent to:");
         for (Vertex aux : adjs.get(node - 1)) {
@@ -188,6 +190,7 @@ public class Graph implements IWeightedGraph {
     }
 	/**Display all adjacencies of graph in a verbose way in stdout
      * @deprecated substituted by displayMat() */
+    @Deprecated
     public void displayAdj() {
         for (int i = 0; i < nodes; i++)
             displayAdj(i + 1);

@@ -82,7 +82,7 @@ public class PEC implements IPEC{
 	 * @return timestamp
 	 */
     public double ExponentialTime(double mean) {
-        Random rand = new Random(); //Criar singleton depois
+        Random rand = new Random();
         double u = rand.nextDouble();
         return -(mean) * Math.log(1 - u);
 
