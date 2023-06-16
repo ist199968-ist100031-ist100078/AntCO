@@ -14,7 +14,9 @@ import java.util.InputMismatchException;
 import java.util.NoSuchElementException;
 import java.util.Scanner;
 
-/**Main class*/
+/**
+ * Main class
+ */
 public class Main {
     /**
      * Main method

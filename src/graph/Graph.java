@@ -35,7 +35,6 @@ public class Graph implements IWeightedGraph {
         this.nodes++;
     }
 	/**Remove last node from list
-	 * @return number of nodes in graph
 	 */
     public int rmvNode() {
         adjs.remove(this.nodes - 1);

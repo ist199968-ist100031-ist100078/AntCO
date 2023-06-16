@@ -4,11 +4,10 @@ import java.util.Random;
 /**RandomStrategy class for Graph Generation in Graph package
  * @since 03-Jun-2023 */
 public class RandomStrategy implements GenerationStrategy{
-	/**Public constructor*/
+
 	public RandomStrategy() {
 		
 	}
-
 	/**Generates a Graph with at least a Hamilton Cycle accordingly to input Object information
 	 * @param G Graph to generate into
 	 * @param o Generic Object with Graph generation information
@@ -27,7 +26,7 @@ public class RandomStrategy implements GenerationStrategy{
         //Add up to n(n-1)/2 - n edges, where n is the number of nodes
         int bound = G.getNumNodes() * (G.getNumNodes() - 1) / 2 - G.getNumNodes();
         if (bound > 0) {
-            /*bound = rand.nextInt(bound+1); //number of extra edges to add*/
+            bound = rand.nextInt(bound+1); //number of extra edges to add
             int n1, n2;
             //Add extra edges in new places
             for (int i = 0; i < bound; i++) {

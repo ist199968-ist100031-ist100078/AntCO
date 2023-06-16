@@ -7,8 +7,7 @@ import java.util.ArrayList;
 public interface IGraph {
 	/**Setup new node for filling adjacencies*/
 	void addNode();
-	/**Remove last node from list
-	 * @return number of nodes in graph*/
+	/**Remove last node from list*/
 	int rmvNode();
 	/**Cleaner for Graph attribute*/
 	void clear();

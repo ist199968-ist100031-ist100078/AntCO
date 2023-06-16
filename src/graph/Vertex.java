@@ -6,9 +6,7 @@ import java.util.Objects;
 /**Vertex class for Graph package, using a Singleton Pattern
  * @since 21-May-2023*/
 public class Vertex implements Comparable<Vertex> {
-	/**ID of Vertex*/
 	private int id;
-	/**Control List of Vertex instances*/
 	private static ArrayList<Vertex> V = new ArrayList<>();
 	/**Private constructor for vertex
 	 * @param id Identifier of node*/
@@ -17,10 +15,8 @@ public class Vertex implements Comparable<Vertex> {
 	}
 	
 	//Singleton
-	
 	/**Control instance of Vertex, constructor caller
-	 * @param id identifier of node to be analyzed (to be added or get instance)
-	 * @return instance of analyzed vertex*/
+	 * @param id identifier of node to be analyzed*/
 	public static Vertex getInstance(int id) {
 		for (Vertex v: V) {
 			//If it's an already instanced ID
