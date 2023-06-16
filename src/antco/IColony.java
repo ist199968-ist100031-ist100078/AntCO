@@ -14,8 +14,10 @@ public interface IColony {
      * @since 05-Jun-2023
      */
     int getCost(int hashedge);
+
     /** Public translator getter for current Ant position in edge format
      * @see antco.Colony#Hash
+     * @param id ID of Ant to get current position from
      * @return current position in edge format
      */
     int getIdEdge(int id);
@@ -29,6 +31,7 @@ public interface IColony {
     /**
      * Public trigger for Pheromone decay
      * @param hashededge edge in which pheromone must decay
+     * @return If value of pheromone in edge is positive
      * @since 05-Jun-2023
      */
     boolean triggerPheromoneDecay(int hashededge);

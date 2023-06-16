@@ -1,6 +1,8 @@
 package graph;
 
 /** Public class Generator, strategy Pattern for Graph Generation
+ * @see graph.FileStrategy
+ * @see graph.RandomStrategy
  * @since 03-Jun-2023 */
 
 public class Generator {
@@ -10,7 +12,8 @@ public class Generator {
 	public Generator() {
 			
 	}
-	/**Public setter for generation strategy*/
+	/**Public setter for generation strategy
+	 * @param gs Generation Strategy for Graph Generation*/
 	public void setGenerationStrat(GenerationStrategy gs) {
 		this.strategy = gs;
 	}
